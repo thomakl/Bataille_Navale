@@ -17,7 +17,7 @@ namespace TD_Progra_Projet_grille
             int NumColonne = 0;
 
             // Initialisation d'un caractère dans la grille
-            string vide = " ";
+            string vide = "☐";
 
             // Initialisation de la grille (10x10)
             //// Initialisation des couples de lignes (démarcation de grille et intérieur de la grille)
