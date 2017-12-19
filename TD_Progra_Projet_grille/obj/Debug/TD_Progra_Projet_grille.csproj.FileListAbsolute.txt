@@ -1,0 +1,6 @@
+/Users/thomakleduc/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.exe.config
+/Users/thomakleduc/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.exe
+/Users/thomakleduc/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.pdb
+/Users/thomakleduc/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/TD_Progra_Projet_grille.csproj.CoreCompileInputs.cache
+/Users/thomakleduc/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/TD_Progra_Projet_grille.exe
+/Users/thomakleduc/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/TD_Progra_Projet_grille.pdb
