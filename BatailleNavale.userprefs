@@ -1,7 +1,8 @@
 ﻿<Properties StartupConfiguration="{3269F513-4BCB-40B1-8612-4B19552785B7}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="TD_Progra_Projet_grille/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Bataille_Navale Status">
     <Files>
-      <File FileName="TD_Progra_Projet_grille/Program.cs" Line="20" Column="29" />
+      <File FileName="TD_Progra_Projet_grille/Program.cs" Line="558" Column="13" />
+      <File FileName="Bataille_Navale Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
