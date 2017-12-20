@@ -7,17 +7,20 @@ Le programme réalisé permet à un joueur humain d’affronter l’ordinateur. 
 
 Bateaux :
 
-Porte-avions (5 cases)
-Cuirassé (4)
-Sous-marin (3)
-Contre-torpilleur (2)
+  Porte-avions (5 cases)
+  Cuirassé (4)
+  Sous-marin (3)
+  Contre-torpilleur (2)
+
+
 A faire:
 
-Initialisation de la grille + affichage:
-tant que false --> recréer la disposition de la grille
-différent aspect selon la grille joueur ou grille cible
-Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les bateaux ne se croisent jamais)
-2 modes: bateaux se touchent ou pas
+Initialisation de la grille + affichage: V
+  --> Synchroniser la génération des bateaux et l'affichage: 
+tant que false --> recréer la disposition de la grille:
+différent aspect selon la grille joueur ou grille cible:
+Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les bateaux ne se croisent jamais): 
+2 modes: bateaux se touchent ou pas: 
 TireAuHasard
 
 Good Luck and Sink them all !
