@@ -89,7 +89,6 @@ namespace TD_Progra_Projet_grille
             }
         */
 
-
         public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir)
         {
 
@@ -345,8 +344,6 @@ namespace TD_Progra_Projet_grille
                     emplacementsBateaux[0, 12] = absdeb;
                     emplacementsBateaux[1, 12] = orddeb;
 
-
-
                     if (dir == 1)
                     {
                         for (int j = 13; j < 15; j++)
@@ -358,7 +355,6 @@ namespace TD_Progra_Projet_grille
                             { erreur = true; }
                         }
                     }
-
                     if (dir == 2)
                     {
                         for (int j = 13; j < 15; j++)
@@ -481,6 +477,13 @@ namespace TD_Progra_Projet_grille
 
         static void affichageCarte()
         {
+
+            /* Utiliser peut être la fonction swith(vide){ } pour pouvoir afficher l'emplacement des bateaux sans faire des if pour rien
+             * en reflexion...
+             * 
+
+
+
             // Initialisation des noms des axes (horizontal et vertical)
             string[] NomAxeHorizontal = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             string[] NomAxeVertical = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
