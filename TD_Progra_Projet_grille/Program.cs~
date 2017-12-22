@@ -472,25 +472,30 @@ namespace TD_Progra_Projet_grille
             Console.ReadKey();
             */
 
-
-
-
-        static void affichageCarte()
+        static string affichageCaractere(int caractere)
+        // Affiche le caractère selon le numéro obtenu dans la grille 
+        // 0: vide ; 1: bateau intacte ; 2: bateau touché ; 3: tir manqué;
         {
+            string rendu;
+            switch (caractere)
+            {
+                case 3:
+                    return rendu = "0";
+                case 1:
+                    return rendu = "☐";
+                case 2:
+                    return rendu = "X";
+                default:
+                    return rendu = " ";
+            }
+        }
 
-            /* Utiliser peut être la fonction swith(vide){ } pour pouvoir afficher l'emplacement des bateaux sans faire des if pour rien
-             * en reflexion...
-             * 
-
-
-
+        static void affichageCarte(int[,] tableauBateaux)
+        {
             // Initialisation des noms des axes (horizontal et vertical)
             string[] NomAxeHorizontal = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             string[] NomAxeVertical = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             int NumColonne = 0;
-
-            // Initialisation d'un caractère dans la grille
-            string vide = "☐";
 
             // Initialisation de la grille (10x10)
             //// Initialisation des couples de lignes (démarcation de grille et intérieur de la grille)
@@ -514,10 +519,10 @@ namespace TD_Progra_Projet_grille
                 {
                     if (colonne == 0)
                     {
-                        Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], vide);
+                        Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], affichageCaractere(tableauBateaux[ligne, colonne]));
                         ++NumColonne;
                     }
-                    else { Console.Write("| {0} ", vide); }
+                    else { Console.Write("| {0} ", affichageCaractere(tableauBateaux[ligne, colonne])); }
                 }
                 Console.Write("|");
                 Console.WriteLine();
@@ -533,6 +538,7 @@ namespace TD_Progra_Projet_grille
             }
             Console.Write("+");
             Console.WriteLine();
+
             // // Affichage de l'axe horizontal
             for (int colonne = 0; colonne < NomAxeHorizontal.Length; ++colonne)
             {
@@ -549,16 +555,26 @@ namespace TD_Progra_Projet_grille
 
             int[,] emplacementsBateaux = new int[17, 17];    //référence la localisation des cases qui contiennent un fragment de bateaux
                                                              // il y a donc (5 + 4 + 3x2 + 2) = 17 cases.  Soit un sous-tableau contenant les 17 abscisses et un autre contenant les 17 ordonnées
+                                                             //-->>  PAS COMPRIS//---------------------------------->>>>>>>>>          // 5 bateaux + 4 ...       
                                                              // On commence par les abscisses du bateau le plus long jusqu'au plus petit (idem pour les ordonnéees)
-                                                             /*
+
+
+            /*
                                                              int tirsB5 = 0;
                                                              int tirsB4 = 0;
                                                              int tirsB31 = 0;
                                                              int tirsB32 = 0;                                // Référence le nombre de fois qu'un bateau a été touché (pour chaque bateau)
-                                                             int tirsB2 = 0;                                 //Evite de vérifier l'état de chaque case et permet de déterminer si un bateau est coulé
+                                                             int tirsB2 = 0;                                //Evite de vérifier l'état de chaque case et permet de déterminer si un bateau est coulé
                                                              */
 
-            affichageCarte();
+
+
+            // test de la génération de bataux selon le tableau ci-dessous
+            // On voit bien le porte avion de A2 - E2 ; touché en D2;
+            int[,] testTableau = new int[,] { { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 2, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 } };
+            affichageCarte(testTableau);
+            Console.WriteLine();
+
             Console.ReadKey();
         }
 
