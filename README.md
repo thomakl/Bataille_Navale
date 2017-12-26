@@ -13,14 +13,23 @@ Bateaux :
   Contre-torpilleur (2)
 
 
-A faire:
+--------------------------------------------- A faire: ------------------------------------------------------------
 
-Initialisation de la grille + affichage: V
-  --> Synchroniser la génération des bateaux et l'affichage: 
+Initialisation de la grille + affichage: OK
+  --> Synchroniser la génération des bateaux et l'affichage: OK
 tant que false --> recréer la disposition de la grille:
 différent aspect selon la grille joueur ou grille cible:
 Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les bateaux ne se croisent jamais): 
 2 modes: bateaux se touchent ou pas: 
 TireAuHasard
 
+  Generation de bateaux:
+    - random:
+      - position
+      - direction
+    - selon les bateaux: (méthodes des bords?)
+        - si sous marin limité les positions possibles
+        - si navette... ainsi de suite
+        
+        
 Good Luck and Sink them all !
