@@ -95,8 +95,8 @@ namespace TD_Progra_Projet_grille
             Random random = new Random();
 
 
-            absdeb = random.Next(0, 10);
-            orddeb = random.Next(0, 10);
+            absdeb = random.Next(0, 10); // abscisse aléatoire
+            orddeb = random.Next(0, 10); // coordonnée aléatoire
             dir = 0;                             // Direction : (sens horaire depuis le haut)
                                                  //   1  -> haut
                                                  //   2 ->  droite
@@ -550,6 +550,8 @@ namespace TD_Progra_Projet_grille
             int[,] carte = new int[10, 10];
             return carte;
         }
+
+        static
         static void Main(string[] args)
         {
 
@@ -565,13 +567,23 @@ namespace TD_Progra_Projet_grille
                                                              int tirsB31 = 0;
                                                              int tirsB32 = 0;                                // Référence le nombre de fois qu'un bateau a été touché (pour chaque bateau)
                                                              int tirsB2 = 0;                                //Evite de vérifier l'état de chaque case et permet de déterminer si un bateau est coulé
-                                                             */
+                                                             */                                             // 26/12/17 TL: Bonne Idee!
 
 
 
             // test de la génération de bataux selon le tableau ci-dessous
             // On voit bien le porte avion de A2 - E2 ; touché en D2;
-            int[,] testTableau = new int[,] { { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 2, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 }, { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 } };
+            int[,] testTableau = new int[,] {
+                { 1, 1, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 2, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 1, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 },
+                {0, 0, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 },
+                { 0, 0, 0, 1, 2, 3, 0, 2, 0, 1 } };
             affichageCarte(testTableau);
             Console.WriteLine();
 
