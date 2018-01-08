@@ -35,30 +35,24 @@ namespace ConsoleApplication1
             int dir = 0;
 
 
-<<<<<<< HEAD
+
             // CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
             affichageCarte(emplacementsBateaux);
 
-            affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne));
-=======
-            
-            
-            
-            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+            //int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
 
-            //for (int i = 0; emplacementGenere.)
 
 
-            
 
-           
 
-            affichageCarte(emplacementsBateaux);
+
+
+
 
             //affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
->>>>>>> 1c2b62e5793f950b207e6eb18b7c13160ca64f86
+
 
             Console.ReadKey();
         }
@@ -142,7 +136,7 @@ namespace ConsoleApplication1
 
         //La fonction DébutBateaux crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
 
-        public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne )
+        public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne)
         {
 
             Random random = new Random();
@@ -207,9 +201,9 @@ namespace ConsoleApplication1
                         dir = random.Next(1, 4);
                         if (dir == 3)
                         { dir = 4; }
-                    } 
-                        
-                    
+                    }
+
+
                 }
             }
 
@@ -239,10 +233,7 @@ namespace ConsoleApplication1
         }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 1c2b62e5793f950b207e6eb18b7c13160ca64f86
         public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
 
         {
@@ -336,7 +327,7 @@ namespace ConsoleApplication1
 
                                 else
                                 {
-                                    emplacementsBateaux[0, débutBateau + j] = absdeb-j;
+                                    emplacementsBateaux[0, débutBateau + j] = absdeb - j;
                                     emplacementsBateaux[1, débutBateau + j] = orddeb;
                                 }
                                 j++;
@@ -347,31 +338,10 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
-<<<<<<< HEAD
-
-
 
 
             int[,] generationBateaux = new int[10, 10];
-            /*
-            for (int i=0; i < 10; ++i)
-            {
-                for (int j = 0; i < 10; ++j)
-                {
-                    for(int k=0; k< emplacementsBateaux.GetLength(0);++k)
-                    {
-                        if ((emplacementsBateaux[k,0] == i) & (emplacementsBateaux[k,1] == j))
-                        {
-                            generationBateaux[i, j] = 1;
-                        }
-                    }
-                }
-            }
-            */
-=======
- 
-            int[,] generationBateaux = new int[10, 10];   
->>>>>>> 1c2b62e5793f950b207e6eb18b7c13160ca64f86
+
             for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
             {
                 generationBateaux[emplacementsBateaux[i, 0], emplacementsBateaux[i, 1]] = 1;
@@ -384,8 +354,8 @@ namespace ConsoleApplication1
 
         }
 
-     
-         
+
+
 
         static string affichageCaractere(int caractere)
         // Affiche le caractère selon le numéro obtenu dans la grille 
