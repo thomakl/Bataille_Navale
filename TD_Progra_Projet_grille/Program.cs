@@ -34,10 +34,16 @@ namespace ConsoleApplication1
             int orddeb = 0;
             int dir = 0;
 
+<<<<<<< HEAD
 
             CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+=======
+            //CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
+>>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
 
             affichageCarte(emplacementsBateaux);
+
+            affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
 
             Console.ReadKey();
         }
@@ -218,7 +224,11 @@ namespace ConsoleApplication1
         }
 
 
+<<<<<<< HEAD
         public static void CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
+=======
+        public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux)
+>>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
         {
 
             int débutBateau = 0;
@@ -321,9 +331,41 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
+<<<<<<< HEAD
 
 
+=======
+            
+            int[,] generationBateaux = new int[10, 10];
+            /*
+            for (int i=0; i < 10; ++i)
+            {
+                for (int j = 0; i < 10; ++j)
+                {
+                    for(int k=0; k< emplacementsBateaux.GetLength(0);++k)
+                    {
+                        if ((emplacementsBateaux[k,0] == i) & (emplacementsBateaux[k,1] == j))
+                        {
+                            generationBateaux[i, j] = 1;
+                        }
+                    }
+                }
+            }
+            */
+            for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
+            {
+                generationBateaux[emplacementsBateaux[i, 0], emplacementsBateaux[i, 1]] = 1;
+            }
+
+            débutBateau = 0;
+            return generationBateaux;
+
+            // fin boucle de la création d'un bateau
+>>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
         }
+
+     
+         
 
         static string affichageCaractere(int caractere)
         // Affiche le caractère selon le numéro obtenu dans la grille 
