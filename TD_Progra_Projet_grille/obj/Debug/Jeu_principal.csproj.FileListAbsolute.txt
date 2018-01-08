@@ -11,3 +11,9 @@ H:\1A\S1\Intro_Progra\Projet_Bataille_Navale\Bataille_Navale\TD_Progra_Projet_gr
 H:\1A\S1\Intro_Progra\Projet_Bataille_Navale\Bataille_Navale\TD_Progra_Projet_grille\obj\Debug\Jeu_principal.csprojResolveAssemblyReference.cache
 H:\1A\S1\Intro_Progra\Projet_Bataille_Navale\Bataille_Navale\TD_Progra_Projet_grille\bin\Debug\TD_Progra_Projet_grille.exe
 H:\1A\S1\Intro_Progra\Projet_Bataille_Navale\Bataille_Navale\TD_Progra_Projet_grille\bin\Debug\TD_Progra_Projet_grille.pdb
+C:\Users\jbrochier\Documents\GitHub\Bataille_Navale\TD_Progra_Projet_grille\bin\Debug\TD_Progra_Projet_grille.exe.config
+C:\Users\jbrochier\Documents\GitHub\Bataille_Navale\TD_Progra_Projet_grille\obj\Debug\TD_Progra_Projet_grille.exe
+C:\Users\jbrochier\Documents\GitHub\Bataille_Navale\TD_Progra_Projet_grille\obj\Debug\TD_Progra_Projet_grille.pdb
+C:\Users\jbrochier\Documents\GitHub\Bataille_Navale\TD_Progra_Projet_grille\obj\Debug\Jeu_principal.csprojResolveAssemblyReference.cache
+C:\Users\jbrochier\Documents\GitHub\Bataille_Navale\TD_Progra_Projet_grille\bin\Debug\TD_Progra_Projet_grille.exe
+C:\Users\jbrochier\Documents\GitHub\Bataille_Navale\TD_Progra_Projet_grille\bin\Debug\TD_Progra_Projet_grille.pdb
