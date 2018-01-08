@@ -277,7 +277,7 @@ namespace ConsoleApplication1
 
         static string affichageCaractere(int caractere)
         // Affiche le caractère selon le numéro obtenu dans la grille 
-        // 0: vide ; 1: bateau intacte ; 2: bateau touché ; 3: tir manqué;
+        // default: vide ; 1: bateau intacte ; 2: bateau touché ; 3: tir manqué;
         {
             string rendu;
             switch (caractere)
