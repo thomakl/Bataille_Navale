@@ -30,11 +30,17 @@ namespace ConsoleApplication1
             int orddeb = 0;
             int dir = 0;
 
-            //CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
+            
+            
+            
+            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
+
+
+            for (int i = 0; emplacementGenere.)
 
             affichageCarte(emplacementsBateaux);
 
-            affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
+            //affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
 
             Console.ReadKey();
         }
