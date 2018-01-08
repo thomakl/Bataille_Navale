@@ -12,6 +12,9 @@ namespace ConsoleApplication1
         {
             int nbligne = 10;
             int nbcolonne = 10;
+            int absdeb = 0;
+            int orddeb = 0;
+            int dir = 0;
 
             int[] taillesBateaux = { 5, 4, 3, 3, 2 };
 
@@ -20,38 +23,23 @@ namespace ConsoleApplication1
             { nbEmplacements += taillesBateaux[i]; }
 
             int[,] emplacementsBateaux = new int[nbEmplacements, nbEmplacements];
+
             //référence la localisation des cases qui contiennent un fragment de bateaux
             // il y a donc (5 + 4 + 3x2 + 2) = 17 cases.  Soit un sous-tableau contenant les 17 abscisses et un autre contenant les 17 ordonnées
             // On commence par les abscisses du bateau le plus long jusqu'au plus petit (idem pour les ordonnéees)
-
+            /*
             int tirsB5 = 0;
             int tirsB4 = 0;
             int tirsB31 = 0;
             int tirsB32 = 0;                                // Référence le nombre de fois qu'un bateau a été touché (pour chaque bateau)
             int tirsB2 = 0;                                 //Evite de vérifier l'état de chaque case et permet de déterminer si un bateau est coulé
-
-            int absdeb = 0;
-            int orddeb = 0;
-            int dir = 0;
+            */
 
 
 
-            // CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-
-            affichageCarte(emplacementsBateaux);
-
-            //int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-
-
-
-
-
-
-
-
-
-
-            //affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
+            // Creation et affichage des emplacements des bateaux OK
+            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+            affichageCarte(emplacementGenere);
 
 
             Console.ReadKey();
@@ -64,10 +52,6 @@ namespace ConsoleApplication1
             string[] NomAxeHorizontal = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             string[] NomAxeVertical = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             int NumColonne = 0;
-
-            // Initialisation d'un caractère dans la grille
-            string vide = " ";
-            string bateau = "Q";
 
             // Initialisation de la grille (10x10)
             //// Initialisation des couples de lignes (démarcation de grille et intérieur de la grille)
@@ -91,20 +75,12 @@ namespace ConsoleApplication1
                 {
                     if (colonne == 0)
                     {
-                        if (DansEmplacementsBateaux(ligne, colonne, 17, emplacementsBateaux))
-                        {
-                            Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], bateau);
-                        }
-                        else { Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], vide); }
+                        Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], affichageCaractere(emplacementsBateaux[ligne, colonne]));
                         ++NumColonne;
                     }
                     else
                     {
-                        if (DansEmplacementsBateaux(ligne, colonne, 17, emplacementsBateaux))
-                        {
-                            Console.Write("| {0} ", bateau);
-                        }
-                        else { Console.Write("| {0} ", vide); }
+                        Console.Write("| {0} ", affichageCaractere(emplacementsBateaux[ligne, colonne]));
 
                     }
                 }
@@ -344,7 +320,7 @@ namespace ConsoleApplication1
 
             for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
             {
-                generationBateaux[emplacementsBateaux[i, 0], emplacementsBateaux[i, 1]] = 1;
+                generationBateaux[emplacementsBateaux[0, i], emplacementsBateaux[1, i]] = 1;
             }
 
             débutBateau = 0;
@@ -353,6 +329,7 @@ namespace ConsoleApplication1
             // fin boucle de la création d'un bateau
 
         }
+
 
 
 
@@ -367,7 +344,7 @@ namespace ConsoleApplication1
                 case 3:
                     return rendu = "0";
                 case 1:
-                    return rendu = "#";
+                    return rendu = "▩";
                 case 2:
                     return rendu = "X";
                 default:
