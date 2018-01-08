@@ -34,16 +34,12 @@ namespace ConsoleApplication1
             int orddeb = 0;
             int dir = 0;
 
-<<<<<<< HEAD
 
-            CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-=======
-            //CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
->>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
+            // CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
             affichageCarte(emplacementsBateaux);
 
-            affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
+            affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne));
 
             Console.ReadKey();
         }
@@ -224,11 +220,9 @@ namespace ConsoleApplication1
         }
 
 
-<<<<<<< HEAD
-        public static void CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
-=======
-        public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux)
->>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
+
+        public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
+
         {
 
             int débutBateau = 0;
@@ -331,11 +325,10 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
-<<<<<<< HEAD
 
 
-=======
-            
+
+
             int[,] generationBateaux = new int[10, 10];
             /*
             for (int i=0; i < 10; ++i)
@@ -361,7 +354,7 @@ namespace ConsoleApplication1
             return generationBateaux;
 
             // fin boucle de la création d'un bateau
->>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
+
         }
 
      
