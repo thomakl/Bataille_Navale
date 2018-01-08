@@ -10,7 +10,11 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            int nbligne = 10;
+            int nbcolonne = 10;
+
             int[] taillesBateaux = { 5, 4, 3, 3, 2 };
+
             int nbEmplacements = 0;
             for (int i = 0; i < taillesBateaux.Length; i++)
             { nbEmplacements += taillesBateaux[i]; }
@@ -30,7 +34,8 @@ namespace ConsoleApplication1
             int orddeb = 0;
             int dir = 0;
 
-            CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
+
+            CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
             affichageCarte(emplacementsBateaux);
 
@@ -116,7 +121,7 @@ namespace ConsoleApplication1
 
         //La fonction DébutBateaux crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
 
-        public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir)
+        public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne )
         {
 
             Random random = new Random();
@@ -130,21 +135,64 @@ namespace ConsoleApplication1
                                                                  //   3 ->  bas
                                                                  //   4 ->  gauche
 
-            if (absdeb < taillebateau - 1 && orddeb < taillebateau - 1)          //Le bateau commence en haut à gauche   ->  Il ne peut s'étendre que vers le bas ou la droite
-            { dir = random.Next(2, 4); }
 
-            if (absdeb > taillebateau && orddeb < taillebateau - 1)          //en haut à droite  -> Vers le bas ou la gauche
-            { dir = random.Next(3, 5); }
-
-            if (absdeb < taillebateau - 1 && orddeb > taillebateau)          //en bas à gauche  -> Vers le haut ou la droite
-            { dir = random.Next(1, 3); }
-
-            if (absdeb > taillebateau && orddeb > taillebateau)          //en bas à droite  -> Vers le haut ou la gauche
+            if (absdeb < taillebateau - 1)              // Cas d'un bateau à gauche
             {
-                dir = random.Next(1, 3);
-                if (dir == 2)
-                { dir = 4; }
+                if (orddeb < taillebateau - 1)                // // En haut à gauche
+                { dir = random.Next(2, 4); }               // --> Le bateau ne peut s'étendre que vers le bas ou vers la droite
+
+                else
+                {
+                    if (nbligne - orddeb < taillebateau)    // // En bas à gauche
+                    { dir = random.Next(1, 3); }               // --> Que vers le haut ou la droite
+
+                    else                                       // //  Au milieu gauche
+                    { dir = random.Next(1, 4); }              // --> Haut_Bas_Droite
+                }
             }
+
+            else
+            {
+                if (nbcolonne - absdeb < taillebateau)  // Cas d'un bateau à droite
+                {
+                    if (orddeb < taillebateau - 1)                // // En haut à droite
+                    { dir = random.Next(3, 5); }               // --> Le bateau ne peut s'étendre que vers le bas ou vers la gauche
+
+                    else
+                    {
+                        if (nbligne - orddeb < taillebateau)    // // En bas à droite
+                        {                                           // --> Haut_Gauche
+                            dir = random.Next(1, 2);
+                            if (dir == 2)
+                            { dir = 4; }
+                        }
+
+                        else                                       // //  Au milieu droit
+                        {                                          // --> Haut_Bas_Gauche
+                            dir = random.Next(1, 4);
+                            if (dir == 2) { dir = 4; }
+                        }
+
+                    }
+                }
+
+                else
+                {
+                    if (orddeb < taillebateau - 1)         // Cas d'un bateau en haut au milieu
+                    { dir = random.Next(2, 5); }           // --> Bas_Gauche_Droite
+
+                    if (nbligne - orddeb < taillebateau) // Cas d'un bateau en bas au milieu
+                    {                                        //--> Haut_Gauche_Droite
+                        dir = random.Next(1, 4);
+                        if (dir == 3)
+                        { dir = 4; }
+                    } 
+                        
+                    
+                }
+            }
+
+
 
         }
 
@@ -170,7 +218,7 @@ namespace ConsoleApplication1
         }
 
 
-        public static void CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux)
+        public static void CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
         {
 
             int débutBateau = 0;
@@ -182,7 +230,7 @@ namespace ConsoleApplication1
                 while (erreur)
                 {
                     erreur = false;
-                    DébutBateaux(taillesBateaux[i], ref absdeb, ref orddeb, ref dir);
+                    DébutBateaux(taillesBateaux[i], ref absdeb, ref orddeb, ref dir, nbligne, nbcolonne);
 
                     if (DansEmplacementsBateaux(absdeb, orddeb, débutBateau, emplacementsBateaux))   //Le paramètre longueur (ici débutBateau) est la somme des tailles des bateaux précédents
                     {
@@ -262,8 +310,8 @@ namespace ConsoleApplication1
 
                                 else
                                 {
-                                    emplacementsBateaux[0, débutBateau + j] = absdeb;
-                                    emplacementsBateaux[1, débutBateau + j] = orddeb - j;
+                                    emplacementsBateaux[0, débutBateau + j] = absdeb-j;
+                                    emplacementsBateaux[1, débutBateau + j] = orddeb;
                                 }
                                 j++;
                             }
@@ -273,6 +321,8 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
+
+
         }
 
         static string affichageCaractere(int caractere)
