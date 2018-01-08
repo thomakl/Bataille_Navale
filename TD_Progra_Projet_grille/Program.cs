@@ -38,13 +38,24 @@ namespace ConsoleApplication1
 
 
             // Creation et affichage des emplacements des bateaux OK
-            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-            affichageCarte(emplacementGenere);
+            int[,] mesBateaux = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+            int[,] bateauxAdverse = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+
+            // Interface Utilisateur
+
+            Console.Write("============================================\n");
+            Console.Write("              GRILLE ADVERSE");
+            affichageCarte(bateauxAdverse);
+            Console.Write("\n\n============================================\n");
+            Console.Write("              MES BATEAUX");
+            affichageCarte(mesBateaux);
+            Console.Write("\n============================================");
+            // Fin Interface
+
 
 
             Console.ReadKey();
         }
-
 
         static void affichageCarte(int[,] emplacementsBateaux)
         {
@@ -81,7 +92,6 @@ namespace ConsoleApplication1
                     else
                     {
                         Console.Write("| {0} ", affichageCaractere(emplacementsBateaux[ligne, colonne]));
-
                     }
                 }
                 Console.Write("|");
@@ -117,7 +127,6 @@ namespace ConsoleApplication1
 
             Random random = new Random();
 
-
             absdeb = random.Next(0, 10);
             orddeb = random.Next(0, 10);
             dir = random.Next(1, 5);                             // Direction : (sens horaire depuis le haut)
@@ -125,7 +134,6 @@ namespace ConsoleApplication1
                                                                  //   2 ->  droite
                                                                  //   3 ->  bas
                                                                  //   4 ->  gauche
-
 
             if (absdeb < taillebateau - 1)              // Cas d'un bateau à gauche
             {
@@ -178,19 +186,12 @@ namespace ConsoleApplication1
                         if (dir == 3)
                         { dir = 4; }
                     }
-
-
                 }
             }
-
-
-
         }
-
 
         //La fonction suivante sera utilisée dans CréerBateaux 
         //Elle permet de savoir si une case (une abscisse et une ordonnée) entrée en paramètre est déjà occupée par un bateau
-
         public static bool DansEmplacementsBateaux(int abs, int ord, int longueur, int[,] emplacementsBateaux)
         {
             //longueur : indique jusqu'où on vérifie
@@ -208,12 +209,8 @@ namespace ConsoleApplication1
             return false;
         }
 
-
-
         public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
-
         {
-
             int débutBateau = 0;
 
             for (int i = 0; i < taillesBateaux.Length; i++)  //une boucle correspond à un bateau
@@ -234,7 +231,6 @@ namespace ConsoleApplication1
                     {
                         emplacementsBateaux[0, débutBateau] = absdeb;
                         emplacementsBateaux[1, débutBateau] = orddeb;
-
 
                         if (dir == 1)
                         {
@@ -314,8 +310,7 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
-
-
+            // Retour d'un tableau avec les emplacements de bateaux
             int[,] generationBateaux = new int[10, 10];
 
             for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
@@ -325,18 +320,11 @@ namespace ConsoleApplication1
 
             débutBateau = 0;
             return generationBateaux;
-
-            // fin boucle de la création d'un bateau
-
         }
 
-
-
-
-
-        static string affichageCaractere(int caractere)
         // Affiche le caractère selon le numéro obtenu dans la grille 
         // default: vide ; 1: bateau intacte ; 2: bateau touché ; 3: tir manqué;
+        static string affichageCaractere(int caractere)
         {
             string rendu;
             switch (caractere)
@@ -351,6 +339,7 @@ namespace ConsoleApplication1
                     return rendu = " ";
             }
         }
+
 
     }
 }
