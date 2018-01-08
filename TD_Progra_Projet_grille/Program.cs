@@ -34,22 +34,19 @@ namespace ConsoleApplication1
             int orddeb = 0;
             int dir = 0;
 
-<<<<<<< HEAD
+
             
             
             
-            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
+            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
 
-            for (int i = 0; emplacementGenere.)
-=======
-<<<<<<< HEAD
+            //for (int i = 0; emplacementGenere.)
 
-            CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-=======
-            //CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux);
->>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
->>>>>>> d3ab661caac1fc4df98073425c2e5ee317143787
+
+            
+
+           
 
             affichageCarte(emplacementsBateaux);
 
@@ -234,11 +231,8 @@ namespace ConsoleApplication1
         }
 
 
-<<<<<<< HEAD
-        public static void CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
-=======
-        public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux)
->>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
+        public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
+
         {
 
             int débutBateau = 0;
@@ -341,27 +335,8 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
-<<<<<<< HEAD
-
-
-=======
-            
-            int[,] generationBateaux = new int[10, 10];
-            /*
-            for (int i=0; i < 10; ++i)
-            {
-                for (int j = 0; i < 10; ++j)
-                {
-                    for(int k=0; k< emplacementsBateaux.GetLength(0);++k)
-                    {
-                        if ((emplacementsBateaux[k,0] == i) & (emplacementsBateaux[k,1] == j))
-                        {
-                            generationBateaux[i, j] = 1;
-                        }
-                    }
-                }
-            }
-            */
+ 
+            int[,] generationBateaux = new int[10, 10];   
             for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
             {
                 generationBateaux[emplacementsBateaux[i, 0], emplacementsBateaux[i, 1]] = 1;
@@ -371,7 +346,7 @@ namespace ConsoleApplication1
             return generationBateaux;
 
             // fin boucle de la création d'un bateau
->>>>>>> 2edc163aef85a1371072da1df2cbcd6a8b069ba6
+
         }
 
      
