@@ -35,11 +35,30 @@ namespace ConsoleApplication1
             int dir = 0;
 
 
+<<<<<<< HEAD
             // CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
             affichageCarte(emplacementsBateaux);
 
             affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne));
+=======
+            
+            
+            
+            int[,] emplacementGenere = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+
+
+            //for (int i = 0; emplacementGenere.)
+
+
+            
+
+           
+
+            affichageCarte(emplacementsBateaux);
+
+            //affichageCarte(CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux));
+>>>>>>> 1c2b62e5793f950b207e6eb18b7c13160ca64f86
 
             Console.ReadKey();
         }
@@ -220,7 +239,10 @@ namespace ConsoleApplication1
         }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1c2b62e5793f950b207e6eb18b7c13160ca64f86
         public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
 
         {
@@ -325,6 +347,7 @@ namespace ConsoleApplication1
 
                 débutBateau += taillesBateaux[i];
             }
+<<<<<<< HEAD
 
 
 
@@ -345,6 +368,10 @@ namespace ConsoleApplication1
                 }
             }
             */
+=======
+ 
+            int[,] generationBateaux = new int[10, 10];   
+>>>>>>> 1c2b62e5793f950b207e6eb18b7c13160ca64f86
             for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
             {
                 generationBateaux[emplacementsBateaux[i, 0], emplacementsBateaux[i, 1]] = 1;
