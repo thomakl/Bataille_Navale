@@ -11,25 +11,40 @@ Bateaux :
   Cuirassé (4)
   Sous-marin (3)
   Contre-torpilleur (2)
-
+--------------------------------------------- Fait: ------------------------------------------------------------
+Initialisation de la grille + affichage: OK
+  --> Synchroniser la génération des bateaux et l'affichage: OK
+tant que false --> recréer la disposition de la grille: OK
+Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les bateaux ne se croisent jamais): OK
+  Generation de bateaux: OK
+    - random: OK
+      - position OK
+      - direction OK
+    - selon les bateaux: (méthodes des bords?) OK
+        - si sous marin limité les positions possibles OK
+        - si navette... ainsi de suite OK
 
 --------------------------------------------- A faire: ------------------------------------------------------------
 
-Initialisation de la grille + affichage: OK
-  --> Synchroniser la génération des bateaux et l'affichage: OK
-tant que false --> recréer la disposition de la grille:
-différent aspect selon la grille joueur ou grille cible:
-Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les bateaux ne se croisent jamais): 
-2 modes: bateaux se touchent ou pas: 
-TireAuHasard
+(2 modes: bateaux se touchent ou pas: ) X
 
-  Generation de bateaux:
-    - random:
-      - position
-      - direction
-    - selon les bateaux: (méthodes des bords?)
-        - si sous marin limité les positions possibles
-        - si navette... ainsi de suite
+=> Adapter l'affichage
+  - Creer deux griles (Joueur / Adversaire ) 
+  - Utiliser la même grille pour l'IA et le joueur 
+  - différent aspect selon la grille joueur ou grille cible:
+  - IU pour le jeu
+    - Score...
+
+=> Tir
+  - TireAuHasard
+
+=> Sauvegarde
+  - Sauvegarder les positions dans un fichier texte
+
+
+
+
+
         
         
 Good Luck and Sink them all !
