@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{3269F513-4BCB-40B1-8612-4B19552785B7}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="TD_Progra_Projet_grille/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TD_Progra_Projet_grille/Bataille navale.cs">
     <Files>
-      <File FileName="TD_Progra_Projet_grille/Program.cs" Line="44" Column="8" />
+      <File FileName="TD_Progra_Projet_grille/Bataille navale.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -9,6 +9,5 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Jeu__principal PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
 </Properties>
