@@ -25,15 +25,14 @@ Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les
         - si navette... ainsi de suite OK
 
 => Adapter l'affichage
-  - Creer deux griles (Joueur / Adversaire ) OK
+    - Creer deux griles (Joueur / Adversaire ) OK
+    - Utiliser la même grille pour l'IA et le joueur : A Reflechir (Génération de 2 ou 4 grilles (visibles ou pas par le      joueur) OK
   
---------------------------------------------- A faire: ------------------------------------------------------------
+--------------------------------------------- A faire: -----------------------------------------------------------
 
 (2 modes: bateaux se touchent ou pas: ) X
 
 => Adapter l'affichage
-  - Creer deux griles (Joueur / Adversaire ) OK
-  - Utiliser la même grille pour l'IA et le joueur : A Reflechir (Génération de 2 ou 4 grilles (visibles ou pas par le joueur)
   - différent aspect selon la grille joueur ou grille cible: (Necessaire ?)
   - IU pour le jeu EN COURS
     - Score...
@@ -44,10 +43,5 @@ Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les
 => Sauvegarde
   - Sauvegarder les positions dans un fichier texte
 
-
-
-
-
-        
-        
+         
 Good Luck and Sink them all !
