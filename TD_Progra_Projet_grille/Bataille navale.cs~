@@ -11,12 +11,13 @@ namespace TD_Progra_Projet_grille
 
         static void Main(string[] args)
         {
+
+            //Initialisation des paramètres du jeu
             int nbligne = 10;
             int nbcolonne = 10;
             int absdeb = 0;
             int orddeb = 0;
             int dir = 0;
-
             int[,] emplacementsBateaux = new int[17, 17];
             int[] taillesBateaux = { 5, 4, 3, 3, 2 };
 
@@ -24,14 +25,15 @@ namespace TD_Progra_Projet_grille
             int[,] mesBateaux = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
             int[,] bateauxAdverse = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
-            // Interface Utilisateur
 
+
+            // Interface Utilisateur
             Console.Write("============================================\n");
             Console.Write("              GRILLE ADVERSE");
-            affichageCarte(bateauxAdverse);
+            affichageCarte(bateauxAdverse, "adversaire");
             Console.Write("\n\n============================================\n");
             Console.Write("              MES BATEAUX");
-            affichageCarte(mesBateaux);
+            affichageCarte(mesBateaux, "joueur");
             Console.Write("\n============================================");
             // Fin Interface
 
@@ -73,8 +75,11 @@ namespace TD_Progra_Projet_grille
         }
 
 
-        static void affichageCarte(int[,] emplacementsBateaux)
+        static void affichageCarte(int[,] emplacementsBateaux, string vue)
         {
+            // paramètre vue : adversaire (l'utilisateur ne voit pas que les tirs effectués sur la grille de son adversaire) 
+            //                 / joeur (le l'utilisateur voit tous les éléments de sa grille)
+
             // Initialisation des noms des axes (horizontal et vertical)
             string[] NomAxeHorizontal = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             string[] NomAxeVertical = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
@@ -94,25 +99,23 @@ namespace TD_Progra_Projet_grille
                     }
                     else { Console.Write("+---"); }
                 }
-                Console.Write("+");
-                Console.WriteLine();
+                Console.Write("+\n");
 
                 // Initialisation des colonnes: intérieur
                 for (int colonne = 0; colonne < 10; ++colonne)
                 {
                     if (colonne == 0)
                     {
-                        Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], affichageCaractere(emplacementsBateaux[ligne, colonne]));
+                        Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], affichageCaractere(emplacementsBateaux[ligne, colonne], vue));
                         ++NumColonne;
                     }
                     else
                     {
-                        Console.Write("| {0} ", affichageCaractere(emplacementsBateaux[ligne, colonne]));
+                        Console.Write("| {0} ", affichageCaractere(emplacementsBateaux[ligne, colonne], vue));
 
                     }
                 }
-                Console.Write("|");
-                Console.WriteLine();
+                Console.Write("|\n");
             }
             //// Initialisation des colonnes: démarcation extérieur finale
             for (int colonne = 0; colonne < 10; ++colonne)
@@ -123,8 +126,7 @@ namespace TD_Progra_Projet_grille
                 }
                 else { Console.Write("+---"); }
             }
-            Console.Write("+");
-            Console.WriteLine();
+            Console.Write("+\n");
             // // Affichage de l'axe horizontal
             for (int colonne = 0; colonne < NomAxeHorizontal.Length; ++colonne)
 
@@ -132,14 +134,8 @@ namespace TD_Progra_Projet_grille
                 Console.Write("  {0} ", NomAxeHorizontal[colonne]);
         }
 
-        static int[,] initCarte()
-        {
-            int[,] carte = new int[10, 10];
-            return carte;
-        }
 
         //La fonction DébutBateaux crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
-
         public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne)
         {
 
@@ -363,9 +359,10 @@ namespace TD_Progra_Projet_grille
 
 
 
-        static string affichageCaractere(int caractere)
+        static string affichageCaractere(int caractere, string vue)
         // Affiche le caractère selon le numéro obtenu dans la grille 
         // default: vide ; 1: bateau intacte ; 2: bateau touché ; 3: tir manqué;
+        // si vue = "adversaire" dans la fonction afficheCarte ==> le joueur ne voit pas les bateaux adverses
         {
             string rendu;
             switch (caractere)
@@ -373,7 +370,10 @@ namespace TD_Progra_Projet_grille
                 case 3:
                     return rendu = "0";
                 case 1:
-                    return rendu = "▩";
+                    if (vue == "adversaire")
+                    { return rendu = " "; }
+                    else
+                    { return rendu = "▩"; }
                 case 2:
                     return rendu = "X";
                 default:
