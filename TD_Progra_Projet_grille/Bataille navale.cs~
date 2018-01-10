@@ -21,13 +21,15 @@ namespace TD_Progra_Projet_grille
             int[,] emplacementsBateaux = new int[17, 17];
             int[] taillesBateaux = { 5, 4, 3, 3, 2 };
 
-            // Creation et affichage des emplacements des bateaux OK
+        // Creation et affichage des emplacements des bateaux OK
+        Debut:  //Point d'ancrage pour les renvoies
             int[,] mesBateaux = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
             int[,] bateauxAdverse = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
 
 
             // Interface Utilisateur
+
             Console.Write("============================================\n");
             Console.Write("              GRILLE ADVERSE");
             affichageCarte(bateauxAdverse, "adversaire");
@@ -37,10 +39,45 @@ namespace TD_Progra_Projet_grille
             Console.Write("\n============================================");
             // Fin Interface
 
+            Console.WriteLine("\nVoulez vous continuer ?: ");
+            Console.WriteLine("Taper 'changer' pour changer la grille, 'sauvegarder' pour sauvegarder votre partie ou 'quitter' pour quitter le jeu. ");
+            string sortieOuRetour = Console.ReadLine();
 
 
-            Console.ReadKey();
+            // Demande à l'utilisateur si il veut continuer ou pas
+            switch (sortieOuRetour)
+            {
+                case "changer":
+                    Console.Clear();
+                    goto Debut;
+                case "sauvegarder":
+                    Console.WriteLine("En cours de sauvegarde: ");
+                    // Sauvegarde dans un fichier texte
+                    Console.Write("|");
+                    for (int i = 0; i <= 10; ++i)
+                    {
+                        for (int j = 0; j < i; ++j)
+                        {
+                            Console.Write("=");
+                        }
+                        Console.Write("> {0}0%", i);
+                        Console.SetCursorPosition(1, Console.BufferHeight - 1);
+                        System.Threading.Thread.Sleep(100);
+
+                    }
+                    Console.Write("\a");
+                    // Try catch
+                    Console.WriteLine("\nVotre partie a été sauvegardé");
+                    break;
+                default:
+                    Console.WriteLine("Merci d'avoir jouer à la bataille Navale");
+                    break;
+            }
+
+
+
         }
+
 
         public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir)
         {
