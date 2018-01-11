@@ -17,9 +17,9 @@ namespace TD_Progra_Projet_grille
 
         }
 
+        // 
         public static void débutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir)
         {
-
             Random random = new Random();
 
             absdeb = random.Next(0, 10);
@@ -114,15 +114,12 @@ namespace TD_Progra_Projet_grille
                     Console.Write("  {0} ", NomAxeHorizontal[colonne]);
                 }
             }
-
         }
 
         //La fonction DébutBateaux crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
         public static void débutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne)
         {
-
             Random random = new Random();
-
 
             absdeb = random.Next(0, 10);
             orddeb = random.Next(0, 10);
@@ -132,17 +129,14 @@ namespace TD_Progra_Projet_grille
                                                                  //   3 ->  bas
                                                                  //   4 ->  gauche
 
-
             if (absdeb < taillebateau - 1)              // Cas d'un bateau à gauche
             {
                 if (orddeb < taillebateau - 1)                // // En haut à gauche
                 { dir = random.Next(2, 4); }               // --> Le bateau ne peut s'étendre que vers le bas ou vers la droite
-
                 else
                 {
                     if (nbligne - orddeb < taillebateau)    // // En bas à gauche
                     { dir = random.Next(1, 3); }               // --> Que vers le haut ou la droite
-
                     else                                       // //  Au milieu gauche
                     { dir = random.Next(1, 4); }              // --> Haut_Bas_Droite
                 }
@@ -163,13 +157,11 @@ namespace TD_Progra_Projet_grille
                             if (dir == 2)
                             { dir = 4; }
                         }
-
                         else                                       // //  Au milieu droit
                         {                                          // --> Haut_Bas_Gauche
                             dir = random.Next(1, 4);
                             if (dir == 2) { dir = 4; }
                         }
-
                     }
                 }
 
@@ -184,13 +176,8 @@ namespace TD_Progra_Projet_grille
                         if (dir == 3)
                         { dir = 4; }
                     }
-
-
                 }
             }
-
-
-
         }
 
         //La fonction suivante sera utilisée dans créerBateaux 
@@ -208,12 +195,10 @@ namespace TD_Progra_Projet_grille
                     { return true; }
                 }
             }
-
             return false;
         }
 
         public static int[,] créerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
-
         {
 
             int débutBateau = 0;
