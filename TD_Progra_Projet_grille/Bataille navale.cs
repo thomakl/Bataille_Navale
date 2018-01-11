@@ -388,14 +388,56 @@ namespace TD_Progra_Projet_grille
 
         }
 
-        //
-        public static void tourIA()
+       
+        public static void iaTresFacile(ref int[,] bateauxAdverse)
         {
+            Random random = new Random();
+            int ligne = random.Next(0, 10);
+            int colonne = random.Next(0, 10);
 
+            switch (bateauxAdverse[ligne, colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    iaTresFacile(ref bateauxAdverse);
+                    break;
+            }
         }
 
-        //Interface Menu Principal
-        public static void menuPrincipal()
+        public static void iaFacile(ref int[,] bateauxAdverse, ref int touche) //pas terminée
+        {
+            Random random = new Random();
+            int ligne = 0;
+            int colonne = 0;
+
+            if (touche > 0)
+            {
+            }
+            else
+            {
+                ligne = random.Next(0, 10);
+                colonne = random.Next(0, 10);
+            }
+            switch (bateauxAdverse[ligne, colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    iaFacile(ref bateauxAdverse, ref touche);
+                    break;
+            }
+        }
+            //Interface Menu Principal
+            public static void menuPrincipal()
         {
         Menu_principal:
             Console.WriteLine("\t\t\tBataille Navale");
