@@ -13,16 +13,19 @@ namespace TD_Progra_Projet_grille
         {
 
             //Initialisation des paramètres du jeu
+            ////Paramètres modifiables
             int nbligne = 10;
             int nbcolonne = 10;
+            int[] taillesBateaux = { 5, 4, 3, 3, 2 };
+
+            ////Paramètres à ne pas modifier
+            int[,] emplacementsBateaux = new int[17, 17];
             int absdeb = 0;
             int orddeb = 0;
             int dir = 0;
-            int[,] emplacementsBateaux = new int[17, 17];
-            int[] taillesBateaux = { 5, 4, 3, 3, 2 };
 
-        // Creation et affichage des emplacements des bateaux OK
-        Debut:  //Point d'ancrage pour les renvoies
+            // Creation et affichage des emplacements des bateaux OK
+            Debut:  //Point d'ancrage pour les renvoies
             int[,] mesBateaux = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
             int[,] bateauxAdverse = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
@@ -35,8 +38,12 @@ namespace TD_Progra_Projet_grille
             Console.Write("\n\n============================================\n");
             Console.Write("              MES BATEAUX");
             affichageCarte(mesBateaux, "joueur");
-            Console.Write("\n============================================");
+            Console.WriteLine("\n============================================");
             // Fin Interface
+
+
+            Tirer(ref bateauxAdverse);
+            Console.WriteLine("\n============================================");
 
             Console.WriteLine("\nVoulez vous continuer ?: ");
             Console.WriteLine("Taper 'changer' pour changer la grille, 'sauvegarder' pour sauvegarder votre partie ou 'quitter' pour quitter le jeu. ");
@@ -416,6 +423,39 @@ namespace TD_Progra_Projet_grille
                     return rendu = " ";
             }
         }
+        public static void Tirer(ref int[,] bateauxAdverse )
+        {
+            Console.WriteLine("Dans quelle ligne voulez-vous tirer ? (de A à J)");
+            string saisie = Console.ReadLine();
+            char lettre = Convert.ToChar(saisie);
+            int ligne = char.ToUpper(lettre) - 64;
+
+            Console.WriteLine("Dans quelle colonne voulez-vous tirer ? (de 1 à 10)");
+            saisie = Console.ReadLine();
+            int colonne = Convert.ToInt32(saisie) - 1;
+
+            switch (bateauxAdverse[ligne,colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Espace et ensuite indiquer une autre ligne puis une autre colonne");
+                    Tirer(ref bateauxAdverse);
+                    break;
+            }
+
+        }
+
+        public static void TourIA()
+        {
+
+        }
+
+
     }
 }
 
