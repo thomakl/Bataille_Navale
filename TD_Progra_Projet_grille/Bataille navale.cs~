@@ -366,7 +366,7 @@ namespace TD_Progra_Projet_grille
             Console.WriteLine("Dans quelle ligne voulez-vous tirer ? (de A à J)");
             string saisie = Console.ReadLine();
             char lettre = Convert.ToChar(saisie);
-            int ligne = char.ToUpper(lettre) - 64;
+            int ligne = char.ToUpper(lettre) - 65;
 
             Console.WriteLine("Dans quelle colonne voulez-vous tirer ? (de 1 à 10)");
             saisie = Console.ReadLine();
