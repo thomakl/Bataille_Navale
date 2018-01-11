@@ -27,7 +27,6 @@ namespace TD_Progra_Projet_grille
             int[,] bateauxAdverse = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
 
 
-
             // Interface Utilisateur
 
             Console.Write("============================================\n");
