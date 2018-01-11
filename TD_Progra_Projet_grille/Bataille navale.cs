@@ -23,6 +23,7 @@ namespace TD_Progra_Projet_grille
             int absdeb = 0;
             int orddeb = 0;
             int dir = 0;
+            int touche = 0;
 
             // Creation et affichage des emplacements des bateaux OK
             Debut:  //Point d'ancrage pour les renvoies
@@ -428,7 +429,7 @@ namespace TD_Progra_Projet_grille
             Console.WriteLine("Dans quelle ligne voulez-vous tirer ? (de A à J)");
             string saisie = Console.ReadLine();
             char lettre = Convert.ToChar(saisie);
-            int ligne = char.ToUpper(lettre) - 64;
+            int ligne = char.ToUpper(lettre) - 65;
 
             Console.WriteLine("Dans quelle colonne voulez-vous tirer ? (de 1 à 10)");
             saisie = Console.ReadLine();
@@ -450,12 +451,53 @@ namespace TD_Progra_Projet_grille
 
         }
 
-        public static void TourIA()
+        public static void iaStupide(ref int[,] bateauxAdverse)
         {
+            Random random = new Random();
+            int ligne = random.Next(0, 10);
+            int colonne = random.Next(0, 10);
 
+            switch (bateauxAdverse[ligne, colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    iaStupide(ref bateauxAdverse);
+                    break;
+            }
         }
 
+        public static void iaFacile(ref int[,] bateauxAdverse, ref int touche) //pas terminée
+        {
+            Random random = new Random();
+            int ligne = 0;
+            int colonne = 0;
 
+            if (touche > 0)
+            { }
+            else
+            {
+                ligne = random.Next(0, 10);
+                colonne = random.Next(0, 10);
+            }
+            switch (bateauxAdverse[ligne, colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    iaFacile(ref bateauxAdverse, ref touche);
+                    break;
+            }
+
+        }
     }
 }
 
