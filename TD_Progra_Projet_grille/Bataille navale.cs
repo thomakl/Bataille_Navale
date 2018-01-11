@@ -8,96 +8,29 @@ namespace TD_Progra_Projet_grille
 {
     class Program
     {
-
         static void Main(string[] args)
         {
 
-            //Initialisation des paramètres du jeu
-            ////Paramètres modifiables
-            int nbligne = 10;
-            int nbcolonne = 10;
-            int[] taillesBateaux = { 5, 4, 3, 3, 2 };
-
-            ////Paramètres à ne pas modifier
-            int[,] emplacementsBateaux = new int[17, 17];
-            int absdeb = 0;
-            int orddeb = 0;
-            int dir = 0;
-
-            // Creation et affichage des emplacements des bateaux OK
-            Debut:  //Point d'ancrage pour les renvoies
-            int[,] mesBateaux = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-            int[,] bateauxAdverse = CréerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-
-
-            // Interface Utilisateur
-
-            Console.Write("============================================\n");
-            Console.Write("              GRILLE ADVERSE");
-            affichageCarte(bateauxAdverse, "adversaire");
-            Console.Write("\n\n============================================\n");
-            Console.Write("              MES BATEAUX");
-            affichageCarte(mesBateaux, "joueur");
-            Console.WriteLine("\n============================================");
-            // Fin Interface
-
-
-            Tirer(ref bateauxAdverse);
-            Console.WriteLine("\n============================================");
-
-            Console.WriteLine("\nVoulez vous continuer ?: ");
-            Console.WriteLine("Taper 'changer' pour changer la grille, 'sauvegarder' pour sauvegarder votre partie ou 'quitter' pour quitter le jeu. ");
-            string sortieOuRetour = Console.ReadLine();
-
-
-            // Demande à l'utilisateur si il veut continuer ou pas
-            switch (sortieOuRetour)
-            {
-                case "changer":
-                    Console.Clear();
-                    goto Debut;
-                case "sauvegarder":
-                    Console.WriteLine("En cours de sauvegarde: ");
-                    // Sauvegarde dans un fichier texte
-                    Console.Write("|");
-                    for (int i = 0; i <= 10; ++i)
-                    {
-                        for (int j = 0; j < i; ++j)
-                        {
-                            Console.Write("=");
-                        }
-                        Console.Write("> {0}0%", i);
-                        Console.SetCursorPosition(1, Console.BufferHeight - 1);
-                        System.Threading.Thread.Sleep(100);
-
-                    }
-                    Console.Write("\a");
-                    // Try catch
-                    Console.WriteLine("\nVotre partie a été sauvegardé");
-                    break;
-                default:
-                    Console.WriteLine("Merci d'avoir jouer à la bataille Navale");
-                    break;
-            }
-
-
+            menuPrincipal();
+            //int[,] carte = new int[10, 10];
+            //affichageCarte(carte, "joeur");
 
         }
 
-
-        public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir)
+        public static void débutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir)
         {
 
             Random random = new Random();
 
-
             absdeb = random.Next(0, 10);
             orddeb = random.Next(0, 10);
-            dir = random.Next(1, 5);                             // Direction : (sens horaire depuis le haut)
-                                                                 //   1  -> haut
-                                                                 //   2 ->  droite
-                                                                 //   3 ->  bas
-                                                                 //   4 ->  gauche
+            dir = random.Next(1, 5);
+            /* 
+             * Direction : (sens horaire depuis le haut)
+             * 1  -> haut
+             * 2 ->  droite
+             * 3 ->  bas
+             * 4 ->  gauche */
 
             if (absdeb < taillebateau - 1 && orddeb < taillebateau - 1)          //Le bateau commence en haut à gauche   ->  Il ne peut s'étendre que vers le bas ou la droite
             { dir = random.Next(2, 4); }
@@ -114,10 +47,9 @@ namespace TD_Progra_Projet_grille
                 if (dir == 2)
                 { dir = 4; }
             }
-
         }
 
-
+        // Affiche les emplacements des bateaux et des tirs sur une grille
         static void affichageCarte(int[,] emplacementsBateaux, string vue)
         {
             // paramètre vue : adversaire (l'utilisateur ne voit pas que les tirs effectués sur la grille de son adversaire) 
@@ -138,7 +70,7 @@ namespace TD_Progra_Projet_grille
                 {
                     if (colonne == 0)
                     {
-                        Console.Write(" +---");
+                        Console.Write("\t +---");
                     }
                     else { Console.Write("+---"); }
                 }
@@ -149,7 +81,7 @@ namespace TD_Progra_Projet_grille
                 {
                     if (colonne == 0)
                     {
-                        Console.Write("{0}| {1} ", NomAxeVertical[NumColonne], affichageCaractere(emplacementsBateaux[ligne, colonne], vue));
+                        Console.Write("\t{0}| {1} ", NomAxeVertical[NumColonne], affichageCaractere(emplacementsBateaux[ligne, colonne], vue));
                         ++NumColonne;
                     }
                     else
@@ -165,21 +97,28 @@ namespace TD_Progra_Projet_grille
             {
                 if (colonne == 0)
                 {
-                    Console.Write(" +---");
+                    Console.Write("\t +---");
                 }
                 else { Console.Write("+---"); }
             }
             Console.Write("+\n");
             // // Affichage de l'axe horizontal
             for (int colonne = 0; colonne < NomAxeHorizontal.Length; ++colonne)
+            {
+                if (colonne == 0)
+                {
+                    Console.Write("\t  {0} ", NomAxeHorizontal[colonne]);
+                }
+                else
+                {
+                    Console.Write("  {0} ", NomAxeHorizontal[colonne]);
+                }
+            }
 
-
-                Console.Write("  {0} ", NomAxeHorizontal[colonne]);
         }
 
-
         //La fonction DébutBateaux crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
-        public static void DébutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne)
+        public static void débutBateaux(int taillebateau, ref int absdeb, ref int orddeb, ref int dir, int nbligne, int nbcolonne)
         {
 
             Random random = new Random();
@@ -254,11 +193,9 @@ namespace TD_Progra_Projet_grille
 
         }
 
-
-        //La fonction suivante sera utilisée dans CréerBateaux 
+        //La fonction suivante sera utilisée dans créerBateaux 
         //Elle permet de savoir si une case (une abscisse et une ordonnée) entrée en paramètre est déjà occupée par un bateau
-
-        public static bool DansEmplacementsBateaux(int abs, int ord, int longueur, int[,] emplacementsBateaux)
+        public static bool dansEmplacementsBateaux(int abs, int ord, int longueur, int[,] emplacementsBateaux)
         {
             //longueur : indique jusqu'où on vérifie
             //nécessaire si on veux ne pas confondre un emplacement pas encore défini (une colonne du tableau vide) et un morceau de bateau en abs = 0 et ord = 0
@@ -275,10 +212,7 @@ namespace TD_Progra_Projet_grille
             return false;
         }
 
-
-
-
-        public static int[,] CréerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
+        public static int[,] créerBateaux(ref int[,] emplacementsBateaux, ref int absdeb, ref int orddeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
 
         {
 
@@ -291,9 +225,9 @@ namespace TD_Progra_Projet_grille
                 while (erreur)
                 {
                     erreur = false;
-                    DébutBateaux(taillesBateaux[i], ref absdeb, ref orddeb, ref dir, nbligne, nbcolonne);
+                    débutBateaux(taillesBateaux[i], ref absdeb, ref orddeb, ref dir, nbligne, nbcolonne);
 
-                    if (DansEmplacementsBateaux(absdeb, orddeb, débutBateau, emplacementsBateaux))   //Le paramètre longueur (ici débutBateau) est la somme des tailles des bateaux précédents
+                    if (dansEmplacementsBateaux(absdeb, orddeb, débutBateau, emplacementsBateaux))   //Le paramètre longueur (ici débutBateau) est la somme des tailles des bateaux précédents
                     {
                         erreur = true;
                     }
@@ -309,7 +243,7 @@ namespace TD_Progra_Projet_grille
                             int j = 1;
                             while (j < taillesBateaux[i] && erreur == false)
                             {
-                                if (DansEmplacementsBateaux(absdeb, orddeb - j, débutBateau, emplacementsBateaux))
+                                if (dansEmplacementsBateaux(absdeb, orddeb - j, débutBateau, emplacementsBateaux))
                                 { erreur = true; }
 
                                 else
@@ -326,7 +260,7 @@ namespace TD_Progra_Projet_grille
                             int j = 1;
                             while (j < taillesBateaux[i] && erreur == false)
                             {
-                                if (DansEmplacementsBateaux(absdeb + j, orddeb, débutBateau, emplacementsBateaux))
+                                if (dansEmplacementsBateaux(absdeb + j, orddeb, débutBateau, emplacementsBateaux))
                                 {
                                     erreur = true;
                                 }
@@ -345,7 +279,7 @@ namespace TD_Progra_Projet_grille
                             int j = 1;
                             while (j < taillesBateaux[i] && erreur == false)
                             {
-                                if (DansEmplacementsBateaux(absdeb, orddeb + j, débutBateau, emplacementsBateaux))
+                                if (dansEmplacementsBateaux(absdeb, orddeb + j, débutBateau, emplacementsBateaux))
                                 {
                                     erreur = true;
                                 }
@@ -364,7 +298,7 @@ namespace TD_Progra_Projet_grille
                             int j = 1;
                             while (j < taillesBateaux[i] && erreur == false)
                             {
-                                if (DansEmplacementsBateaux(absdeb, orddeb - j, débutBateau, emplacementsBateaux))
+                                if (dansEmplacementsBateaux(absdeb, orddeb - j, débutBateau, emplacementsBateaux))
                                 {
                                     erreur = true;
                                 }
@@ -393,17 +327,10 @@ namespace TD_Progra_Projet_grille
 
             débutBateau = 0;
             return generationBateaux;
-
-            // fin boucle de la création d'un bateau
-
         }
 
-
-
-
-
-        static string affichageCaractere(int caractere, string vue)
         // Affiche le caractère selon le numéro obtenu dans la grille 
+        static string affichageCaractere(int caractere, string vue)
         // default: vide ; 1: bateau intacte ; 2: bateau touché ; 3: tir manqué;
         // si vue = "adversaire" dans la fonction afficheCarte ==> le joueur ne voit pas les bateaux adverses
         {
@@ -411,19 +338,30 @@ namespace TD_Progra_Projet_grille
             switch (caractere)
             {
                 case 3:
-                    return rendu = "0";
+                    rendu = "0";
+                    return rendu;
                 case 1:
                     if (vue == "adversaire")
-                    { return rendu = " "; }
+                    {
+                        rendu = " ";
+                        return rendu;
+                    }
                     else
-                    { return rendu = "▩"; }
+                    {
+                        rendu = "▩";
+                        return rendu;
+                    }
                 case 2:
-                    return rendu = "X";
+                    rendu = "X";
+                    return rendu;
                 default:
-                    return rendu = " ";
+                    rendu = " ";
+                    return rendu;
             }
         }
-        public static void Tirer(ref int[,] bateauxAdverse )
+
+        //Demande à l'utilisateur de rentrer des coordonnées de tir
+        public static void tirer(ref int[,] bateauxAdverse)
         {
             Console.WriteLine("Dans quelle ligne voulez-vous tirer ? (de A à J)");
             string saisie = Console.ReadLine();
@@ -434,7 +372,7 @@ namespace TD_Progra_Projet_grille
             saisie = Console.ReadLine();
             int colonne = Convert.ToInt32(saisie) - 1;
 
-            switch (bateauxAdverse[ligne,colonne])
+            switch (bateauxAdverse[ligne, colonne])
             {
                 case 0:
                     bateauxAdverse[ligne, colonne] = 3;
@@ -444,18 +382,198 @@ namespace TD_Progra_Projet_grille
                     break;
                 default:
                     Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Espace et ensuite indiquer une autre ligne puis une autre colonne");
-                    Tirer(ref bateauxAdverse);
+                    tirer(ref bateauxAdverse);
                     break;
             }
 
         }
 
-        public static void TourIA()
+        //
+        public static void tourIA()
         {
 
         }
 
+        //Interface Menu Principal
+        public static void menuPrincipal()
+        {
+        Menu_principal:
+            Console.WriteLine("\t\t\tBataille Navale");
+            for (int i = 0; i < 60; ++i)
+            {
+                Console.Write("=");
+            }
+            Console.WriteLine("\n\n\t\t\t1.Reprendre Partie");
+            Console.WriteLine("\n\t\t\t2.Nouvelle Partie");
+            Console.WriteLine("\n\t\t\t3.Paramètre");
+            Console.WriteLine("\n\t\t\t4.Règles du jeu");
+            Console.WriteLine("\n\t\t\t5.Quitter le jeu\n");
+            for (int i = 0; i < 60; ++i)
+            {
+                Console.Write("=");
+            }
+            Console.WriteLine("\n\nQue voulez vous faire ? Entrez un chiffre.\n");
+            Console.Write("> ");
+            string choix = Console.ReadLine();
 
+            switch (choix)
+            {
+                case "1":
+                    Console.Clear();
+                    Console.WriteLine("Restauration de la sauvegarde en cours...");
+                    break;
+                case "2":
+                    Console.Clear();
+                    Console.WriteLine("Création d'une nouvelle partie en cours...");
+                    Console.Clear();
+                    lancementPartie();
+                    break;
+                case "3":
+                    Console.Clear();
+                    Console.WriteLine("Quelle difficulté ?");
+                    Console.WriteLine("Pour retourner au menu principal appuyez sur une touche.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    goto Menu_principal;
+                case "4":
+                    Console.Clear();
+                    Console.WriteLine("Voila les règles du jeu...");
+                    Console.WriteLine("Pour retourner au menu principal appuyez sur une touche.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    goto Menu_principal;
+                case "5":
+                    Console.WriteLine("Merci d'avoir joué à la Bataille Navale");
+                    Console.Clear();
+                    break;
+                default:
+                    Console.Clear();
+                    goto Menu_principal;
+            }
+        }
+
+        public static void sauvegardePartie()
+        {
+            // Sauvegarde dans un fichier texte
+            Console.Write("|");
+            for (int i = 0; i <= 10; ++i)
+            {
+                for (int j = 0; j < i; ++j)
+                {
+                    Console.Write("=");
+                }
+                Console.Write("> {0}0%", i);
+                Console.SetCursorPosition(1, Console.BufferHeight - 1);
+                System.Threading.Thread.Sleep(100);
+            }
+        }
+
+        //Fonction qui lance la partie
+        public static void lancementPartie()
+        {
+            //Initialisation des paramètres du jeu
+            ////Paramètres modifiables
+            int nbligne = 10;
+            int nbcolonne = 10;
+            int[] taillesBateaux = { 5, 4, 3, 3, 2 };
+            int[,] mesBateaux;
+            int[,] bateauxAdverse;
+            string choix_grille;
+
+            ////Paramètres à ne pas modifier
+            int[,] emplacementsBateaux = new int[17, 17];
+            int absdeb = 0;
+            int orddeb = 0;
+            int dir = 0;
+
+            // Premier lancement de la partie avec le choix de sa grille de départ
+            do
+            {
+                mesBateaux = créerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+                bateauxAdverse = créerBateaux(ref emplacementsBateaux, ref absdeb, ref orddeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+
+                //Affichage des grilles
+                Console.WriteLine("\t\t\tNouvelle Partie");
+                Console.Write("============================================================\n");
+                Console.Write("\t\t\tGRILLE ADVERSE");
+                affichageCarte(bateauxAdverse, "adversaire");
+                Console.Write("\n\n============================================================\n");
+                Console.Write("\t\t\tMES BATEAUX");
+                affichageCarte(mesBateaux, "joueur");
+                Console.WriteLine("\n============================================================");
+
+                //Demande à l'utilisateur
+                Console.WriteLine("\n\tVoulez vous changer votre grille de jeu ? Entrez un chiffre.");
+                Console.WriteLine("\n\n\t\t\t1.Oui");
+                Console.WriteLine("\n\t\t\t2.Non");
+                Console.Write("> ");
+                choix_grille = Console.ReadLine();
+            }
+            while (choix_grille == "1");
+
+
+        Partie:  //Point d'ancrage pour les renvoies
+            // Interface Utilisateur
+            Console.WriteLine("\t\t\tNouvelle Partie\n");
+            Console.Write("============================================\n");
+            Console.Write("              GRILLE ADVERSE");
+            affichageCarte(bateauxAdverse, "adversaire");
+            Console.Write("\n\n============================================\n");
+            Console.Write("              MES BATEAUX");
+            affichageCarte(mesBateaux, "joueur");
+            Console.WriteLine("\n============================================");
+
+            for (int i = 0; i < 60; ++i)
+            {
+                Console.Write("=");
+            }
+            Console.WriteLine("\n\n\t\t\t1.Tirer");
+            Console.WriteLine("\n\t\t\t2.Sauvegarder");
+            Console.WriteLine("\n\t\t\t3.Quitter la Partie");
+            for (int i = 0; i < 60; ++i)
+            {
+                Console.Write("=");
+            }
+
+            // Demande à l'utilisateur son choix
+            Console.WriteLine("\n\nQue voulez vous faire ? Entrez un chiffre.\n");
+            Console.Write("> ");
+            string choix = Console.ReadLine();
+
+            switch (choix)
+            {
+                case "1":
+                    // Fonction pour tirer
+                    tirer(ref bateauxAdverse);
+                    Console.Clear();
+                    goto Partie;
+                case "2":
+                    Console.WriteLine("En cours de sauvegarde: ");
+                    sauvegardePartie();
+                    Console.Write("\a");
+                    Console.WriteLine("\nVotre partie a été sauvegardé");
+                    Console.WriteLine("Pour retourner à la partie, appuyez sur une touche.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    goto Partie;
+                case "3":
+                    Console.Clear();
+                    Console.WriteLine("\a /!\\ Attention vous allez quitter la partie sans avoir sauvegarder.");
+                    Console.WriteLine("Voulez vous vraiment quitter sans sans sauvegarder ? ");
+                    Console.WriteLine("\n\n\t\t\t1.Oui");
+                    Console.WriteLine("\n\t\t\t2.Non");
+                    string choix_quitter = Console.ReadLine();
+                    if (choix_quitter == "1")
+                    {
+                        Console.Clear();
+                        menuPrincipal();
+                        break;
+                    }
+                    goto Partie;
+                default:
+                    goto Partie;
+            }
+        }
     }
 }
 
