@@ -27,18 +27,22 @@ Placement des bateaux de façon aléatoire (4 types de bateaux différents) (Les
 => Adapter l'affichage
     - Creer deux griles (Joueur / Adversaire ) OK
     - Utiliser la même grille pour l'IA et le joueur : A Reflechir (Génération de 2 ou 4 grilles (visibles ou pas par le      joueur) OK
+      - IU pour le jeu OK
   
 --------------------------------------------- A faire: -----------------------------------------------------------
 
 (2 modes: bateaux se touchent ou pas: ) X
+différent aspect selon la grille joueur ou grille cible: (Necessaire ?) X
 
 => Adapter l'affichage
-  - différent aspect selon la grille joueur ou grille cible: (Necessaire ?)
-  - IU pour le jeu EN COURS
-    - Score...
+  - Revoir les bugs de présentation
 
-=> Tir
-  - TireAuHasard
+=> Communication au joueur:
+  - De ses réuissites et de ses échecs
+
+=> Tir Difficulté
+  - TireAuHasard OK
+  - Très Facile, Facile, Normal OK
 
 => Sauvegarde
   - Sauvegarder les positions dans un fichier texte
