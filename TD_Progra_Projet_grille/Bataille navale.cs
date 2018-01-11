@@ -12,7 +12,10 @@ namespace TD_Progra_Projet_grille
         {
 
             menuPrincipal();
+
+            // Test de l'affichage cote a cote
             //int[,] carte = new int[10, 10];
+            //affichageCarte_2(carte, carte, "joeur");
             //affichageCarte(carte, "joeur");
 
         }
@@ -373,7 +376,7 @@ namespace TD_Progra_Projet_grille
 
         }
 
-       
+
         public static void iaTresFacile(ref int[,] bateauxAdverse)
         {
             Random random = new Random();
@@ -421,8 +424,8 @@ namespace TD_Progra_Projet_grille
                     break;
             }
         }
-            //Interface Menu Principal
-            public static void menuPrincipal()
+        //Interface Menu Principal
+        public static void menuPrincipal()
         {
         Menu_principal:
             Console.WriteLine("\t\t\tBataille Navale");
@@ -601,6 +604,38 @@ namespace TD_Progra_Projet_grille
                     goto Partie;
             }
         }
+
+        // Afficahge cote à cote
+        static void affichageCarte_2(int[,] emplacementsBateauxAdversaire, int[,] emplacementsBateauxJoueur, string vue)
+        // Code revu et adapté de Credit: Raphael Bres
+        {
+            Console.WriteLine("\n\t\tADVERSAIRE\t\t\t\t\t\t     MES BATEAUX"); //Affiche la grille du joueur et la grille cachée de l'adversaire à l'horizontale
+            Console.Write("\n\t  A   B   C   D   E   F   G   H   I   J \t\t\t\t  A   B   C   D   E   F   G   H   I   J\n");
+            for (int i = 0; i < emplacementsBateauxAdversaire.GetLength(0); i++)
+            {
+                Console.Write("\t+---+---+---+---+---+---+---+---+---+---+"); Console.Write("\t\t\t|\t\t"); Console.WriteLine("\t+---+---+---+---+---+---+---+---+---+---+");
+                for (int j = 0; j < emplacementsBateauxAdversaire.GetLength(1); j++)
+                {
+                    if (j == 0) { Console.Write("\t"); }
+                    if (j == 9) { Console.Write("|"); }
+                    else { Console.Write("|   "); }
+                }
+                Console.Write(" " + (i + 1));
+
+                Console.Write("\t\t|\t\t");
+
+                for (int j = 0; j < emplacementsBateauxJoueur.GetLength(1); j++)
+                {
+                    if (j == 0) { Console.Write("\t"); }
+                    if (j == 9) { Console.Write("|"); }
+                    else { Console.Write("|   "); }
+                }
+                Console.WriteLine(" " + (i + 1));
+            }
+            Console.Write("\t+---+---+---+---+---+---+---+---+---+---+"); Console.Write("\t\t|\t"); Console.WriteLine("\t+---+---+---+---+---+---+---+---+---+---+\n");
+        }
+
     }
+
 }
 
