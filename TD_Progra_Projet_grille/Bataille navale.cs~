@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace TD_Progra_Projet_grille
 {
@@ -28,7 +29,12 @@ namespace TD_Progra_Projet_grille
         static void Main(string[] args)
         {
 
-            menuPrincipal();
+            //menuPrincipal();
+
+            sauvegarderPartie();
+
+
+
 
         }
 
@@ -557,6 +563,41 @@ namespace TD_Progra_Projet_grille
                 choixGrille = Console.ReadLine();
             }
             while (choixGrille == "1");
+        }
+
+        // Sauvegarde les emplacements des bateaux dans un fichier texte
+        public static void sauvegarderPartie()
+        {
+            int[,] test = new int[,] { { 5, 4, 3, 3, 2 }, { 1, 2, 3, 4, 5 } };
+            string[] save = new string[test.Length];
+            int s = 0;
+
+            for (int i = 0; i < test.GetLength(0); ++i)
+            {
+                for (int j = 0; j < test.GetLength(1); ++j)
+                {
+                    save[s] = Convert.ToString(test[i, j]);
+                    ++s;
+                }
+            }
+            String toSave = string.Join("", save);
+            StreamWriter file2 = new StreamWriter(@"\file.txt");
+            file2.WriteLine(toSave);
+            file2.Close();
+            Console.WriteLine(toSave);
+
+            int[,] resume = new int[2, 5];
+            for (int i = 0; i < resume.GetLength(0); ++i)
+            {
+                for (int j = 0; j < resume.GetLength(1); ++j)
+                {
+                    resume[i, j] = Convert.ToInt32(toSave[i + j]);
+                    Console.WriteLine("{0}-{1}", resume[i, j], toSave[i + j]);
+                }
+            }
+
+            Console.WriteLine(resume[0, 0]);
+
         }
 
     }
