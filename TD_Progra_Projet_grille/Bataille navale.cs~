@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace TD_Progra_Projet_grille
+namespace Bataille_Navale
 {
     class Program
     {
