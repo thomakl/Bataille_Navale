@@ -10,8 +10,9 @@ namespace TD_Progra_Projet_grille
     class Program
     {
 
-        //Initialisation des paramètres du jeu
-        ////Paramètres modifiables
+        // Initialisation des paramètres du jeu
+        // Accès des variables à toutes les sous-fonctions du programme
+        //// Paramètres modifiables
         static int nbligne = 10;
         static int nbColonne = 10;
         static int[] taillesBateaux = { 5, 4, 3, 3, 2 };
@@ -19,7 +20,7 @@ namespace TD_Progra_Projet_grille
         static int[,] bateauxAdverse;
 
 
-        ////Paramètres à ne pas modifier
+        //// Paramètres à ne pas modifier
         static int[,] emplacementsBateaux = new int[17, 17];
         static int absDeb = 0;
         static int ordDeb = 0;
@@ -30,7 +31,7 @@ namespace TD_Progra_Projet_grille
 
             LancerMenuPrincipal();
 
-            //sauvegarderLancerMenuPartie();
+            //SauvegarderPartie();
         }
 
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend 
@@ -296,14 +297,14 @@ namespace TD_Progra_Projet_grille
         }
 
         // Demande à l'utilisateur de rentrer des coordonnées de tir
-        public static void tirer(ref int[,] bateauxAdverse)
+        public static void Tirer(ref int[,] bateauxAdverse)
         {
-            Console.WriteLine("Dans quelle ligne voulez-vous tirer ? (de A à J)");
+            Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
             string saisie = Console.ReadLine();
             char lettre = Convert.ToChar(saisie);
             int ligne = char.ToUpper(lettre) - 65;
 
-            Console.WriteLine("Dans quelle colonne voulez-vous tirer ? (de 1 à 10)");
+            Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
             saisie = Console.ReadLine();
             int colonne = Convert.ToInt32(saisie) - 1;
 
@@ -317,7 +318,7 @@ namespace TD_Progra_Projet_grille
                     break;
                 default:
                     Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Espace et ensuite indiquer une autre ligne puis une autre colonne");
-                    tirer(ref bateauxAdverse);
+                    Tirer(ref bateauxAdverse);
                     break;
             }
 
@@ -376,6 +377,7 @@ namespace TD_Progra_Projet_grille
         //Interface Menu Principal
         public static void LancerMenuPrincipal()
         {
+            // Creation de l'interface
             Console.WriteLine("\t\t\tBataille Navale");
             for (int i = 0; i < 60; ++i)
             {
@@ -393,6 +395,7 @@ namespace TD_Progra_Projet_grille
             Console.Write("> ");
             string choix = Console.ReadLine();
 
+            // Menu choix d'action
             switch (choix)
             {
                 case "1":
@@ -445,7 +448,7 @@ namespace TD_Progra_Projet_grille
             }
             Console.WriteLine("\n\n\t\t\t1.Tirer");
             Console.WriteLine("\n\t\t\t2.Sauvegarder");
-            Console.WriteLine("\n\t\t\t3.Quitter la LancerMenuPartie");
+            Console.WriteLine("\n\t\t\t3.Quitter la partie");
             for (int i = 0; i < 65; ++i)
             {
                 Console.Write("=");
@@ -459,14 +462,14 @@ namespace TD_Progra_Projet_grille
             switch (choix)
             {
                 case "1":
-                    // Fonction pour tirer
-                    tirer(ref bateauxAdverse);
+                    // Fonction pour Tirer
+                    Tirer(ref bateauxAdverse);
                     Console.Clear();
                     LancerMenuPartie();
                     break;
                 case "2":
                     Console.WriteLine("Sauvegarde en cours... ");
-                    sauvegarderLancerMenuPartie();
+                    SauvegarderPartie();
                     Console.Write("\a");
                     Console.WriteLine("\nVotre LancerMenuPartie a été sauvegardé");
                     Console.WriteLine("Pour retourner à la LancerMenuPartie, appuyez sur une touche.");
@@ -549,7 +552,7 @@ namespace TD_Progra_Projet_grille
         }
 
         // Sauvegarde les emplacements des bateaux dans un fichier texte
-        public static void sauvegarderLancerMenuPartie()
+        public static void SauvegarderPartie()
         {
             int[,] test = new int[,] { { 5, 4, 3, 3, 2 }, { 1, 2, 3, 4, 5 } };
             string[] save = new string[test.Length];
@@ -594,6 +597,27 @@ namespace TD_Progra_Projet_grille
                 System.Threading.Thread.Sleep(100);
             }
 
+        }
+
+        //Restaure les emplacements des bateaux à partir d'un fichier texte
+        public static int[,] RestaurerPartie()
+        {
+            int[,] sauvegarde = new int[10, 10];
+
+            // Animation de la barre de progression de la sauvegarde
+            Console.Write("|");
+            for (int i = 0; i <= 10; ++i)
+            {
+                for (int j = 0; j < i; ++j)
+                {
+                    Console.Write("=");
+                }
+                Console.Write("> {0}0%", i);
+                Console.SetCursorPosition(1, Console.BufferHeight - 1);
+                System.Threading.Thread.Sleep(100);
+
+            }
+            return sauvegarde;
         }
 
     }
