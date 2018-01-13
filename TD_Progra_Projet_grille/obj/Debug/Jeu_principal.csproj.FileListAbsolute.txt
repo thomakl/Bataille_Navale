@@ -34,3 +34,10 @@ C:/Users/jbrochier/Documents/GitHub/Bataille_Navale/TD_Progra_Projet_grille/bin/
 /Volumes/GoogleDrive/My Drive/S1/Programmation/Projet_Groupe/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.exe
 /Volumes/GoogleDrive/My Drive/S1/Programmation/Projet_Groupe/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.pdb
 >>>>>>> f3bddc1ef5b04d3db8c2fbf3c84874d653cbb3f1
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.exe.config
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.exe
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/bin/Debug/TD_Progra_Projet_grille.pdb
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/Jeu_principal.csprojResolveAssemblyReference.cache
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/Jeu_principal.csproj.CoreCompileInputs.cache
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/TD_Progra_Projet_grille.exe
+/Volumes/GoogleDrive/My Drive/S1/Projets/Progra/Projet_Bataille_Navale/Bataille_Navale/TD_Progra_Projet_grille/obj/Debug/TD_Progra_Projet_grille.pdb
