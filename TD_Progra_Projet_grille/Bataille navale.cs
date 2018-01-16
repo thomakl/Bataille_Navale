@@ -14,7 +14,7 @@ namespace Bataille_Navale
         // Accès des variables à toutes les sous-fonctions du programme
         //// Paramètres modifiables
         static int nbLigne = 10;
-        static int nbcolonne = 10;
+        static int nbColonne = 10;
         static int[] taillesBateaux = { 5, 4, 3, 3, 2 };
         static int[,] mesBateaux;
         static int[,] bateauxAdverse;
@@ -31,7 +31,7 @@ namespace Bataille_Navale
         static int toucheJoueur;
         static int couleJoueur = 0;
         static int couleIA = 0;
-        static int absTouchePrec = nbcolonne;
+        static int absTouchePrec = nbColonne;
         static int ordTouchePrec;
         static int absToucheActuelle;
         static int ordToucheActuelle;
@@ -77,7 +77,7 @@ namespace Bataille_Navale
         }
 
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
-        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbLigne, int nbcolonne)
+        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbLigne, int nbColonne)
         {
             Random random = new Random();
 
@@ -104,7 +104,7 @@ namespace Bataille_Navale
 
             else
             {
-                if (nbcolonne - absDeb < tailleBateau)  // Cas d'un bateau à droite
+                if (nbColonne - absDeb < tailleBateau)  // Cas d'un bateau à droite
                 {
                     if (ordDeb < tailleBateau - 1)                // // En haut à droite
                     { dir = random.Next(3, 5); }               // --> Le bateau ne peut s'étendre que vers le bas ou vers la gauche
@@ -159,7 +159,7 @@ namespace Bataille_Navale
         }
 
         // Génére des emplacements de bateaux dans un tableau à 2 dimensions
-        public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbcolonne)
+        public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbColonne)
         {
 
             int débutBateau = 0;
@@ -171,7 +171,7 @@ namespace Bataille_Navale
                 while (erreur)
                 {
                     erreur = false;
-                    CreerCaseBateaux(taillesBateaux[i], ref absDeb, ref ordDeb, ref dir, nbLigne, nbcolonne);
+                    CreerCaseBateaux(taillesBateaux[i], ref absDeb, ref ordDeb, ref dir, nbLigne, nbColonne);
 
                     if (VerifierBateaux(absDeb, ordDeb, débutBateau, emplacementsBateaux))   //Le paramètre longueur (ici débutBateau) est la somme des tailles des bateaux précédents
                     {
@@ -307,7 +307,7 @@ namespace Bataille_Navale
         }
 
         // Demande à l'utilisateur de rentrer des coordonnées de tir
-        public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
+        public static void JouerTourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
             int colonne = 0;
             int ligne = 0;
@@ -364,14 +364,14 @@ namespace Bataille_Navale
 
                 }
             }
-            ResultatTourHumain(ref toucheJoueur);
+            AnnoncerResultatTourHumain(ref toucheJoueur);
 
-            bool resultat = estCoule(ref couleJoueur, ref emplacementsBateauxJoueur);
+            bool resultat = etreCoule(ref couleJoueur, ref emplacementsBateauxJoueur);
             if (resultat)
             { Console.WriteLine("Un de leurs bateaux s'en va rejoindre les profondeurs !!"); }
         }
 
-        public static void ResultatTourHumain(ref int toucheJoueur)
+        public static void AnnoncerResultatTourHumain(ref int toucheJoueur)
         {
             if (toucheJoueur == 0)
             { Console.WriteLine("Désolé vous n'avez pas touché de bateaux, appuyez sur Entrée"); }
@@ -396,7 +396,7 @@ namespace Bataille_Navale
 
         }
 
-        public static bool estCoule(ref int coule, ref int[,] emplacementsBateaux)  //calcul après chaque touche (tir réussi) le nombre de bateaux coulés. 
+        public static bool etreCoule(ref int coule, ref int[,] emplacementsBateaux)  //calcul après chaque touche (tir réussi) le nombre de bateaux coulés. 
         {                                                                           // Si celui-ci a augmenté alors le coup qui vient d'être joué a coulé un bateau -> Renvoie True
 
             int nb = 0;                //Compte le nombre de bateau coulé repérés dans la vérification
@@ -441,7 +441,7 @@ namespace Bataille_Navale
 
                 int tir = Tirer(ref bateauxAdverse, ligne, colonne);
             }
-            bool resultat = estCoule(ref couleIA, ref emplacementsBateauxJoueur);
+            bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
             { Console.WriteLine("Un de vos navires a coulé"); }
             else
@@ -451,7 +451,7 @@ namespace Bataille_Navale
 
         // Niveau de difficulté de l'IA : Facile
 
-        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbligne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtir, ref int couleIA)
+        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbLigne, int nbColonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtir, ref int couleIA)
 
         {
 
@@ -461,18 +461,18 @@ namespace Bataille_Navale
             absToucheActuelle = absTouchePrec;
 
 
-            if (absTouchePrec == nbcolonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
+            if (absTouchePrec == nbColonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
             {
                 while (nbtirTour > 0)
                 {
-                    int ligne = random.Next(0, 10);
-                    int colonne = random.Next(0, 10);
+                    int ligne = random.Next(0, nbLigne);
+                    int colonne = random.Next(0, nbColonne);
                     int tir = Tirer(ref mesBateaux, ligne, colonne);
 
                     while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
                     {
-                        ligne = random.Next(0, 10);
-                        colonne = random.Next(0, 10);
+                        ligne = random.Next(0, nbLigne);
+                        colonne = random.Next(0, nbColonne);
                         tir = Tirer(ref mesBateaux, ligne, colonne);
                     }
 
@@ -516,7 +516,7 @@ namespace Bataille_Navale
                     }
                 }
 
-                if (absTouchePrec != nbcolonne && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
+                if (absTouchePrec != nbColonne && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
                 {
                     tir = Tirer(ref mesBateaux, absTouchePrec + 1, ordTouchePrec);
                     if (tir != 2)
@@ -544,13 +544,13 @@ namespace Bataille_Navale
 
                 while (nbtirTour > 0)
                 {
-                    int ligne = random.Next(0, 10);
-                    int colonne = random.Next(0, 10);
+                    int ligne = random.Next(0, nbLigne);
+                    int colonne = random.Next(0, nbColonne);
                     tir = Tirer(ref mesBateaux, ligne, colonne);
 
                     while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
                     {
-                        ligne = random.Next(0, 10);
+                        ligne = random.Next(0, nbLigne);
                         colonne = random.Next(0, 10);
                         tir = Tirer(ref mesBateaux, ligne, colonne);
                     }
@@ -567,16 +567,15 @@ namespace Bataille_Navale
 
             absTouchePrec = absToucheActuelle;
             ordTouchePrec = ordToucheActuelle;
-            bool resultat = estCoule(ref couleIA, ref emplacementsBateauxJoueur);
+            bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
             { Console.WriteLine("Un de vos navires a coulé"); }
-            else
-            { Console.WriteLine("Vos navires sont à l'épreuve des obus !"); }
+            
 
         }
 
         // Niveau de difficulté de l'IA : Normale
-        public static void ParametrerIANormale(ref int[,] bateauxAdverse, int nbLigne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
+        public static void ParametrerIANormale(ref int[,] bateauxAdverse, int nbLigne, int nbColonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
         {
         }
 
@@ -673,10 +672,10 @@ namespace Bataille_Navale
             {
                 case "1":
                     // Fonction pour Tirer
-                    TourHumain(ref bateauxAdverse, ref toucheJoueur);
+                    JouerTourHumain(ref bateauxAdverse, ref toucheJoueur);
                     Console.ReadKey();
 
-                    ParametrerIAFacile(ref mesBateaux, nbLigne, nbcolonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA);
+                    ParametrerIAFacile(ref mesBateaux, nbLigne, nbColonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA);
 
                     //Console.Clear();
                     LancerMenuPartie();
@@ -743,7 +742,7 @@ namespace Bataille_Navale
             Console.Write("\t+---+---+---+---+---+---+---+---+---+---+"); Console.Write("\t\t|\t\t"); Console.WriteLine("\t+---+---+---+---+---+---+---+---+---+---+\n");
         }
 
-        public static void initialisationEmplacementsBateaux(ref int[,] emplacementsBateaux)
+        public static void initialiserEmplacementsBateaux(ref int[,] emplacementsBateaux)
         {
             emplacementsBateaux = new int[3, tailleTotale];
 
@@ -759,15 +758,16 @@ namespace Bataille_Navale
             {                                                          //Pour cela il faut savoir la longueur de tous les bateaux mis bouts à bouts
                 tailleTotale = tailleTotale + taillesBateaux[i];
             }
-            initialisationEmplacementsBateaux(ref emplacementsBateauxIA);
-            initialisationEmplacementsBateaux(ref emplacementsBateauxJoueur);
+
+            initialiserEmplacementsBateaux(ref emplacementsBateauxIA);
+            initialiserEmplacementsBateaux(ref emplacementsBateauxJoueur);
 
             string choixGrille;
             do
             {
 
-                bateauxAdverse = GenererBateaux(ref emplacementsBateauxIA, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbcolonne);
-                mesBateaux = GenererBateaux(ref emplacementsBateauxJoueur, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbcolonne);
+                bateauxAdverse = GenererBateaux(ref emplacementsBateauxIA, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
+                mesBateaux = GenererBateaux(ref emplacementsBateauxJoueur, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
 
 
                 AfficherGrilleJeu(mesBateaux, bateauxAdverse);
