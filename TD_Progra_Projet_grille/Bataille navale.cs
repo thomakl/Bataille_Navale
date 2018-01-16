@@ -503,7 +503,7 @@ namespace Bataille_Navale
                     }
                 }
 
-                if (ordTouchePrec != nbLigne && nbtirTour > 0)     //Ensuite tir vers le bas et vérifie l'existence de la case
+                if (ordTouchePrec != nbLigne-1 && nbtirTour > 0)     //Ensuite tir vers le bas et vérifie l'existence de la case
                 {
                     tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec + 1);
                     if (tir != 2)
@@ -516,7 +516,7 @@ namespace Bataille_Navale
                     }
                 }
 
-                if (absTouchePrec != nbColonne && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
+                if (absTouchePrec != nbColonne-1 && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
                 {
                     tir = Tirer(ref mesBateaux, absTouchePrec + 1, ordTouchePrec);
                     if (tir != 2)
