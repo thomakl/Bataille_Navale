@@ -41,6 +41,7 @@ namespace Bataille_Navale
         {
 
             LancerMenuPrincipal();
+            //SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur);
 
         }
 
@@ -309,15 +310,14 @@ namespace Bataille_Navale
         // Demande à l'utilisateur de rentrer des coordonnées de tir
         public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
-<<<<<<< HEAD
             bool saisieCorrect = true;
-
             int colonne;
             int ligne;
 
-
             do
             {
+
+                saisieCorrect = true;
                 string alpha = "ABCDEFGHIJ";
                 Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
                 string saisieAbs = Console.ReadLine();
@@ -342,16 +342,7 @@ namespace Bataille_Navale
                 }
             }
             while (saisieCorrect == false);
-=======
-            Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-            string saisie = Console.ReadLine();
-            char lettre = Convert.ToChar(saisie);
-            int ligne = char.ToUpper(lettre) - 65;
 
-            Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-            saisie = Console.ReadLine();
-            int colonne = Convert.ToInt32(saisie) - 1;
->>>>>>> 488505113fcd8fb651436c03764d255ad2f91e30
 
             switch (Tirer(ref bateauxAdverse, ligne, colonne))
             {
@@ -454,12 +445,10 @@ namespace Bataille_Navale
         {
 
             Random random = new Random();
-<<<<<<< HEAD
+
             int nbtirTour = nbtir - couleIA;
-=======
-            int nbtirTour = nbtir-couleIA;
             absToucheActuelle = absTouchePrec;
->>>>>>> 488505113fcd8fb651436c03764d255ad2f91e30
+
 
             if (absTouchePrec == nbcolonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
             {
@@ -607,6 +596,8 @@ namespace Bataille_Navale
             {
                 case "1":
                     Console.Clear();
+                    emplacementsBateauxIA = RestaurerPartie(0, 3, 17);
+                    emplacementsBateauxJoueur = RestaurerPartie(1, 3, 17);
                     Console.WriteLine("Restauration de la sauvegarde en cours...");
                     break;
                 case "2":
@@ -684,7 +675,7 @@ namespace Bataille_Navale
                     break;
                 case "2":
                     Console.WriteLine("Sauvegarde en cours... ");
-                    SauvegarderPartie();
+                    SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur);
                     Console.Write("\a");
                     Console.WriteLine("\nVotre partie a été sauvegardé");
                     Console.WriteLine("Pour retourner à la partie, appuyez sur une touche.");
@@ -785,78 +776,77 @@ namespace Bataille_Navale
         }
 
         // Sauvegarde les emplacements des bateaux dans un fichier texte
-        public static void SauvegarderPartie()
+        public static void SauvegarderPartie(ref int[,] emplacementsBateauxIA, ref int[,] emplacementsBateauxJoueur)
         {
-            int[,] test = new int[,] { { 5, 4, 3, 3, 2 }, { 1, 2, 3, 4, 5 } };
-            string[] save = new string[test.Length];
-            int s = 0;
+            // Creation dun fichier de sauvegarde
+            StreamWriter file = new StreamWriter(Path.GetFullPath("sauvegarde.txt"));
 
-            for (int i = 0; i < test.GetLength(0); ++i)
+            // Ecriture des emplacementsIA dans un fichier save.txt
+            string[] saveIA = new string[emplacementsBateauxIA.Length];
+            int element = 0;
+
+            for (int i = 0; i < emplacementsBateauxIA.GetLength(0); ++i)
             {
-                for (int j = 0; j < test.GetLength(1); ++j)
+                for (int j = 0; j < emplacementsBateauxIA.GetLength(1); ++j)
                 {
-                    save[s] = Convert.ToString(test[i, j]);
-                    ++s;
+                    saveIA[element] = Convert.ToString(emplacementsBateauxIA[i, j]);
+                    ++element;
                 }
             }
+            String aSauver = string.Join("", saveIA);
+            file.WriteLine(aSauver);
 
-            // Ecriture dans un fichier save.txt
-            String toSave = string.Join("", save);
-            StreamWriter file = new StreamWriter(Path.GetFullPath("save.txt"));
-            file.WriteLine(toSave);
+            // Ecriture des emplacementsJoueur dans un fichier save.txt
+            string[] saveJoueur = new string[emplacementsBateauxJoueur.Length];
+            element = 0;
+
+            for (int i = 0; i < emplacementsBateauxJoueur.GetLength(0); ++i)
+            {
+                for (int j = 0; j < emplacementsBateauxJoueur.GetLength(1); ++j)
+                {
+                    saveJoueur[element] = Convert.ToString(emplacementsBateauxJoueur[i, j]);
+                    ++element;
+                }
+            }
+            aSauver = string.Join("", saveIA);
+            file.WriteLine(aSauver);
+
+            // Fin d'écriture dans le fichier
             file.Close();
 
-            ///// To Restore 
-            /// 
-            /// 
 
-            string text = System.IO.File.ReadAllText(Path.GetFullPath("save.txt"));
-
-            Console.WriteLine(text);
-
-
-
-
-            int[] resume = new int[5];
-
-            for (int i = 0; i < 5; ++i)
+            // Animation de la barre de progression de la sauvegarde
+            Console.Write("|");
+            for (int i = 0; i <= 10; ++i)
             {
-                resume[i] = Convert.ToInt32(text[i]);
-            }
-
-            /*
-            for (int i = 0; i < resume.GetLength(0); ++i)
-            {
-                for (int j = 0; j < resume.GetLength(1); ++j)
+                for (int j = 0; j < i; ++j)
                 {
-                    resume[i, j] = Convert.ToInt32(text[i + j]);
-
-                    Console.WriteLine("{0}-{1}", resume[i, j], text[i + j]);
+                    Console.Write("=");
                 }
+                Console.Write("> {0}0%", i);
+                Console.SetCursorPosition(1, Console.BufferHeight - 1);
+                System.Threading.Thread.Sleep(100);
             }
-            */
-            Console.WriteLine(resume[0]);
             Console.ReadKey();
-            /*
-            // Animation de la barre de progression de la sauvegarde
-            Console.Write("|");
-            for (int i = 0; i <= 10; ++i)
-            {
-                for (int j = 0; j < i; ++j)
-                {
-                    Console.Write("=");
-                }
-                Console.Write("> {0}0%", i);
-                Console.SetCursorPosition(1, Console.BufferHeight - 1);
-                System.Threading.Thread.Sleep(100);
-            }
-            */
         }
-        /*
+
         //Restaure les emplacements des bateaux à partir d'un fichier texte
-        public static int[,] RestaurerPartie()
+        public static int[,] RestaurerPartie(int numeroLigne, int nbLigne, int nbColonne)
         {
-            int[,] sauvegarde;
+
+            string[] texte = System.IO.File.ReadAllLines(Path.GetFullPath("sauvegarde.txt"));
+            int[,] emplacementsBateaux = new int[nbLigne, nbColonne];
+            string ligneTexte = texte[numeroLigne];
+
+            int element = 0;
+            for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
+            {
+                for (int j = 0; j < emplacementsBateaux.GetLength(1); ++j)
+                {
+                    emplacementsBateaux[i, j] = (int)Char.GetNumericValue(ligneTexte[element]);
+                    ++element;
+                }
+            }
 
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
@@ -869,10 +859,11 @@ namespace Bataille_Navale
                 Console.Write("> {0}0%", i);
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
-
             }
-            return sauvegarde;
-        }*/
+
+            return emplacementsBateaux;
+
+        }
 
     }
 }
