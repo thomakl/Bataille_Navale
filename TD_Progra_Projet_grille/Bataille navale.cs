@@ -309,32 +309,36 @@ namespace Bataille_Navale
         // Demande à l'utilisateur de rentrer des coordonnées de tir
         public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
-            Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-            string saisie = Console.ReadLine();
-            char lettre = Convert.ToChar(saisie);
-            int ligne = char.ToUpper(lettre) - 65;
-
-            Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-            saisie = Console.ReadLine();
-            int colonne = Convert.ToInt32(saisie) - 1;
-
-            switch (Tirer(ref bateauxAdverse, ligne, colonne))
+            for (int i = 0; i < nbtir - couleJoueur; i++)
             {
-                case 2:
+                TirJoueur:
+                Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                string saisie = Console.ReadLine();
+                char lettre = Convert.ToChar(saisie);
+                int ligne = char.ToUpper(lettre) - 65;
 
-                    Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
-                    Console.ReadKey();
-                    TourHumain(ref bateauxAdverse, ref toucheJoueur);
-                    break;
+                Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+                saisie = Console.ReadLine();
+                int colonne = Convert.ToInt32(saisie) - 1;
 
-                case 1:
-                    toucheJoueur++;
-                    break;
+                switch (Tirer(ref bateauxAdverse, ligne, colonne))
+                {
+                    case 2:
+
+                        Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
+                        Console.ReadKey();
+                        goto TirJoueur;
+                        break;
+
+                    case 1:
+                        toucheJoueur++;
+                        break;
+                }
             }
 
             ResultatTourHumain(ref toucheJoueur);
 
-            bool resultat = estCoule(ref couleIA, ref emplacementsBateauxJoueur);
+            bool resultat = estCoule(ref couleJoueur, ref emplacementsBateauxJoueur);
             if (resultat)
             { Console.WriteLine("Un de leurs bateaux s'en va rejoindre les profondeurs !!"); }
         }
@@ -369,18 +373,20 @@ namespace Bataille_Navale
 
             int nb = 0;                //Compte le nombre de bateau coulé repérés dans la vérification
             int j;
-            int debutBateau =0;        //indice de la première case du bateau qu'on vérifie, exemple : pour le cuirassé(4cases) son debutBateau est 5
+            int debutBateau = 0;        //indice de la première case du bateau qu'on vérifie, exemple : pour le cuirassé(4cases) son debutBateau est 5
                                       //en effet le porte-avion prend les indices 0 à 4.
             for (int i=0; i < taillesBateaux.Length; i++ )
             {
                 j = 0;
-                while ( emplacementsBateaux[2,debutBateau] == 0 && j<taillesBateaux[i])
+                while ( emplacementsBateaux[2,debutBateau] == 1 && j<taillesBateaux[i])
                 {
                     j++;
                 }
                 if (j==taillesBateaux[i])       //Si le nombre de case touchées est égal au nombre de case du bateau
                 { nb++; }                       //Alors le bateau est coulé, donc on augment le compteur
+
                 debutBateau = debutBateau + taillesBateaux[i];
+                
                 
             }
 
@@ -636,8 +642,7 @@ namespace Bataille_Navale
             {
                 case "1":
                     // Fonction pour Tirer
-                    for (int i = 0; i < 5; i++)
-                    { TourHumain(ref bateauxAdverse, ref toucheJoueur); }
+                    TourHumain(ref bateauxAdverse, ref toucheJoueur);
                     Console.ReadKey();
 
                     ParametrerIAFacile(ref mesBateaux, nbLigne, nbcolonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA);
