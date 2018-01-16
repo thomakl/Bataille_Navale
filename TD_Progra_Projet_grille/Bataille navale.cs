@@ -446,8 +446,7 @@ namespace Bataille_Navale
                     nbtirTour--;
                 }
 
-                absTouchePrec = absToucheActuelle;
-                ordTouchePrec = ordToucheActuelle;
+                
             }
 
 
@@ -528,10 +527,10 @@ namespace Bataille_Navale
                     nbtirTour--;
                 }
 
-
-                absTouchePrec = absToucheActuelle;
-                ordTouchePrec = ordToucheActuelle;
             }
+            absTouchePrec = absToucheActuelle;
+            ordTouchePrec = ordToucheActuelle;
+
             bool resultat = estCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
             { Console.WriteLine("Un de vos navires a coulé"); }
