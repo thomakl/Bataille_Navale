@@ -329,14 +329,14 @@ namespace Bataille_Navale
                     string saisieAbs = Console.ReadLine();
 
                     // IsInteger(saisieOrd) // Ne fonctionne pas. Essayer plutot try .. catch ... finally
-                    colonne = Convert.ToInt32(saisieOrd) - 1;
+                    colonne = Convert.ToInt32(saisieAbs) - 1;
 
-                    char lettre = Convert.ToChar(saisieAbs);
+                    char lettre = Convert.ToChar(saisieOrd);
                     //Char.IsLetter(lettre);
                     ligne = char.ToUpper(lettre) - 65;
 
 
-                    if ((colonne < 0) || (colonne > 10) || (!alpha.Contains(saisieAbs) == true))
+                    if ((colonne < 0) || (colonne > 10) || (!alpha.Contains(saisieOrd) == true))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
