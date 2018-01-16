@@ -45,38 +45,7 @@ namespace Bataille_Navale
 
         }
 
-        // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend 
-        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir)
-        {
-            Random random = new Random();
-
-            absDeb = random.Next(0, 10);
-            ordDeb = random.Next(0, 10);
-            dir = random.Next(1, 5);
-            /* 
-             * Direction : (sens horaire depuis le haut)
-             * 1  -> haut
-             * 2 ->  droite
-             * 3 ->  bas
-             * 4 ->  gauche */
-
-            if (absDeb < tailleBateau - 1 && ordDeb < tailleBateau - 1)          //Le bateau commence en haut à gauche   ->  Il ne peut s'étendre que vers le bas ou la droite
-            { dir = random.Next(2, 4); }
-
-            if (absDeb > tailleBateau && ordDeb < tailleBateau - 1)          //en haut à droite  -> Vers le bas ou la gauche
-            { dir = random.Next(3, 5); }
-
-            if (absDeb < tailleBateau - 1 && ordDeb > tailleBateau)          //en bas à gauche  -> Vers le haut ou la droite
-            { dir = random.Next(1, 3); }
-
-            if (absDeb > tailleBateau && ordDeb > tailleBateau)          //en bas à droite  -> Vers le haut ou la gauche
-            {
-                dir = random.Next(1, 3);
-                if (dir == 2)
-                { dir = 4; }
-            }
-        }
-
+       
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
         public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbLigne, int nbColonne)
         {
@@ -324,6 +293,8 @@ namespace Bataille_Navale
                 {
                     saisieCorrect = true;
                     string alpha = "ABCDEFGHIJ";
+
+                    /*
                     Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
                     string saisieAbs = Console.ReadLine();
 
@@ -335,6 +306,18 @@ namespace Bataille_Navale
 
                     char lettre = Convert.ToChar(saisieAbs);
                     //Char.IsLetter(lettre);
+                    ligne = char.ToUpper(lettre) - 65;
+                    */
+
+                    Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                    string saisie = Console.ReadLine();
+
+                    string saisieAbs = Convert.ToString(saisie[0]);
+                    //int saisieOrd = Convert.ToInt32(saisie[1]);
+
+                    colonne = Convert.ToInt32(saisie[1]) - 49;
+
+                    char lettre = Convert.ToChar(saisieAbs);
                     ligne = char.ToUpper(lettre) - 65;
 
 
@@ -772,6 +755,15 @@ namespace Bataille_Navale
 
                 bateauxAdverse = GenererBateaux(ref emplacementsBateauxIA, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
                 mesBateaux = GenererBateaux(ref emplacementsBateauxJoueur, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
+
+                /*  //Pour vérifier le contenu des 1ères lignes de emplacementsBateauxIA  et  emplacementsBateauxJoueur
+                 *  
+                for (int i = 0; i < emplacementsBateauxIA.GetLength(1); i++)
+                { Console.Write(emplacementsBateauxIA[0, i]); }
+                Console.WriteLine("");
+                for (int i = 0; i < emplacementsBateauxJoueur.GetLength(1); i++)
+                { Console.Write(emplacementsBateauxJoueur[0, i]); }
+                */
 
 
                 AfficherGrilleJeu(mesBateaux, bateauxAdverse);
