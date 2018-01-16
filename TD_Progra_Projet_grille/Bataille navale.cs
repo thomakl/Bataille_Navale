@@ -309,33 +309,60 @@ namespace Bataille_Navale
         // Demande à l'utilisateur de rentrer des coordonnées de tir
         public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
+            int colonne = 0;
+            int ligne = 0;
+
             for (int i = 0; i < nbtir - couleJoueur; i++)
             {
                 TirJoueur:
-                Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-                string saisie = Console.ReadLine();
-                char lettre = Convert.ToChar(saisie);
-                int ligne = char.ToUpper(lettre) - 65;
+                bool saisieCorrect = false;
 
-                Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-                saisie = Console.ReadLine();
-                int colonne = Convert.ToInt32(saisie) - 1;
+
+                do
+                {
+                    saisieCorrect = true;
+                    string alpha = "ABCDEFGHIJ";
+                    Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                    string saisieAbs = Console.ReadLine();
+
+                    Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+                    string saisieOrd = Console.ReadLine();
+                    // IsInteger(saisieOrd) // Ne fonctionne pas. Essayer plutot try .. catch ... finally
+                    colonne = Convert.ToInt32(saisieOrd) - 1;
+
+                    char lettre = Convert.ToChar(saisieAbs);
+                    //Char.IsLetter(lettre);
+                    ligne = char.ToUpper(lettre) - 65;
+
+
+                    if ((colonne < 0) || (colonne > 10) || (!alpha.Contains(saisieAbs) == true))
+                    {
+                        Console.WriteLine("\n==========================================================================================================================================");
+                        Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
+                        Console.WriteLine("Appuyez sur une touche pour recommencer la saisie des coordonnées du tour.");
+                        saisieCorrect = false;
+                        Console.ReadKey();
+                    }
+                }
+
+                while (saisieCorrect == false);
+
+
 
                 switch (Tirer(ref bateauxAdverse, ligne, colonne))
                 {
                     case 2:
-
                         Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
                         Console.ReadKey();
                         goto TirJoueur;
-                        break;
+
 
                     case 1:
                         toucheJoueur++;
                         break;
+
                 }
             }
-
             ResultatTourHumain(ref toucheJoueur);
 
             bool resultat = estCoule(ref couleJoueur, ref emplacementsBateauxJoueur);
@@ -368,26 +395,27 @@ namespace Bataille_Navale
 
         }
 
-        public static bool estCoule ( ref int coule, ref int[,] emplacementsBateaux)  //calcul après chaque touche (tir réussi) le nombre de bateaux coulés. 
+        public static bool estCoule(ref int coule, ref int[,] emplacementsBateaux)  //calcul après chaque touche (tir réussi) le nombre de bateaux coulés. 
         {                                                                           // Si celui-ci a augmenté alors le coup qui vient d'être joué a coulé un bateau -> Renvoie True
 
             int nb = 0;                //Compte le nombre de bateau coulé repérés dans la vérification
             int j;
             int debutBateau = 0;        //indice de la première case du bateau qu'on vérifie, exemple : pour le cuirassé(4cases) son debutBateau est 5
+
                                       //en effet le porte-avion prend les indices 0 à 4.
             for (int i=0; i < taillesBateaux.Length; i++ )
             {
                 j = 0;
                 while ( emplacementsBateaux[2,debutBateau] == 1 && j<taillesBateaux[i])
+
                 {
                     j++;
                 }
-                if (j==taillesBateaux[i])       //Si le nombre de case touchées est égal au nombre de case du bateau
+                if (j == taillesBateaux[i])       //Si le nombre de case touchées est égal au nombre de case du bateau
                 { nb++; }                       //Alors le bateau est coulé, donc on augment le compteur
 
                 debutBateau = debutBateau + taillesBateaux[i];
-                
-                
+
             }
 
             if (nb == coule) //Si le nombre de bateau coulé est le même que celui précédent, aucun bateau n'a été coulé par le tir -> renvoie false
@@ -395,7 +423,7 @@ namespace Bataille_Navale
 
             else //Si il y a un nouveau bateau touché, il faut actualiser coule puis renvoyer true
             {
-                coule = nb;  
+                coule = nb;
                 return true;
             }
         }
@@ -413,7 +441,7 @@ namespace Bataille_Navale
                 int tir = Tirer(ref bateauxAdverse, ligne, colonne);
             }
             bool resultat = estCoule(ref couleIA, ref emplacementsBateauxJoueur);
-            if(resultat)
+            if (resultat)
             { Console.WriteLine("Un de vos navires a coulé"); }
             else
             { Console.WriteLine("Vos navires sont à l'épreuve des obus !"); }
@@ -422,13 +450,15 @@ namespace Bataille_Navale
 
         // Niveau de difficulté de l'IA : Facile
 
-            public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbligne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtir, ref int couleIA)
+        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbligne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtir, ref int couleIA)
 
         {
 
             Random random = new Random();
+
             int nbtirTour = nbtir-couleIA;
             absToucheActuelle = absTouchePrec;
+
 
             if (absTouchePrec == nbcolonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
             {
@@ -541,7 +571,7 @@ namespace Bataille_Navale
             { Console.WriteLine("Un de vos navires a coulé"); }
             else
             { Console.WriteLine("Vos navires sont à l'épreuve des obus !"); }
-            
+
         }
 
         // Niveau de difficulté de l'IA : Normale
@@ -712,7 +742,7 @@ namespace Bataille_Navale
             Console.Write("\t+---+---+---+---+---+---+---+---+---+---+"); Console.Write("\t\t|\t\t"); Console.WriteLine("\t+---+---+---+---+---+---+---+---+---+---+\n");
         }
 
-        public static void initialisationEmplacementsBateaux (ref int[,] emplacementsBateaux )
+        public static void initialisationEmplacementsBateaux(ref int[,] emplacementsBateaux)
         {
             emplacementsBateaux = new int[3, tailleTotale];
 
