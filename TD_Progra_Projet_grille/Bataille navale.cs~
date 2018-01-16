@@ -306,14 +306,42 @@ namespace Bataille_Navale
         // Demande à l'utilisateur de rentrer des coordonnées de tir
         public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
-            Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-            string saisie = Console.ReadLine();
-            char lettre = Convert.ToChar(saisie);
-            int ligne = char.ToUpper(lettre) - 65;
+            bool saisieCorrect = true;
 
-            Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-            saisie = Console.ReadLine();
-            int colonne = Convert.ToInt32(saisie) - 1;
+            int colonne;
+            int ligne;
+
+
+            do
+            {
+                string[] alpha = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+
+                Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                string saisieAbs = Console.ReadLine();
+
+
+                Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+                string saisieOrd = Console.ReadLine();
+                colonne = Convert.ToInt32(saisieOrd) - 1;
+
+                if ((colonne < 0) || (colonne > 10) || (alpha.Contains(saisieOrd) == false))
+                {
+                    Console.WriteLine("\n==========================================================================================================================================");
+                    Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
+                    Console.WriteLine("Appuyez sur une touche pour recommencer la saisie des coordonnées du tour.");
+                    saisieCorrect = false;
+                    Console.ReadKey();
+                }
+
+                char lettre = Convert.ToChar(saisieAbs);
+                ligne = char.ToUpper(lettre) - 65;
+
+
+            }
+            while (saisieCorrect == false);
+
+
+
 
             switch (Tirer(ref bateauxAdverse, ligne, colonne))
             {
@@ -565,23 +593,12 @@ namespace Bataille_Navale
         // Composé d'un menu d'actions
         public static void LancerMenuPartie()
         {
-
-
-
             AfficherGrilleJeu(bateauxAdverse, mesBateaux);
             Console.WriteLine("\n==========================================================================================================================================");
-
-            for (int i = 0; i < 65; ++i)
-            {
-                Console.Write("=");
-            }
             Console.WriteLine("\n\n\t\t\t1.Tirer");
             Console.WriteLine("\n\t\t\t2.Sauvegarder");
             Console.WriteLine("\n\t\t\t3.Quitter la partie");
-            for (int i = 0; i < 65; ++i)
-            {
-                Console.Write("=");
-            }
+            Console.WriteLine("\n==========================================================================================================================================");
 
             // Demande à l'utilisateur son choix
             Console.WriteLine("\n\nQue voulez vous faire ? Entrez un chiffre.\n");
