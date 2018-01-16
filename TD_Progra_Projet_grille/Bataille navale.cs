@@ -357,32 +357,9 @@ namespace Bataille_Navale
         }
 
         // Niveau de difficulté de l'IA : Facile
-        public static void ParametrerIAFacile(ref int[,] bateauxAdverse, ref int touche) //pas terminée
+        public static void ParametrerIAFacile(ref int[,] bateauxAdverse)
         {
-            Random random = new Random();
-            int ligne = 0;
-            int colonne = 0;
-
-            if (touche > 0)
-            {
-            }
-            else
-            {
-                ligne = random.Next(0, 10);
-                colonne = random.Next(0, 10);
-            }
-            switch (bateauxAdverse[ligne, colonne])
-            {
-                case 0:
-                    bateauxAdverse[ligne, colonne] = 3;
-                    break;
-                case 1:
-                    bateauxAdverse[ligne, colonne] = 2;
-                    break;
-                default:
-                    ParametrerIAFacile(ref bateauxAdverse, ref touche);
-                    break;
-            }
+            
         }
 
         //Interface Menu Principal
