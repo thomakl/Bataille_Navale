@@ -13,7 +13,7 @@ namespace Bataille_Navale
         // Initialisation des paramètres du jeu
         // Accès des variables à toutes les sous-fonctions du programme
         //// Paramètres modifiables
-        static int nbligne = 10;
+        static int nbLigne = 10;
         static int nbcolonne = 10;
         static int[] taillesBateaux = { 5, 4, 3, 3, 2 };
         static int[,] mesBateaux;
@@ -74,7 +74,7 @@ namespace Bataille_Navale
         }
 
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
-        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbligne, int nbcolonne)
+        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbLigne, int nbcolonne)
         {
             Random random = new Random();
 
@@ -92,7 +92,7 @@ namespace Bataille_Navale
                 { dir = random.Next(2, 4); }               // --> Le bateau ne peut s'étendre que vers le bas ou vers la droite
                 else
                 {
-                    if (nbligne - ordDeb < tailleBateau)    // // En bas à gauche
+                    if (nbLigne - ordDeb < tailleBateau)    // // En bas à gauche
                     { dir = random.Next(1, 3); }               // --> Que vers le haut ou la droite
                     else                                       // //  Au milieu gauche
                     { dir = random.Next(1, 4); }              // --> Haut_Bas_Droite
@@ -108,7 +108,7 @@ namespace Bataille_Navale
 
                     else
                     {
-                        if (nbligne - ordDeb < tailleBateau)    // // En bas à droite
+                        if (nbLigne - ordDeb < tailleBateau)    // // En bas à droite
                         {                                           // --> Haut_Gauche
                             dir = random.Next(1, 2);
                             if (dir == 2)
@@ -127,7 +127,7 @@ namespace Bataille_Navale
                     if (ordDeb < tailleBateau - 1)         // Cas d'un bateau en haut au milieu
                     { dir = random.Next(2, 5); }           // --> Bas_Gauche_Droite
 
-                    if (nbligne - ordDeb < tailleBateau) // Cas d'un bateau en bas au milieu
+                    if (nbLigne - ordDeb < tailleBateau) // Cas d'un bateau en bas au milieu
                     {                                        //--> Haut_Gauche_Droite
                         dir = random.Next(1, 4);
                         if (dir == 3)
@@ -156,7 +156,7 @@ namespace Bataille_Navale
         }
 
         // Génére des emplacements de bateaux dans un tableau à 2 dimensions
-        public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbligne, int nbcolonne)
+        public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbcolonne)
         {
 
             int débutBateau = 0;
@@ -168,7 +168,7 @@ namespace Bataille_Navale
                 while (erreur)
                 {
                     erreur = false;
-                    CreerCaseBateaux(taillesBateaux[i], ref absDeb, ref ordDeb, ref dir, nbligne, nbcolonne);
+                    CreerCaseBateaux(taillesBateaux[i], ref absDeb, ref ordDeb, ref dir, nbLigne, nbcolonne);
 
                     if (VerifierBateaux(absDeb, ordDeb, débutBateau, emplacementsBateaux))   //Le paramètre longueur (ici débutBateau) est la somme des tailles des bateaux précédents
                     {
@@ -377,7 +377,7 @@ namespace Bataille_Navale
         }
 
         // Niveau de difficulté de l'IA : Facile
-        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbligne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
+        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbLigne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
         {
 
             Random random = new Random();
@@ -427,7 +427,7 @@ namespace Bataille_Navale
                     }
                 }
 
-                if (ordTouchePrec != nbligne && nbtirTour>0)     //Ensuite tir vers le bas et vérifie l'existence de la case
+                if (ordTouchePrec != nbLigne && nbtirTour > 0)     //Ensuite tir vers le bas et vérifie l'existence de la case
                 {
                     tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec + 1);
                     if (tir != 2)
@@ -442,7 +442,7 @@ namespace Bataille_Navale
 
                 if (absTouchePrec != nbcolonne && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
                 {
-                    tir = Tirer(ref mesBateaux, absTouchePrec+1, ordTouchePrec);
+                    tir = Tirer(ref mesBateaux, absTouchePrec + 1, ordTouchePrec);
                     if (tir != 2)
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
@@ -495,21 +495,22 @@ namespace Bataille_Navale
         }
 
         // Niveau de difficulté de l'IA : Normale
-        public static void ParametrerIANormale(ref int[,] bateauxAdverse, int nbligne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
+        public static void ParametrerIANormale(ref int[,] bateauxAdverse, int nbLigne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
         {
         }
-            //Interface Menu Principal
-            public static void LancerMenuPrincipal()
+
+        //Interface Menu Principal
+        public static void LancerMenuPrincipal()
         {
-            
+
             // Creation de l'interface
             Console.WriteLine("\t\t\tBataille Navale");
             for (int i = 0; i < 60; ++i)
             {
                 Console.Write("=");
             }
-            Console.WriteLine("\n\n\t\t\t1.Reprendre LancerMenuPartie");
-            Console.WriteLine("\n\t\t\t2.Nouvelle LancerMenuPartie");
+            Console.WriteLine("\n\n\t\t\t1.Reprendre partie");
+            Console.WriteLine("\n\t\t\t2.Nouvelle partie");
             Console.WriteLine("\n\t\t\t3.Règles du jeu");
             Console.WriteLine("\n\t\t\t4.Quitter le jeu\n");
             for (int i = 0; i < 60; ++i)
@@ -552,20 +553,20 @@ namespace Bataille_Navale
             }
         }
 
-        // Fonction qui lance une nouvelle LancerMenuPartie
-        // Elle comprends un changement de grille et la LancerMenuPartie en elle-même
+        // Fonction qui lance une nouvelle partie
+        // Elle comprends un changement de grille et la partie en elle-même
         public static void LancerPartie()
         {
             ChangerGrille();
             LancerMenuPartie();
         }
 
-        // Interface avec la LancerMenuPartie en elle-même
+        // Interface avec la partie en elle-même
         // Composé d'un menu d'actions
         public static void LancerMenuPartie()
         {
-            
-            
+
+
 
             AfficherGrilleJeu(bateauxAdverse, mesBateaux);
             Console.WriteLine("\n==========================================================================================================================================");
@@ -595,7 +596,7 @@ namespace Bataille_Navale
                     { TourHumain(ref bateauxAdverse, ref toucheJoueur); }
                     ResultatTourHumain(ref toucheJoueur);
                     Console.ReadKey();
-                    ParametrerIAFacile(ref mesBateaux, nbligne, nbcolonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtirTour);
+                    ParametrerIAFacile(ref mesBateaux, nbLigne, nbcolonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtirTour);
                     //Console.Clear();
                     LancerMenuPartie();
                     break;
@@ -603,15 +604,15 @@ namespace Bataille_Navale
                     Console.WriteLine("Sauvegarde en cours... ");
                     SauvegarderPartie();
                     Console.Write("\a");
-                    Console.WriteLine("\nVotre LancerMenuPartie a été sauvegardé");
-                    Console.WriteLine("Pour retourner à la LancerMenuPartie, appuyez sur une touche.");
+                    Console.WriteLine("\nVotre partie a été sauvegardé");
+                    Console.WriteLine("Pour retourner à la partie, appuyez sur une touche.");
                     Console.ReadKey();
                     Console.Clear();
                     LancerMenuPartie();
                     break;
                 case "3":
                     Console.Clear();
-                    Console.WriteLine("\a /!\\ Attention vous allez quitter la LancerMenuPartie sans avoir sauvegarder.");
+                    Console.WriteLine("\a /!\\ Attention vous allez quitter la partie sans avoir sauvegarder.");
                     Console.WriteLine("Voulez vous vraiment quitter sans sans sauvegarder ? ");
                     Console.WriteLine("\n\n\t\t\t1.Oui");
                     Console.WriteLine("\n\t\t\t2.Non");
@@ -676,8 +677,8 @@ namespace Bataille_Navale
             string choixGrille;
             do
             {
-                mesBateaux = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbligne, nbcolonne);
-                bateauxAdverse = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbligne, nbcolonne);
+                mesBateaux = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbcolonne);
+                bateauxAdverse = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbcolonne);
 
                 AfficherGrilleJeu(mesBateaux, bateauxAdverse);
                 Console.WriteLine("\n==========================================================================================================================================");
