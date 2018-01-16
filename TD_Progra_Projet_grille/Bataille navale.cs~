@@ -325,20 +325,20 @@ namespace Bataille_Navale
                     saisieCorrect = true;
                     string alpha = "ABCDEFGHIJ";
                     Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-                    string saisieOrd = Console.ReadLine();
-
-                    Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
                     string saisieAbs = Console.ReadLine();
 
-                    // IsInteger(saisieOrd) // Ne fonctionne pas. Essayer plutot try .. catch ... finally
-                    colonne = Convert.ToInt32(saisieAbs) - 1;
+                    Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+                    string saisieOrd = Console.ReadLine();
 
-                    char lettre = Convert.ToChar(saisieOrd);
+                    // IsInteger(saisieOrd) // Ne fonctionne pas. Essayer plutot try .. catch ... finally
+                    colonne = Convert.ToInt32(saisieOrd) - 1;
+
+                    char lettre = Convert.ToChar(saisieAbs);
                     //Char.IsLetter(lettre);
                     ligne = char.ToUpper(lettre) - 65;
 
 
-                    if ((colonne < 0) || (colonne > 10) || (!alpha.Contains(saisieOrd) == true))
+                    if ((colonne < 0) || (colonne > 10) || (!alpha.Contains(saisieAbs) == true))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
