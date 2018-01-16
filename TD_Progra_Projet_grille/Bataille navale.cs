@@ -309,6 +309,7 @@ namespace Bataille_Navale
         // Demande à l'utilisateur de rentrer des coordonnées de tir
         public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
+<<<<<<< HEAD
             bool saisieCorrect = true;
 
             int colonne;
@@ -341,6 +342,16 @@ namespace Bataille_Navale
                 }
             }
             while (saisieCorrect == false);
+=======
+            Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+            string saisie = Console.ReadLine();
+            char lettre = Convert.ToChar(saisie);
+            int ligne = char.ToUpper(lettre) - 65;
+
+            Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+            saisie = Console.ReadLine();
+            int colonne = Convert.ToInt32(saisie) - 1;
+>>>>>>> 488505113fcd8fb651436c03764d255ad2f91e30
 
             switch (Tirer(ref bateauxAdverse, ligne, colonne))
             {
@@ -443,7 +454,12 @@ namespace Bataille_Navale
         {
 
             Random random = new Random();
+<<<<<<< HEAD
             int nbtirTour = nbtir - couleIA;
+=======
+            int nbtirTour = nbtir-couleIA;
+            absToucheActuelle = absTouchePrec;
+>>>>>>> 488505113fcd8fb651436c03764d255ad2f91e30
 
             if (absTouchePrec == nbcolonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
             {
@@ -467,9 +483,6 @@ namespace Bataille_Navale
                     }
                     nbtirTour--;
                 }
-
-                absTouchePrec = absToucheActuelle;
-                ordTouchePrec = ordToucheActuelle;
             }
 
 
@@ -550,10 +563,10 @@ namespace Bataille_Navale
                     nbtirTour--;
                 }
 
-
-                absTouchePrec = absToucheActuelle;
-                ordTouchePrec = ordToucheActuelle;
             }
+
+            absTouchePrec = absToucheActuelle;
+            ordTouchePrec = ordToucheActuelle;
             bool resultat = estCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
             { Console.WriteLine("Un de vos navires a coulé"); }
@@ -633,12 +646,23 @@ namespace Bataille_Navale
         // Composé d'un menu d'actions
         public static void LancerMenuPartie()
         {
+
+
+
             AfficherGrilleJeu(bateauxAdverse, mesBateaux);
             Console.WriteLine("\n==========================================================================================================================================");
+
+            for (int i = 0; i < 65; ++i)
+            {
+                Console.Write("=");
+            }
             Console.WriteLine("\n\n\t\t\t1.Tirer");
             Console.WriteLine("\n\t\t\t2.Sauvegarder");
             Console.WriteLine("\n\t\t\t3.Quitter la partie");
-            Console.WriteLine("\n==========================================================================================================================================");
+            for (int i = 0; i < 65; ++i)
+            {
+                Console.Write("=");
+            }
 
             // Demande à l'utilisateur son choix
             Console.WriteLine("\n\nQue voulez vous faire ? Entrez un chiffre.\n");
