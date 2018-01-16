@@ -323,10 +323,11 @@ namespace Bataille_Navale
                     saisieCorrect = true;
                     string alpha = "ABCDEFGHIJ";
                     Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-                    string saisieAbs = Console.ReadLine();
+                    string saisieOrd = Console.ReadLine();
 
                     Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-                    string saisieOrd = Console.ReadLine();
+                    string saisieAbs = Console.ReadLine();
+
                     // IsInteger(saisieOrd) // Ne fonctionne pas. Essayer plutot try .. catch ... finally
                     colonne = Convert.ToInt32(saisieOrd) - 1;
 
