@@ -25,19 +25,51 @@ namespace Bataille_Navale
         static int absDeb = 0;
         static int ordDeb = 0;
         static int dir = 0;
-        static int abstouche = nbcolonne;
-        static int ordtouche;
-        static int dirtir = 0;
+        static int toucheJoueur;
+        static int absTouchePrec = nbcolonne;
+        static int ordTouchePrec;
+        static int absToucheActuelle;
+        static int ordToucheActuelle;
+        static int nbtirTour = 5;
 
         static void Main(string[] args)
         {
 
             LancerMenuPrincipal();
 
-            //SauvegarderPartie();
         }
 
-       
+        // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend 
+        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir)
+        {
+            Random random = new Random();
+
+            absDeb = random.Next(0, 10);
+            ordDeb = random.Next(0, 10);
+            dir = random.Next(1, 5);
+            /* 
+             * Direction : (sens horaire depuis le haut)
+             * 1  -> haut
+             * 2 ->  droite
+             * 3 ->  bas
+             * 4 ->  gauche */
+
+            if (absDeb < tailleBateau - 1 && ordDeb < tailleBateau - 1)          //Le bateau commence en haut à gauche   ->  Il ne peut s'étendre que vers le bas ou la droite
+            { dir = random.Next(2, 4); }
+
+            if (absDeb > tailleBateau && ordDeb < tailleBateau - 1)          //en haut à droite  -> Vers le bas ou la gauche
+            { dir = random.Next(3, 5); }
+
+            if (absDeb < tailleBateau - 1 && ordDeb > tailleBateau)          //en bas à gauche  -> Vers le haut ou la droite
+            { dir = random.Next(1, 3); }
+
+            if (absDeb > tailleBateau && ordDeb > tailleBateau)          //en bas à droite  -> Vers le haut ou la gauche
+            {
+                dir = random.Next(1, 3);
+                if (dir == 2)
+                { dir = 4; }
+            }
+        }
 
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
         public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbligne, int nbcolonne)
@@ -77,7 +109,8 @@ namespace Bataille_Navale
                         if (nbligne - ordDeb < tailleBateau)    // // En bas à droite
                         {                                           // --> Haut_Gauche
                             dir = random.Next(1, 2);
-                            dir = dir * 3 - 2;                      //remplace : if (dir == 2){ dir = 4; }
+                            if (dir == 2)
+                            { dir = 4; }
                         }
                         else                                       // //  Au milieu droit
                         {                                          // --> Haut_Bas_Gauche
@@ -269,7 +302,7 @@ namespace Bataille_Navale
         }
 
         // Demande à l'utilisateur de rentrer des coordonnées de tir
-        public static void TourHumain(ref int[,] bateauxAdverse)
+        public static void TourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
         {
             Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
             string saisie = Console.ReadLine();
@@ -280,16 +313,33 @@ namespace Bataille_Navale
             saisie = Console.ReadLine();
             int colonne = Convert.ToInt32(saisie) - 1;
 
-            if (Tirer(ref bateauxAdverse, ligne, colonne) == 2)
+            switch (Tirer(ref bateauxAdverse, ligne, colonne))
             {
-                Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
-                Console.ReadKey();
-                TourHumain(ref bateauxAdverse);
-            }            
+                case 2:
+
+                    Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
+                    Console.ReadKey();
+                    TourHumain(ref bateauxAdverse, ref toucheJoueur);
+                    break;
+
+                case 1:
+                    toucheJoueur++;
+                    break;
+            }
         }
 
-        public static int Tirer(ref int[,]bateaux, int ligne, int colonne)
-        { switch (bateauxAdverse[ligne, colonne])
+        public static void ResultatTourHumain(ref int toucheJoueur)
+        {
+            if (toucheJoueur == 0)
+            { Console.WriteLine("Désolé vous n'avez pas touché de bateaux, appuyez sur Entrée"); }
+            else
+            { Console.WriteLine("Bravo vous avez touché {0} fois, appuyez sur Entrée", toucheJoueur); }
+            toucheJoueur = 0;
+        }
+
+        public static int Tirer(ref int[,] bateaux, int ligne, int colonne)
+        {
+            switch (bateauxAdverse[ligne, colonne])
             {
                 case 0:
                     bateauxAdverse[ligne, colonne] = 3;
@@ -304,159 +354,143 @@ namespace Bataille_Navale
         }
 
         // Niveau de difficulté de l'IA : Très facile
-        public static void ParametrerIATresFacile(ref int[,] mesBateaux)
+        public static void ParametrerIATresFacile(ref int[,] bateauxAdverse)
         {
             Random random = new Random();
             int ligne = random.Next(0, 10);
             int colonne = random.Next(0, 10);
 
-            if (Tirer(ref mesBateaux, ligne, colonne) == 2)
-            { ParametrerIATresFacile(ref mesBateaux); }
+            switch (bateauxAdverse[ligne, colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    ParametrerIATresFacile(ref bateauxAdverse);
+                    break;
+            }
         }
 
         // Niveau de difficulté de l'IA : Facile
-        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbligne, int nbcolonne, ref int abstouche, ref int ordtouche, ref int dirtir)
+        public static void ParametrerIAFacile(ref int[,] bateauxAdverse, int nbligne, int nbcolonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
         {
+
             Random random = new Random();
 
-            if (abstouche == nbcolonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
+            if (absTouchePrec == nbcolonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
             {
-                int ligne = random.Next(0, 10);
-                int colonne = random.Next(0, 10);
-                int tir = Tirer(ref mesBateaux, ligne, colonne);
-
-                while ( tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
+                while (nbtirTour > 0)
                 {
-                    ligne = random.Next(0, 10);
-                    colonne = random.Next(0, 10);
-                    tir = Tirer(ref mesBateaux, ligne, colonne);
+                    int ligne = random.Next(0, 10);
+                    int colonne = random.Next(0, 10);
+                    int tir = Tirer(ref mesBateaux, ligne, colonne);
+
+                    while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
+                    {
+                        ligne = random.Next(0, 10);
+                        colonne = random.Next(0, 10);
+                        tir = Tirer(ref mesBateaux, ligne, colonne);
+                    }
+
+                    if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
+                    {
+                        absToucheActuelle = colonne;
+                        ordToucheActuelle = ligne;
+                    }
+                    nbtirTour--;
                 }
 
-                if(tir == 1)  //le tir a touché un bateau
-                {
-                    abstouche = colonne;
-                    ordtouche = ligne;
-                }
-
+                absTouchePrec = absToucheActuelle;
+                ordTouchePrec = ordToucheActuelle;
             }
+
+
 
             else       //une case possède le statut touchée
             {
-                if (dirtir == 0)       //Si aucune direction de tir -> tirer autour de la dernière case touchée
+                int tir;
+                if (ordTouchePrec != 0)    //Commence par tirer vers le haut, mais pour cela il faut vérifier qu'il existe une case au dessus
                 {
-                    int tir = 2;
-                    int cas;
-                    while (tir == 2)
+                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec - 1);
+                    if (tir != 2)
                     {
-                        cas = random.Next(1, 5);       //On génère une direction vers laquelle on veut tirer depuis la case de référence                       
-                                                       // 1 : haut     2 : droite     3 : bas     4 : gauche
-                                                       //Mais toutes les directions ne sont pas valables suivant les case : attetion aux bords
-                                                       //On va donc utiliser une méthode proche de celle de CreerCaseBateaux
-
-                        if (ordtouche == 1)     //La case est en haut  
+                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
                         {
-                            if (abstouche == 1)             //La case est en haut à gauche
-                            { cas = random.Next(2, 4); }    //Ne peut aller que vers le bas ou la droite
-                            else
-                            {
-                                if (abstouche == nbcolonne-1)  //La case est en haut à droite
-                                { cas = random.Next(3, 5); }   //Gauche ou bas
-
-                                else                           //La case est en haut au millieu
-                                { cas = random.Next(2, 5); }   //Gauche,droite ou bas
-                            }
+                            ordToucheActuelle = ordTouchePrec - 1;
                         }
-
-                        else
-                        {
-                            if(ordtouche == nbligne-1) //La case est en bas
-                            {
-                                if (abstouche == 1)             //La case est en bas à gauche
-                                { cas = random.Next(1, 3); }    //Ne peut aller que vers le haut ou la droite
-                                else
-                                {
-                                    if (abstouche == nbcolonne - 1)  //La case est en bas à droite
-                                    {                                //Gauche ou haut
-                                        cas = random.Next(1, 3);
-                                        cas = cas * 3 - 2;  //ainsi si on avait cas=2 alors cas=4 et si on avait cas = 1 alors cas = 1
-                                    }   
-
-                                    else                           //La case est en bas au millieu
-                                    {                              //Gauche,droite ou haut
-                                        cas = random.Next(1, 4);
-                                        if ( cas == 3) { cas = 4; }
-                                    }   
-                                }
-                            }
-
-                            else //La case n'est pas en haut ni en bas mais elle peut encore poser problème en milieu droit et milieu gauche
-                            {
-                                if(abstouche == 1) //Milieu gauche
-                                { cas = random.Next(1, 4); } //Haut, bas ou droite
-
-                                if(abstouche == nbcolonne-1) //Milieu droit
-                                {                            //Haut, bas ou gauche
-                                    cas = random.Next(2, 5);
-                                    if (cas == 2) { cas = 1; }
-                                } 
-                            }
-                        }
-
-                       
-
-                        switch (cas)                   
-                        {
-                            case 1:
-                                tir = Tirer(ref mesBateaux, ordtouche - 1, abstouche);
-                                if (tir == 1)
-                                {
-                                    ordtouche = ordtouche - 1;
-                                    dirtir = 1;
-                                }
-                                break;
-
-                            case 2:
-                                tir = Tirer(ref mesBateaux, ordtouche, abstouche + 1);
-                                if (tir == 1)
-                                {
-                                    abstouche = abstouche + 1;
-                                    dirtir = 2;
-                                }
-                                break;
-
-                            case 3:
-                                tir = Tirer(ref mesBateaux, ordtouche + 1, abstouche);
-                                if (tir == 1)
-                                {
-                                    ordtouche = ordtouche + 1;
-                                    dirtir = -1;
-                                }
-                                break;
-
-                            case 4:
-                                tir = Tirer(ref mesBateaux, ordtouche, abstouche - 1);
-                                if (tir==1)
-                                {
-                                    abstouche = abstouche - 1;
-                                    dirtir = -2;
-                                }
-                                break;
-                                // 1 : haut     2 : droite      -1 : bas     -2 : gauche
-                        }
+                        nbtirTour--;
                     }
-
                 }
 
-                ////
+                if (ordTouchePrec != nbligne && nbtirTour>0)     //Ensuite tir vers le bas et vérifie l'existence de la case
+                {
+                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec + 1);
+                    if (tir != 2)
+                    {
+                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
+                        {
+                            ordToucheActuelle = ordTouchePrec + 1;
+                        }
+                        nbtirTour--;
+                    }
+                }
 
+                if (absTouchePrec != nbcolonne && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
+                {
+                    tir = Tirer(ref mesBateaux, absTouchePrec+1, ordTouchePrec);
+                    if (tir != 2)
+                    {
+                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
+                        {
+                            absToucheActuelle = absTouchePrec + 1;
+                        }
+                        nbtirTour--;
+                    }
+                }
+
+                if (absTouchePrec != 0 && nbtirTour > 0)     //Enfin tir vers la gauche et vérifie l'existence de la case
+                {
+                    tir = Tirer(ref mesBateaux, absTouchePrec - 1, ordTouchePrec);
+                    if (tir != 2)
+                    {
+                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
+                        {
+                            absToucheActuelle = absTouchePrec - 1;
+                        }
+                        nbtirTour--;
+                    }
+                }
+
+                while (nbtirTour > 0)
+                {
+                    int ligne = random.Next(0, 10);
+                    int colonne = random.Next(0, 10);
+                    tir = Tirer(ref mesBateaux, ligne, colonne);
+
+                    while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
+                    {
+                        ligne = random.Next(0, 10);
+                        colonne = random.Next(0, 10);
+                        tir = Tirer(ref mesBateaux, ligne, colonne);
+                    }
+
+                    if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
+                    {
+                        absToucheActuelle = colonne;
+                        ordToucheActuelle = ligne;
+                    }
+                    nbtirTour--;
+                }
+
+
+                absTouchePrec = absToucheActuelle;
+                ordTouchePrec = ordToucheActuelle;
             }
-
-
-
- 
-        }
-
-
+        }   
+        
         //Interface Menu Principal
         public static void LancerMenuPrincipal()
         {
@@ -546,7 +580,10 @@ namespace Bataille_Navale
             {
                 case "1":
                     // Fonction pour Tirer
-                    TourHumain(ref bateauxAdverse);
+                    for (int i = 0; i < 5; i++)
+                    { TourHumain(ref bateauxAdverse, ref toucheJoueur); }
+                    ResultatTourHumain(ref toucheJoueur);
+                    Console.ReadKey();
                     Console.Clear();
                     LancerMenuPartie();
                     break;
@@ -582,29 +619,29 @@ namespace Bataille_Navale
         }
 
         // Afficahge cote à cote
-        public static void AfficherGrilleJeu(int[,] bateauxAdversaire, int[,] bateauxJoueur)
+        public static void AfficherGrilleJeu(int[,] emplacementsBateauxAdversaire, int[,] emplacementsBateauxJoueur)
         // Code revu et adapté de Credit: Raphael Bres
         {
             Console.WriteLine("\n\t\tADVERSAIRE\t\t\t\t\t\t\t\t\t\tMES BATEAUX"); //Affiche la grille du joueur et la grille cachée de l'adversaire à l'horizontale
             Console.Write("\n\t  A   B   C   D   E   F   G   H   I   J \t\t\t\t\t  A   B   C   D   E   F   G   H   I   J\n");
-            for (int i = 0; i < bateauxAdversaire.GetLength(0); i++)
+            for (int i = 0; i < emplacementsBateauxAdversaire.GetLength(0); i++)
             {
                 Console.Write("\t+---+---+---+---+---+---+---+---+---+---+"); Console.Write("\t\t|\t\t"); Console.WriteLine("\t+---+---+---+---+---+---+---+---+---+---+");
-                for (int j = 0; j <= bateauxAdversaire.GetLength(1); j++)
+                for (int j = 0; j <= emplacementsBateauxAdversaire.GetLength(1); j++)
                 {
                     if (j == 0) { Console.Write("\t"); }
                     if (j == 10) { Console.Write("|"); }
-                    else { Console.Write("| {0} ", AfficherCaractere(bateauxAdversaire[i, j], "adversaire")); }
+                    else { Console.Write("| {0} ", AfficherCaractere(emplacementsBateauxAdversaire[i, j], "adversaire")); }
                 }
                 Console.Write(" " + (i + 1));
 
                 Console.Write("\t\t|\t\t");
 
-                for (int j = 0; j <= bateauxJoueur.GetLength(0); j++)
+                for (int j = 0; j <= emplacementsBateauxJoueur.GetLength(0); j++)
                 {
                     if (j == 0) { Console.Write("\t"); }
                     if (j == 10) { Console.Write("|"); }
-                    else { Console.Write("| {0} ", AfficherCaractere(bateauxJoueur[i, j], "joueur")); }
+                    else { Console.Write("| {0} ", AfficherCaractere(emplacementsBateauxJoueur[i, j], "joueur")); }
 
                 }
                 Console.WriteLine(" " + (i + 1));
@@ -649,24 +686,45 @@ namespace Bataille_Navale
                     ++s;
                 }
             }
-            String toSave = string.Join("", save);
-            StreamWriter file2 = new StreamWriter(@"\file.txt");
-            file2.WriteLine(toSave);
-            file2.Close();
-            Console.WriteLine(toSave);
 
-            int[,] resume = new int[2, 5];
+            // Ecriture dans un fichier save.txt
+            String toSave = string.Join("", save);
+            StreamWriter file = new StreamWriter(Path.GetFullPath("save.txt"));
+            file.WriteLine(toSave);
+            file.Close();
+
+            ///// To Restore 
+            /// 
+            /// 
+
+            string text = System.IO.File.ReadAllText(Path.GetFullPath("save.txt"));
+
+            Console.WriteLine(text);
+
+
+
+
+            int[] resume = new int[5];
+
+            for (int i = 0; i < 5; ++i)
+            {
+                resume[i] = Convert.ToInt32(text[i]);
+            }
+
+            /*
             for (int i = 0; i < resume.GetLength(0); ++i)
             {
                 for (int j = 0; j < resume.GetLength(1); ++j)
                 {
-                    resume[i, j] = Convert.ToInt32(toSave[i + j]);
-                    Console.WriteLine("{0}-{1}", resume[i, j], toSave[i + j]);
+                    resume[i, j] = Convert.ToInt32(text[i + j]);
+
+                    Console.WriteLine("{0}-{1}", resume[i, j], text[i + j]);
                 }
             }
-
-            Console.WriteLine(resume[0, 0]);
-
+            */
+            Console.WriteLine(resume[0]);
+            Console.ReadKey();
+            /*
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
             for (int i = 0; i <= 10; ++i)
@@ -679,13 +737,13 @@ namespace Bataille_Navale
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
             }
-
+            */
         }
-
+        /*
         //Restaure les emplacements des bateaux à partir d'un fichier texte
         public static int[,] RestaurerPartie()
         {
-            int[,] sauvegarde = new int[10, 10];
+            int[,] sauvegarde;
 
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
@@ -701,7 +759,7 @@ namespace Bataille_Navale
 
             }
             return sauvegarde;
-        }
+        }*/
 
     }
 }
