@@ -29,9 +29,9 @@ namespace Bataille_Navale
         static void Main(string[] args)
         {
 
-            LancerMenuPrincipal();
+            //LancerMenuPrincipal();
 
-            //SauvegarderPartie();
+            SauvegarderPartie();
         }
 
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend 
@@ -299,14 +299,25 @@ namespace Bataille_Navale
         // Demande à l'utilisateur de rentrer des coordonnées de tir
         public static void Tirer(ref int[,] bateauxAdverse)
         {
-            Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-            string saisie = Console.ReadLine();
-            char lettre = Convert.ToChar(saisie);
-            int ligne = char.ToUpper(lettre) - 65;
+            int colonne;
+            char lettre;
+            int ligne;
 
-            Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-            saisie = Console.ReadLine();
-            int colonne = Convert.ToInt32(saisie) - 1;
+            do
+            {
+                Console.WriteLine("Entrez correctement une lettre entre A et J puis un chiffre entre 1 et 10.");
+                Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                string saisie = Console.ReadLine();
+                lettre = Convert.ToChar(saisie);
+                ligne = char.ToUpper(lettre) - 65;
+
+                Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+                saisie = Console.ReadLine();
+                colonne = Convert.ToInt32(saisie) - 1;
+            }
+            //while ((lettre != "A") || (lettre != "B") || (lettre != "C") || (lettre != "D") || (lettre != "E") || (lettre != "F") || (lettre != "G") || (lettre != "H") || (lettre != "I") || (lettre != "J")
+            while ((colonne < 1) || (colonne > 10));
+
 
             switch (bateauxAdverse[ligne, colonne])
             {
@@ -566,24 +577,45 @@ namespace Bataille_Navale
                     ++s;
                 }
             }
-            String toSave = string.Join("", save);
-            StreamWriter file2 = new StreamWriter(@"\file.txt");
-            file2.WriteLine(toSave);
-            file2.Close();
-            Console.WriteLine(toSave);
 
-            int[,] resume = new int[2, 5];
+            // Ecriture dans un fichier save.txt
+            String toSave = string.Join("", save);
+            StreamWriter file = new StreamWriter(Path.GetFullPath("save.txt"));
+            file.WriteLine(toSave);
+            file.Close();
+
+            ///// To Restore 
+            /// 
+            /// 
+
+            string text = System.IO.File.ReadAllText(Path.GetFullPath("save.txt"));
+
+            Console.WriteLine(text);
+
+
+
+
+            int[] resume = new int[5];
+
+            for (int i = 0; i < 5; ++i)
+            {
+                resume[i] = Convert.ToInt32(text[i]);
+            }
+
+            /*
             for (int i = 0; i < resume.GetLength(0); ++i)
             {
                 for (int j = 0; j < resume.GetLength(1); ++j)
                 {
-                    resume[i, j] = Convert.ToInt32(toSave[i + j]);
-                    Console.WriteLine("{0}-{1}", resume[i, j], toSave[i + j]);
+                    resume[i, j] = Convert.ToInt32(text[i + j]);
+
+                    Console.WriteLine("{0}-{1}", resume[i, j], text[i + j]);
                 }
             }
-
-            Console.WriteLine(resume[0, 0]);
-
+            */
+            Console.WriteLine(resume[0]);
+            Console.ReadKey();
+            /*
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
             for (int i = 0; i <= 10; ++i)
@@ -596,13 +628,13 @@ namespace Bataille_Navale
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
             }
-
+            */
         }
-
+        /*
         //Restaure les emplacements des bateaux à partir d'un fichier texte
         public static int[,] RestaurerPartie()
         {
-            int[,] sauvegarde = new int[10, 10];
+            int[,] sauvegarde;
 
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
@@ -618,7 +650,7 @@ namespace Bataille_Navale
 
             }
             return sauvegarde;
-        }
+        }*/
 
     }
 }
