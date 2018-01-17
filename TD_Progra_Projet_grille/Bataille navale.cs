@@ -754,7 +754,7 @@ namespace Bataille_Navale
                 { Console.Write(emplacementsBateauxJoueur[0, i]); }
                 */
 
-                AfficherGrilleJeu(mesBateaux, bateauxAdverse);
+                AfficherGrilleJeu(bateauxAdverse, mesBateaux);
                 Console.WriteLine("\n==========================================================================================================================================");
 
                 //Demande à l'utilisateur
