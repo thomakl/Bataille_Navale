@@ -265,6 +265,7 @@ namespace Bataille_Navale
                     else
                     {
                         rendu = "▩";
+                        //rendu = enc.GetString(&#9632);
                         return rendu;
                     }
                 case 2:
@@ -286,42 +287,28 @@ namespace Bataille_Navale
             for (int i = 0; i < nbtir - couleJoueur; i++)
             {
             TirJoueur:
-                bool saisieCorrect = false;
-
+                bool saisieCorrect;
 
                 do
                 {
                     saisieCorrect = true;
-                    string alpha = "ABCDEFGHIJ";
 
-                    /*
-                    Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
-                    string saisieAbs = Console.ReadLine();
-
-                    Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
-                    string saisieOrd = Console.ReadLine();
-
-                    // IsInteger(saisieOrd) // Ne fonctionne pas. Essayer plutot try .. catch ... finally
-                    colonne = Convert.ToInt32(saisieOrd) - 1;
-
-                    char lettre = Convert.ToChar(saisieAbs);
-                    //Char.IsLetter(lettre);
-                    ligne = char.ToUpper(lettre) - 65;
-                    */
-
-                    Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                    Console.WriteLine("Quelle coordonnées voulez-vous tirer ? (de A à J puis de 1 à 10)");
                     string saisie = Console.ReadLine();
+                    if (saisie.Length < 3)
+                    {
+                        saisieCorrect = false;
+                    }
+                    else
+                    {
+                        colonne = Convert.ToInt32(saisie[1]) - 49;
+                        char lettre = Convert.ToChar(saisie[0]);
+                        ligne = char.ToUpper(lettre) - 65;
+                    }
 
-                    string saisieAbs = Convert.ToString(saisie[0]);
-                    //int saisieOrd = Convert.ToInt32(saisie[1]);
-
-                    colonne = Convert.ToInt32(saisie[1]) - 49;
-
-                    char lettre = Convert.ToChar(saisieAbs);
-                    ligne = char.ToUpper(lettre) - 65;
 
 
-                    if ((colonne < 0) || (colonne > 10) || (!alpha.Contains(saisieAbs) == true))
+                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 2) || (saisie.Length < 2))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
@@ -330,10 +317,7 @@ namespace Bataille_Navale
                         Console.ReadKey();
                     }
                 }
-
                 while (saisieCorrect == false);
-
-
 
                 switch (Tirer(ref bateauxAdverse, ligne, colonne))
                 {
@@ -482,6 +466,7 @@ namespace Bataille_Navale
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
                         {
+                            absToucheActuelle = absTouchePrec;
                             ordToucheActuelle = ordTouchePrec - 1;
                         }
                         nbtirTour--;
@@ -495,6 +480,7 @@ namespace Bataille_Navale
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
                         {
+                            absToucheActuelle = absTouchePrec;
                             ordToucheActuelle = ordTouchePrec + 1;
                         }
                         nbtirTour--;
@@ -509,6 +495,7 @@ namespace Bataille_Navale
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
                         {
                             absToucheActuelle = absTouchePrec + 1;
+                            ordToucheActuelle = ordTouchePrec;
                         }
                         nbtirTour--;
                     }
@@ -522,6 +509,7 @@ namespace Bataille_Navale
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
                         {
                             absToucheActuelle = absTouchePrec - 1;
+                            ordToucheActuelle = ordTouchePrec;
                         }
                         nbtirTour--;
                     }
