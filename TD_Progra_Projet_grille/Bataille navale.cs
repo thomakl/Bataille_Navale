@@ -36,6 +36,7 @@ namespace Bataille_Navale
         static int absToucheActuelle;
         static int ordToucheActuelle;
         static int nbtir = 5;
+        static int difficulte;
 
         static void Main(string[] args)
         {
@@ -130,7 +131,7 @@ namespace Bataille_Navale
         // Génére des emplacements de bateaux dans un tableau à 2 dimensions
         public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbColonne)
         {
-            int[,] generationBateaux = new int[10, 10];
+
             int débutBateau = 0;
 
             for (int i = 0; i < taillesBateaux.Length; i++)  //une boucle correspond à un bateau
@@ -233,13 +234,12 @@ namespace Bataille_Navale
             }
 
 
-            
-            /*
+            int[,] generationBateaux = new int[10, 10];
+
             for (int i = 0; i < emplacementsBateaux.GetLength(1); ++i)
             {
                 generationBateaux[emplacementsBateaux[0, i], emplacementsBateaux[1, i]] = 1;
             }
-            */
 
             débutBateau = 0;
             return generationBateaux;
@@ -306,12 +306,12 @@ namespace Bataille_Navale
                     }
                     */
 
-                    colonne = Convert.ToInt32(saisie[1]) - 49;
+                    ligne = Convert.ToInt32(saisie[1]) - 49;
                     char lettre = Convert.ToChar(saisie[0]);
-                    ligne = char.ToUpper(lettre) - 65;
+                    colonne = char.ToUpper(lettre) - 65;
 
 
-                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 2) || (saisie.Length < 2))
+                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 3) || (saisie.Length < 2))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
@@ -405,7 +405,7 @@ namespace Bataille_Navale
 
 
         // Niveau de difficulté de l'IA : Très facile
-        public static void ParametrerIATresFacile(ref int[,] bateauxAdverse, ref int couleIA)
+        public static void ParametrerIATresFacile(ref int[,] mesBateaux, ref int couleIA)
         {
             for (int i = 0; i < nbtir - couleIA; i++)
             {
@@ -413,7 +413,7 @@ namespace Bataille_Navale
                 int ligne = random.Next(0, 10);
                 int colonne = random.Next(0, 10);
 
-                int tir = Tirer(ref bateauxAdverse, ligne, colonne);
+                int tir = Tirer(ref mesBateaux, ligne, colonne);
             }
             bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
@@ -585,7 +585,6 @@ namespace Bataille_Navale
                     Console.Clear();
                     emplacementsBateauxIA = RestaurerPartie(0, 3, 17);
                     emplacementsBateauxJoueur = RestaurerPartie(1, 3, 17);
-                    Console.WriteLine("Restauration de la sauvegarde en cours...");
                     break;
                 case "2":
                     Console.Clear();
@@ -596,15 +595,14 @@ namespace Bataille_Navale
                 case "3":
                     Console.Clear();
                     LireRegles();
-                    Console.WriteLine("Voila les règles du jeu...");
                     Console.WriteLine("Pour retourner au menu principal appuyez sur une touche.");
-
                     Console.ReadKey();
                     Console.Clear();
                     LancerMenuPrincipal();
                     break;
                 case "4":
                     Console.WriteLine("Merci d'avoir joué à la Bataille Navale");
+                    Console.ReadKey();
                     Console.Clear();
                     break;
                 default:
@@ -618,6 +616,7 @@ namespace Bataille_Navale
         // Elle comprends un changement de grille et la partie en elle-même
         public static void LancerPartie()
         {
+            ChoisirDifficulte(ref difficulte);
             ChangerGrille();
             LancerMenuPartie();
         }
@@ -660,7 +659,10 @@ namespace Bataille_Navale
                     JouerTourHumain(ref bateauxAdverse, ref toucheJoueur);
                     Console.ReadKey();
 
-                    ParametrerIAFacile(ref mesBateaux, nbLigne, nbColonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA);
+                    if (difficulte == 1)
+                    { ParametrerIATresFacile(ref mesBateaux, ref couleIA); }
+                    else
+                    { ParametrerIAFacile(ref mesBateaux, nbLigne, nbColonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA); }
 
                     //Console.Clear();
                     LancerMenuPartie();
@@ -780,6 +782,16 @@ namespace Bataille_Navale
             while (choixGrille == "1");
         }
 
+
+        //Permet de sélectionner la difficulté
+        public static void ChoisirDifficulte (ref int difficulte)
+        {
+            Console.WriteLine("\t Quelle difficulté voulez-vous choisir ? \n \t 1 : TrèsFacile \t 2 : Facile");
+            Console.Write("> ");
+            string saisie = Console.ReadLine();
+            difficulte = Convert.ToInt32(saisie);
+        }
+
         // Sauvegarde les emplacements des bateaux dans un fichier texte
         public static void SauvegarderPartie(ref int[,] emplacementsBateauxIA, ref int[,] emplacementsBateauxJoueur)
         {
@@ -832,7 +844,6 @@ namespace Bataille_Navale
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
             }
-            Console.ReadKey();
         }
 
         //Restaure les emplacements des bateaux à partir d'un fichier texte
