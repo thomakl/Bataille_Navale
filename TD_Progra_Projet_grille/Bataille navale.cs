@@ -293,25 +293,24 @@ namespace Bataille_Navale
                 {
                     saisieCorrect = true;
 
-                    Console.WriteLine("Tour n°{0} - Quelle coordonnées voulez-vous tirer ? (de A à J puis de 1 à 10)", i + 1);
+                    Console.WriteLine("Tir n°{0} - Quelle coordonnées voulez-vous tirer ? (de A à J puis de 1 à 10)", i + 1);
                     string saisie = Console.ReadLine();
-                    /*
-                    if (saisie.Length < 3)
-                    {
-                        saisieCorrect = false;
-                    }
-                    else
-                    {
-                        
-                    }
-                    */
 
-                    ligne = Convert.ToInt32(saisie[1]) - 49;
                     char lettre = Convert.ToChar(saisie[0]);
                     colonne = char.ToUpper(lettre) - 65;
 
+                    if (saisie.Length > 2)
+                    {
+                        ligne = Convert.ToInt32(saisie[1] + saisie[2]) - 88;
 
-                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 3) || (saisie.Length < 2))
+
+                    }
+                    if (saisie.Length == 2)
+                    {
+                        ligne = Convert.ToInt32(saisie[1]) - 49;
+                    }
+                    Console.WriteLine(ligne);
+                    if ((colonne < 0) || (colonne > 10))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
@@ -587,11 +586,24 @@ namespace Bataille_Navale
                     emplacementsBateauxIA = RestaurerPartie(1, 3, 17, ref difficulte);
                     mesBateaux = RestaurerPartie(2, 10, 10, ref difficulte);
                     bateauxAdverse = RestaurerPartie(3, 10, 10, ref difficulte);
+                    // Animation de la barre de progression de la sauvegarde
+                    Console.Write("|");
+                    for (int i = 0; i <= 10; ++i)
+                    {
+                        for (int j = 0; j < i; ++j)
+                        {
+                            Console.Write("=");
+                        }
+                        Console.Write("> {0}0%", i);
+                        Console.SetCursorPosition(1, Console.BufferHeight - 1);
+                        System.Threading.Thread.Sleep(100);
+                    }
+                    Console.WriteLine("\n Votre partie a bien été restauré.");
+                    Console.WriteLine("Pour continuer votre partie appuyez sur une touche.");
+                    Console.ReadKey();
                     LancerMenuPartie();
                     break;
                 case "2":
-                    Console.Clear();
-                    Console.WriteLine("Création d'une nouvelle Partie en cours...");
                     Console.Clear();
                     LancerPartie();
                     break;
@@ -682,7 +694,7 @@ namespace Bataille_Navale
                     break;
                 case "3":
                     Console.Clear();
-                    Console.WriteLine("\a /!\\ Attention vous allez quitter la partie sans avoir sauvegarder.");
+                    Console.WriteLine("\a /!\\ Attention vous allez peut-etre quitter la partie sans avoir sauvegarder.");
                     Console.WriteLine("Voulez vous vraiment quitter sans sans sauvegarder ? ");
                     Console.WriteLine("\n\n\t\t\t1.Oui");
                     Console.WriteLine("\n\t\t\t2.Non");
@@ -785,14 +797,15 @@ namespace Bataille_Navale
             while (choixGrille == "1");
         }
 
-
         //Permet de sélectionner la difficulté
         public static void ChoisirDifficulte(ref int difficulte)
         {
-            Console.WriteLine("\t Quelle difficulté voulez-vous choisir ? \n \t 1 : TrèsFacile \t 2 : Facile");
-            Console.Write("> ");
+            Console.WriteLine("\n==========================================================================================================================================");
+            Console.WriteLine("\n\n\t Quelle difficulté voulez-vous choisir ? \n \t 1 : TrèsFacile \t 2 : Facile");
+            Console.Write("\n> ");
             string saisie = Console.ReadLine();
             difficulte = Convert.ToInt32(saisie);
+            Console.WriteLine("\n==========================================================================================================================================");
         }
 
         // Sauvegarde les emplacements des bateaux dans un fichier texte
@@ -854,8 +867,6 @@ namespace Bataille_Navale
             {
                 difficulte = Convert.ToInt32(ligneTexte[ligneTexte.Length - 1]);
             }
-
-
             int element = 0;
             for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
             {
@@ -865,20 +876,6 @@ namespace Bataille_Navale
                     ++element;
                 }
             }
-
-            // Animation de la barre de progression de la sauvegarde
-            Console.Write("|");
-            for (int i = 0; i <= 10; ++i)
-            {
-                for (int j = 0; j < i; ++j)
-                {
-                    Console.Write("=");
-                }
-                Console.Write("> {0}0%", i);
-                Console.SetCursorPosition(1, Console.BufferHeight - 1);
-                System.Threading.Thread.Sleep(100);
-            }
-
             return emplacementsBateaux;
 
         }
