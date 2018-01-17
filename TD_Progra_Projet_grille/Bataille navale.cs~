@@ -41,7 +41,6 @@ namespace Bataille_Navale
         {
 
             LancerMenuPrincipal();
-            //SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur);
 
         }
 
@@ -727,7 +726,6 @@ namespace Bataille_Navale
             for (int i = 0; i < tailleTotale; i++)
             { emplacementsBateaux[2, i] = 0; }                      //On initialise les cases de bateaux comme étant intactes
         }
-
 
         // lancement du choix de la grille de départ
         public static void ChangerGrille()
