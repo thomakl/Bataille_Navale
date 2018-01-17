@@ -13,7 +13,7 @@ namespace Bataille_Navale
         // Initialisation des paramètres du jeu
         // Accès des variables à toutes les sous-fonctions du programme
         //// Paramètres modifiables
-        static int nbLigne = 10;
+        static int nbligne = 10;
         static int nbColonne = 10;
         static int[] taillesBateaux = { 5, 4, 3, 3, 2 };
         static int[,] mesBateaux;
@@ -21,33 +21,53 @@ namespace Bataille_Navale
 
 
         //// Paramètres à ne pas modifier
-
-        static int[,] emplacementsBateauxJoueur;
-        static int[,] emplacementsBateauxIA;
-        static int tailleTotale;
+        static int[,] emplacementsBateaux = new int[17, 17];
         static int absDeb = 0;
         static int ordDeb = 0;
         static int dir = 0;
-        static int toucheJoueur;
-        static int couleJoueur = 0;
-        static int couleIA = 0;
-        static int absTouchePrec = nbColonne;
-        static int ordTouchePrec;
-        static int absToucheActuelle;
-        static int ordToucheActuelle;
-        static int nbtir = 5;
 
         static void Main(string[] args)
         {
 
             LancerMenuPrincipal();
-            //SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur);
-
+            //SauvegarderPartie();
+            //RestaurerPartie();
         }
 
-       
+        // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend 
+        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir)
+        {
+            Random random = new Random();
+
+            absDeb = random.Next(0, 10);
+            ordDeb = random.Next(0, 10);
+            dir = random.Next(1, 5);
+            /* 
+             * Direction : (sens horaire depuis le haut)
+             * 1  -> haut
+             * 2 ->  droite
+             * 3 ->  bas
+             * 4 ->  gauche */
+
+            if (absDeb < tailleBateau - 1 && ordDeb < tailleBateau - 1)          //Le bateau commence en haut à gauche   ->  Il ne peut s'étendre que vers le bas ou la droite
+            { dir = random.Next(2, 4); }
+
+            if (absDeb > tailleBateau && ordDeb < tailleBateau - 1)          //en haut à droite  -> Vers le bas ou la gauche
+            { dir = random.Next(3, 5); }
+
+            if (absDeb < tailleBateau - 1 && ordDeb > tailleBateau)          //en bas à gauche  -> Vers le haut ou la droite
+            { dir = random.Next(1, 3); }
+
+            if (absDeb > tailleBateau && ordDeb > tailleBateau)          //en bas à droite  -> Vers le haut ou la gauche
+            {
+                dir = random.Next(1, 3);
+                if (dir == 2)
+                { dir = 4; }
+            }
+        }
+
         // Crée une première case occupée par le bateau ainsi qu'une direction vers laquelle il s'étend
-        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbLigne, int nbColonne)
+        public static void CreerCaseBateaux(int tailleBateau, ref int absDeb, ref int ordDeb, ref int dir, int nbligne, int nbColonne)
         {
             Random random = new Random();
 
@@ -65,7 +85,7 @@ namespace Bataille_Navale
                 { dir = random.Next(2, 4); }               // --> Le bateau ne peut s'étendre que vers le bas ou vers la droite
                 else
                 {
-                    if (nbLigne - ordDeb < tailleBateau)    // // En bas à gauche
+                    if (nbligne - ordDeb < tailleBateau)    // // En bas à gauche
                     { dir = random.Next(1, 3); }               // --> Que vers le haut ou la droite
                     else                                       // //  Au milieu gauche
                     { dir = random.Next(1, 4); }              // --> Haut_Bas_Droite
@@ -81,7 +101,7 @@ namespace Bataille_Navale
 
                     else
                     {
-                        if (nbLigne - ordDeb < tailleBateau)    // // En bas à droite
+                        if (nbligne - ordDeb < tailleBateau)    // // En bas à droite
                         {                                           // --> Haut_Gauche
                             dir = random.Next(1, 2);
                             if (dir == 2)
@@ -100,7 +120,7 @@ namespace Bataille_Navale
                     if (ordDeb < tailleBateau - 1)         // Cas d'un bateau en haut au milieu
                     { dir = random.Next(2, 5); }           // --> Bas_Gauche_Droite
 
-                    if (nbLigne - ordDeb < tailleBateau) // Cas d'un bateau en bas au milieu
+                    if (nbligne - ordDeb < tailleBateau) // Cas d'un bateau en bas au milieu
                     {                                        //--> Haut_Gauche_Droite
                         dir = random.Next(1, 4);
                         if (dir == 3)
@@ -129,7 +149,7 @@ namespace Bataille_Navale
         }
 
         // Génére des emplacements de bateaux dans un tableau à 2 dimensions
-        public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbColonne)
+        public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbligne, int nbColonne)
         {
 
             int débutBateau = 0;
@@ -141,7 +161,7 @@ namespace Bataille_Navale
                 while (erreur)
                 {
                     erreur = false;
-                    CreerCaseBateaux(taillesBateaux[i], ref absDeb, ref ordDeb, ref dir, nbLigne, nbColonne);
+                    CreerCaseBateaux(taillesBateaux[i], ref absDeb, ref ordDeb, ref dir, nbligne, nbColonne);
 
                     if (VerifierBateaux(absDeb, ordDeb, débutBateau, emplacementsBateaux))   //Le paramètre longueur (ici débutBateau) est la somme des tailles des bateaux précédents
                     {
@@ -236,7 +256,7 @@ namespace Bataille_Navale
 
             int[,] generationBateaux = new int[10, 10];
 
-            for (int i = 0; i < emplacementsBateaux.GetLength(1); ++i)
+            for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
             {
                 generationBateaux[emplacementsBateaux[0, i], emplacementsBateaux[1, i]] = 1;
             }
@@ -265,7 +285,6 @@ namespace Bataille_Navale
                     else
                     {
                         rendu = "▩";
-                        //rendu = enc.GetString(&#9632);
                         return rendu;
                     }
                 case 2:
@@ -278,292 +297,105 @@ namespace Bataille_Navale
         }
 
         // Demande à l'utilisateur de rentrer des coordonnées de tir
-        public static void JouerTourHumain(ref int[,] bateauxAdverse, ref int toucheJoueur)
+        public static void Tirer(ref int[,] bateauxAdverse)
         {
+            int colonne;
+            char lettre;
+            int ligne;
 
-            int colonne = 0;
-            int ligne = 0;
-
-            for (int i = 0; i < nbtir - couleJoueur; i++)
+            do
             {
-            TirJoueur:
-                bool saisieCorrect;
+                Console.WriteLine("Entrez correctement une lettre entre A et J puis un chiffre entre 1 et 10.");
+                Console.WriteLine("Dans quelle ligne voulez-vous Tirer ? (de A à J)");
+                string saisie = Console.ReadLine();
+                lettre = Convert.ToChar(saisie);
+                ligne = char.ToUpper(lettre) - 65;
 
-                do
-                {
-                    saisieCorrect = true;
-
-                    Console.WriteLine("Quelle coordonnées voulez-vous tirer ? (de A à J puis de 1 à 10)");
-                    string saisie = Console.ReadLine();
-                    if (saisie.Length < 3)
-                    {
-                        saisieCorrect = false;
-                    }
-                    else
-                    {
-                        colonne = Convert.ToInt32(saisie[1]) - 49;
-                        char lettre = Convert.ToChar(saisie[0]);
-                        ligne = char.ToUpper(lettre) - 65;
-                    }
-
-
-
-                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 2) || (saisie.Length < 2))
-                    {
-                        Console.WriteLine("\n==========================================================================================================================================");
-                        Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
-                        Console.WriteLine("Appuyez sur une touche pour recommencer la saisie des coordonnées du tour.");
-                        saisieCorrect = false;
-                        Console.ReadKey();
-                    }
-                }
-                while (saisieCorrect == false);
-
-                switch (Tirer(ref bateauxAdverse, ligne, colonne))
-                {
-                    case 2:
-                        Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
-                        Console.ReadKey();
-                        goto TirJoueur;
-
-
-                    case 1:
-                        toucheJoueur++;
-                        break;
-
-                }
+                Console.WriteLine("Dans quelle colonne voulez-vous Tirer ? (de 1 à 10)");
+                saisie = Console.ReadLine();
+                colonne = Convert.ToInt32(saisie) - 1;
             }
+            //while ((lettre != "A") || (lettre != "B") || (lettre != "C") || (lettre != "D") || (lettre != "E") || (lettre != "F") || (lettre != "G") || (lettre != "H") || (lettre != "I") || (lettre != "J")
+            while ((colonne < 1) || (colonne > 10));
 
-            AnnoncerResultatTourHumain(ref toucheJoueur);
 
-            bool resultat = etreCoule(ref couleJoueur, ref emplacementsBateauxJoueur);
-            if (resultat)
-            { Console.WriteLine("Un de leurs bateaux s'en va rejoindre les profondeurs !!"); }
-        }
-
-        public static void AnnoncerResultatTourHumain(ref int toucheJoueur)
-        {
-            if (toucheJoueur == 0)
-            { Console.WriteLine("Désolé vous n'avez pas touché de bateaux, appuyez sur Entrée"); }
-            else
-            { Console.WriteLine("Bravo vous avez touché {0} fois, appuyez sur Entrée", toucheJoueur); }
-            toucheJoueur = 0;
-        }
-
-        public static int Tirer(ref int[,] bateaux, int ligne, int colonne)
-        {
-            switch (bateaux[ligne, colonne])
+            switch (bateauxAdverse[ligne, colonne])
             {
                 case 0:
-                    bateaux[ligne, colonne] = 3;
-                    return 0;
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
                 case 1:
-                    bateaux[ligne, colonne] = 2;
-                    return 1;
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
                 default:
-                    return 2;
+                    Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Espace et ensuite indiquer une autre ligne puis une autre colonne");
+                    Tirer(ref bateauxAdverse);
+                    break;
             }
 
         }
-
-        public static bool etreCoule(ref int coule, ref int[,] emplacementsBateaux)  //calcul après chaque touche (tir réussi) le nombre de bateaux coulés. 
-        {                                                                           // Si celui-ci a augmenté alors le coup qui vient d'être joué a coulé un bateau -> Renvoie True
-
-            int nb = 0;                //Compte le nombre de bateau coulé repérés dans la vérification
-            int j;
-            int debutBateau = 0;        //indice de la première case du bateau qu'on vérifie, exemple : pour le cuirassé(4cases) son debutBateau est 5
-
-            //en effet le porte-avion prend les indices 0 à 4.
-            for (int i = 0; i < taillesBateaux.Length; i++)
-            {
-                j = 0;
-                while (emplacementsBateaux[2, debutBateau] == 1 && j < taillesBateaux[i])
-
-                {
-                    j++;
-                }
-                if (j == taillesBateaux[i])       //Si le nombre de case touchées est égal au nombre de case du bateau
-                { nb++; }                       //Alors le bateau est coulé, donc on augment le compteur
-
-                debutBateau = debutBateau + taillesBateaux[i];
-
-            }
-
-            if (nb == coule) //Si le nombre de bateau coulé est le même que celui précédent, aucun bateau n'a été coulé par le tir -> renvoie false
-            { return false; }
-
-            else //Si il y a un nouveau bateau touché, il faut actualiser coule puis renvoyer true
-            {
-                coule = nb;
-                return true;
-            }
-        }
-
 
         // Niveau de difficulté de l'IA : Très facile
-        public static void ParametrerIATresFacile(ref int[,] bateauxAdverse, ref int couleIA)
+        public static void ParametrerIATresFacile(ref int[,] bateauxAdverse)
         {
-            for (int i = 0; i < nbtir - couleIA; i++)
+            Random random = new Random();
+            int ligne = random.Next(0, 10);
+            int colonne = random.Next(0, 10);
+
+            switch (bateauxAdverse[ligne, colonne])
             {
-                Random random = new Random();
-                int ligne = random.Next(0, 10);
-                int colonne = random.Next(0, 10);
-
-                int tir = Tirer(ref bateauxAdverse, ligne, colonne);
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    ParametrerIATresFacile(ref bateauxAdverse);
+                    break;
             }
-            bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
-            if (resultat)
-            { Console.WriteLine("Un de vos navires a coulé"); }
-            else
-            { Console.WriteLine("Vos navires sont à l'épreuve des obus !"); }
-
         }
 
         // Niveau de difficulté de l'IA : Facile
-
-        public static void ParametrerIAFacile(ref int[,] mesBateaux, int nbLigne, int nbColonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtir, ref int couleIA)
-
+        public static void ParametrerIAFacile(ref int[,] bateauxAdverse, ref int touche) //pas terminée
         {
-
             Random random = new Random();
+            int ligne = 0;
+            int colonne = 0;
 
-            int nbtirTour = nbtir - couleIA;
-            absToucheActuelle = absTouchePrec;
-
-            if (absTouchePrec == nbColonne)      //aucune case n'est touchée (les cases coulées ne sont pas touchées)
+            if (touche > 0)
             {
-                while (nbtirTour > 0)
-                {
-                    int ligne = random.Next(0, nbLigne);
-                    int colonne = random.Next(0, nbColonne);
-                    int tir = Tirer(ref mesBateaux, ligne, colonne);
-
-                    while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
-                    {
-                        ligne = random.Next(0, nbLigne);
-                        colonne = random.Next(0, nbColonne);
-                        tir = Tirer(ref mesBateaux, ligne, colonne);
-                    }
-
-                    if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
-                    {
-                        absToucheActuelle = colonne;
-                        ordToucheActuelle = ligne;
-                    }
-                    nbtirTour--;
-                }
             }
-
-
-
-            else       //une case possède le statut touchée
+            else
             {
-                int tir;
-                if (ordTouchePrec != 0)    //Commence par tirer vers le haut, mais pour cela il faut vérifier qu'il existe une case au dessus
-                {
-                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec - 1);
-                    if (tir != 2)
-                    {
-                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
-                        {
-                            absToucheActuelle = absTouchePrec;
-                            ordToucheActuelle = ordTouchePrec - 1;
-                        }
-                        nbtirTour--;
-                    }
-                }
-
-                if (ordTouchePrec != nbLigne - 1 && nbtirTour > 0)     //Ensuite tir vers le bas et vérifie l'existence de la case
-                {
-                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec + 1);
-                    if (tir != 2)
-                    {
-                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
-                        {
-                            absToucheActuelle = absTouchePrec;
-                            ordToucheActuelle = ordTouchePrec + 1;
-                        }
-                        nbtirTour--;
-                    }
-                }
-
-                if (absTouchePrec != nbColonne - 1 && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
-                {
-                    tir = Tirer(ref mesBateaux, absTouchePrec + 1, ordTouchePrec);
-                    if (tir != 2)
-                    {
-                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
-                        {
-                            absToucheActuelle = absTouchePrec + 1;
-                            ordToucheActuelle = ordTouchePrec;
-                        }
-                        nbtirTour--;
-                    }
-                }
-
-                if (absTouchePrec != 0 && nbtirTour > 0)     //Enfin tir vers la gauche et vérifie l'existence de la case
-                {
-                    tir = Tirer(ref mesBateaux, absTouchePrec - 1, ordTouchePrec);
-                    if (tir != 2)
-                    {
-                        if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
-                        {
-                            absToucheActuelle = absTouchePrec - 1;
-                            ordToucheActuelle = ordTouchePrec;
-                        }
-                        nbtirTour--;
-                    }
-                }
-
-                while (nbtirTour > 0)
-                {
-                    int ligne = random.Next(0, nbLigne);
-                    int colonne = random.Next(0, nbColonne);
-                    tir = Tirer(ref mesBateaux, ligne, colonne);
-
-                    while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
-                    {
-                        ligne = random.Next(0, nbLigne);
-                        colonne = random.Next(0, 10);
-                        tir = Tirer(ref mesBateaux, ligne, colonne);
-                    }
-
-                    if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
-                    {
-                        absToucheActuelle = colonne;
-                        ordToucheActuelle = ligne;
-                    }
-                    nbtirTour--;
-                }
-
+                ligne = random.Next(0, 10);
+                colonne = random.Next(0, 10);
             }
-
-            absTouchePrec = absToucheActuelle;
-            ordTouchePrec = ordToucheActuelle;
-            bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
-            if (resultat)
-            { Console.WriteLine("Un de vos navires a coulé"); }
-
-
-        }
-
-        // Niveau de difficulté de l'IA : Normale
-        public static void ParametrerIANormale(ref int[,] bateauxAdverse, int nbLigne, int nbColonne, ref int absTouchePrec, ref int ordTouchePrec, ref int absToucheActuelle, ref int ordToucheActuelle, ref int nbtirTour)
-        {
+            switch (bateauxAdverse[ligne, colonne])
+            {
+                case 0:
+                    bateauxAdverse[ligne, colonne] = 3;
+                    break;
+                case 1:
+                    bateauxAdverse[ligne, colonne] = 2;
+                    break;
+                default:
+                    ParametrerIAFacile(ref bateauxAdverse, ref touche);
+                    break;
+            }
         }
 
         //Interface Menu Principal
         public static void LancerMenuPrincipal()
         {
-
             // Creation de l'interface
             Console.WriteLine("\t\t\tBataille Navale");
             for (int i = 0; i < 60; ++i)
             {
                 Console.Write("=");
             }
-            Console.WriteLine("\n\n\t\t\t1.Reprendre partie");
-            Console.WriteLine("\n\t\t\t2.Nouvelle partie");
+            Console.WriteLine("\n\n\t\t\t1.Reprendre LancerMenuPartie");
+            Console.WriteLine("\n\t\t\t2.Nouvelle LancerMenuPartie");
             Console.WriteLine("\n\t\t\t3.Règles du jeu");
             Console.WriteLine("\n\t\t\t4.Quitter le jeu\n");
             for (int i = 0; i < 60; ++i)
@@ -579,13 +411,11 @@ namespace Bataille_Navale
             {
                 case "1":
                     Console.Clear();
-                    emplacementsBateauxIA = RestaurerPartie(0, 3, 17);
-                    emplacementsBateauxJoueur = RestaurerPartie(1, 3, 17);
                     Console.WriteLine("Restauration de la sauvegarde en cours...");
                     break;
                 case "2":
                     Console.Clear();
-                    Console.WriteLine("Création d'une nouvelle Partie en cours...");
+                    Console.WriteLine("Création d'une nouvelle LancerMenuPartie en cours...");
                     Console.Clear();
                     LancerPartie();
                     break;
@@ -608,21 +438,18 @@ namespace Bataille_Navale
             }
         }
 
-        // Fonction qui lance une nouvelle partie
-        // Elle comprends un changement de grille et la partie en elle-même
+        // Fonction qui lance une nouvelle LancerMenuPartie
+        // Elle comprends un changement de grille et la LancerMenuPartie en elle-même
         public static void LancerPartie()
         {
             ChangerGrille();
             LancerMenuPartie();
         }
 
-        // Interface avec la partie en elle-même
+        // Interface avec la LancerMenuPartie en elle-même
         // Composé d'un menu d'actions
         public static void LancerMenuPartie()
         {
-
-
-
             AfficherGrilleJeu(bateauxAdverse, mesBateaux);
             Console.WriteLine("\n==========================================================================================================================================");
 
@@ -647,27 +474,23 @@ namespace Bataille_Navale
             {
                 case "1":
                     // Fonction pour Tirer
-                    JouerTourHumain(ref bateauxAdverse, ref toucheJoueur);
-                    Console.ReadKey();
-
-                    ParametrerIAFacile(ref mesBateaux, nbLigne, nbColonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA);
-
-                    //Console.Clear();
+                    Tirer(ref bateauxAdverse);
+                    Console.Clear();
                     LancerMenuPartie();
                     break;
                 case "2":
                     Console.WriteLine("Sauvegarde en cours... ");
-                    SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur);
+                    SauvegarderPartie();
                     Console.Write("\a");
-                    Console.WriteLine("\nVotre partie a été sauvegardé");
-                    Console.WriteLine("Pour retourner à la partie, appuyez sur une touche.");
+                    Console.WriteLine("\nVotre LancerMenuPartie a été sauvegardé");
+                    Console.WriteLine("Pour retourner à la LancerMenuPartie, appuyez sur une touche.");
                     Console.ReadKey();
                     Console.Clear();
                     LancerMenuPartie();
                     break;
                 case "3":
                     Console.Clear();
-                    Console.WriteLine("\a /!\\ Attention vous allez quitter la partie sans avoir sauvegarder.");
+                    Console.WriteLine("\a /!\\ Attention vous allez quitter la LancerMenuPartie sans avoir sauvegarder.");
                     Console.WriteLine("Voulez vous vraiment quitter sans sans sauvegarder ? ");
                     Console.WriteLine("\n\n\t\t\t1.Oui");
                     Console.WriteLine("\n\t\t\t2.Non");
@@ -717,42 +540,14 @@ namespace Bataille_Navale
             Console.Write("\t+---+---+---+---+---+---+---+---+---+---+"); Console.Write("\t\t|\t\t"); Console.WriteLine("\t+---+---+---+---+---+---+---+---+---+---+\n");
         }
 
-        public static void initialiserEmplacementsBateaux(ref int[,] emplacementsBateaux)
-        {
-            emplacementsBateaux = new int[3, tailleTotale];
-
-            for (int i = 0; i < tailleTotale; i++)
-            { emplacementsBateaux[2, i] = 0; }                      //On initialise les cases de bateaux comme étant intactes
-        }
-
-
         // lancement du choix de la grille de départ
         public static void ChangerGrille()
         {
-            for (int i = 0; i < taillesBateaux.Length; i++)             //on commence par initialiser le tableau vide des emplacements de bateaux
-            {                                                          //Pour cela il faut savoir la longueur de tous les bateaux mis bouts à bouts
-                tailleTotale = tailleTotale + taillesBateaux[i];
-            }
-
-            initialiserEmplacementsBateaux(ref emplacementsBateauxIA);
-            initialiserEmplacementsBateaux(ref emplacementsBateauxJoueur);
-
             string choixGrille;
             do
             {
-
-                bateauxAdverse = GenererBateaux(ref emplacementsBateauxIA, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
-                mesBateaux = GenererBateaux(ref emplacementsBateauxJoueur, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
-
-                /*  //Pour vérifier le contenu des 1ères lignes de emplacementsBateauxIA  et  emplacementsBateauxJoueur
-                 *  
-                for (int i = 0; i < emplacementsBateauxIA.GetLength(1); i++)
-                { Console.Write(emplacementsBateauxIA[0, i]); }
-                Console.WriteLine("");
-                for (int i = 0; i < emplacementsBateauxJoueur.GetLength(1); i++)
-                { Console.Write(emplacementsBateauxJoueur[0, i]); }
-                */
-
+                mesBateaux = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbligne, nbColonne);
+                bateauxAdverse = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbligne, nbColonne);
 
                 AfficherGrilleJeu(mesBateaux, bateauxAdverse);
                 Console.WriteLine("\n==========================================================================================================================================");
@@ -768,45 +563,53 @@ namespace Bataille_Navale
         }
 
         // Sauvegarde les emplacements des bateaux dans un fichier texte
-        public static void SauvegarderPartie(ref int[,] emplacementsBateauxIA, ref int[,] emplacementsBateauxJoueur)
+        public static void SauvegarderPartie()
         {
-            // Creation dun fichier de sauvegarde
-            StreamWriter file = new StreamWriter(Path.GetFullPath("sauvegarde.txt"));
+            //int[,] test = new int[,] { { 5, 4, 3, 3, 2 }, { 1, 2, 3, 4, 5 } };
 
-            // Ecriture des emplacementsIA dans un fichier save.txt
-            string[] saveIA = new string[emplacementsBateauxIA.Length];
-            int element = 0;
+            int[,] test = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbligne, nbColonne);
+           
+            string[] save = new string[test.Length];
+            int s = 0;
 
-            for (int i = 0; i < emplacementsBateauxIA.GetLength(0); ++i)
+            for (int i = 0; i < nbligne; ++i)
             {
-                for (int j = 0; j < emplacementsBateauxIA.GetLength(1); ++j)
+                for (int j = 0; j < nbColonne; ++j)
                 {
-                    saveIA[element] = Convert.ToString(emplacementsBateauxIA[i, j]);
-                    ++element;
+                    save[s] = Convert.ToString(test[i, j]);
+                    ++s;
                 }
             }
-            String aSauver = string.Join("", saveIA);
-            file.WriteLine(aSauver);
+            // Ecriture dans un fichier save.txt
+            String toSave = string.Join("", save);
+            StreamWriter file = new StreamWriter(Path.GetFullPath("save.txt"));
+            file.WriteLine(toSave);
 
-            // Ecriture des emplacementsJoueur dans un fichier save.txt
-            string[] saveJoueur = new string[emplacementsBateauxJoueur.Length];
-            element = 0;
+            test = GenererBateaux(ref emplacementsBateaux, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbligne, nbColonne);
 
-            for (int i = 0; i < emplacementsBateauxJoueur.GetLength(0); ++i)
+            save = new string[test.Length];
+            s = 0;
+
+            for (int i = 0; i < nbligne; ++i)
             {
-                for (int j = 0; j < emplacementsBateauxJoueur.GetLength(1); ++j)
+                for (int j = 0; j < nbColonne; ++j)
                 {
-                    saveJoueur[element] = Convert.ToString(emplacementsBateauxJoueur[i, j]);
-                    ++element;
+                    save[s] = Convert.ToString(test[i, j]);
+                    ++s;
                 }
             }
-            aSauver = string.Join("", saveIA);
-            file.WriteLine(aSauver);
-
-            // Fin d'écriture dans le fichier
+            // Ecriture dans un fichier save.txt
+            toSave = string.Join("", save);
+            file.WriteLine(toSave);
+            file.WriteLine();
             file.Close();
 
+            
 
+
+
+            Console.ReadKey();
+            /*
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
             for (int i = 0; i <= 10; ++i)
@@ -819,27 +622,44 @@ namespace Bataille_Navale
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
             }
-            Console.ReadKey();
+            */
         }
-
+        
         //Restaure les emplacements des bateaux à partir d'un fichier texte
-        public static int[,] RestaurerPartie(int numeroLigne, int nbLigne, int nbColonne)
+        public static void RestaurerPartie()
         {
 
-            string[] texte = System.IO.File.ReadAllLines(Path.GetFullPath("sauvegarde.txt"));
-            int[,] emplacementsBateaux = new int[nbLigne, nbColonne];
-            string ligneTexte = texte[numeroLigne];
 
-            int element = 0;
-            for (int i = 0; i < emplacementsBateaux.GetLength(0); ++i)
+            string[] textEntier = System.IO.File.ReadAllLines(Path.GetFullPath("save.txt"));
+            int[,] resume1 = new int[10, 10];
+            int[,] resume2 = new int[10, 10];
+            int s;
+
+            string text1 = textEntier[0];
+            s = 0;
+            for (int i = 0; i < nbligne; ++i)
             {
-                for (int j = 0; j < emplacementsBateaux.GetLength(1); ++j)
+                for (int j = 0; j < nbColonne; ++j)
                 {
-                    emplacementsBateaux[i, j] = (int)Char.GetNumericValue(ligneTexte[element]);
-                    ++element;
+                    resume1[i, j] = (int)Char.GetNumericValue(text1[s]);
+                    ++s;  
+                }
+            }
+            string text2 = textEntier[1];
+            s = 0;
+            for (int i = 0; i < nbligne; ++i)
+            {
+                for (int j = 0; j < nbColonne; ++j)
+                {
+                    resume2[i, j] = (int)Char.GetNumericValue(text2[s]);
+                    ++s;
                 }
             }
 
+
+            Console.ReadKey();
+
+            /*
             // Animation de la barre de progression de la sauvegarde
             Console.Write("|");
             for (int i = 0; i <= 10; ++i)
@@ -851,10 +671,10 @@ namespace Bataille_Navale
                 Console.Write("> {0}0%", i);
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
+
             }
-
-            return emplacementsBateaux;
-
+            return sauvegarde;
+            */
         }
 
     }
