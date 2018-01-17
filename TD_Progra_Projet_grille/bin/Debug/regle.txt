@@ -1,0 +1,37 @@
+	
+			                                 o o
+		                                 o ooo
+		                                   o oo
+		                                      o o      |   #)
+		                                       oo     _|_|_#_
+		                                         o   | U505  |
+		    __                    ___________________|       |_________________
+		   |   -_______-----------                                              \
+		  >|    _____                                                   --->     )
+		   |__ -     ---------_________________________________________________ /
+
+		   							Credit: http://www.ascii-fr.com/-Boats-.html
+	
+	======================= REGLES DE LA BATAILLE NAVALE ================================================
+
+	La bataille navale trouve son origine dans un jeu français appelé "l'attaque"
+	qui a des liens de parenté étroits avec le jeu de M. Horseman la baslinda qui vit le jour en 1890. 
+
+	Le but de la bataille navale est de couler tous les bateaux de son adversaire. 
+	Dans un premier temps, chaque joueur place ses bateaux sur le plateau sans voir ceux de son adversaire. 
+	Ensuite, chacun à leur tour, les joueurs essaient de trouver et de couler les bateaux de l'adversaire.
+
+	Dans la variante “salvo” de la bataille navale, chaque joueur annonce plusieurs tirs à la fois. 
+	Le nombre de tirs simultanés est de 5 initialement. 
+	Ce nombre diminue en fonction du nombre de bateaux déjà coulés. 
+	Quand un joueur détruit un navire de son adversaire, il ne tire plus que 4 coups au lieu de 5. 
+	Quand 2 bateaux sont détruits, le joueur ennemi tire uniquement 3 coups. Quand 3 navires sont détruits, 
+	le joueur opposé ne tire plus que 2 coups, etc
+
+	------------------------------------------------------------------------------------------------------
+
+	Credit: 
+
+	Jeu réalisé par Brochier Julien & Leduc Thomak, Ecole Nationale Supérieur de Cognitique (ENSC)
+
+

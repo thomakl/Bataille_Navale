@@ -593,8 +593,10 @@ namespace Bataille_Navale
                     break;
                 case "3":
                     Console.Clear();
+                    LireRegles();
                     Console.WriteLine("Voila les règles du jeu...");
                     Console.WriteLine("Pour retourner au menu principal appuyez sur une touche.");
+
                     Console.ReadKey();
                     Console.Clear();
                     LancerMenuPrincipal();
@@ -857,5 +859,13 @@ namespace Bataille_Navale
 
         }
 
+        //Lis les règles à partir d'un fichier texte
+        public static void LireRegles()
+        {
+            string regle = System.IO.File.ReadAllText(Path.GetFullPath("regle.txt"));
+            Console.WriteLine(regle);
+            Console.ReadKey();
+
+        }
     }
 }
