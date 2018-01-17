@@ -336,7 +336,6 @@ namespace Bataille_Navale
                         ligne = char.ToUpper(lettre) - 65;
                     }
 
-
                     if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 2) || (saisie.Length < 2))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
