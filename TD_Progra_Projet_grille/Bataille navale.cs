@@ -264,7 +264,7 @@ namespace Bataille_Navale
                     }
                     else
                     {
-                        rendu = "▩";
+                        rendu = "Q";
                         //rendu = enc.GetString(&#9632);
                         return rendu;
                     }
