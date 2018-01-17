@@ -36,6 +36,7 @@ namespace Bataille_Navale
         static int absToucheActuelle;
         static int ordToucheActuelle;
         static int nbtir = 5;
+        static int difficulte;
 
         static void Main(string[] args)
         {
@@ -263,7 +264,7 @@ namespace Bataille_Navale
                     }
                     else
                     {
-                        rendu = "▩";
+                        rendu = "Q";
                         //rendu = enc.GetString(&#9632);
                         return rendu;
                     }
@@ -305,9 +306,9 @@ namespace Bataille_Navale
                     }
                     */
 
-                    colonne = Convert.ToInt32(saisie[1]) - 49;
+                    ligne = Convert.ToInt32(saisie[1]) - 49;
                     char lettre = Convert.ToChar(saisie[0]);
-                    ligne = char.ToUpper(lettre) - 65;
+                    colonne = char.ToUpper(lettre) - 65;
 
 
                     if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 3) || (saisie.Length < 2))
@@ -404,7 +405,7 @@ namespace Bataille_Navale
 
 
         // Niveau de difficulté de l'IA : Très facile
-        public static void ParametrerIATresFacile(ref int[,] bateauxAdverse, ref int couleIA)
+        public static void ParametrerIATresFacile(ref int[,] mesBateaux, ref int couleIA)
         {
             for (int i = 0; i < nbtir - couleIA; i++)
             {
@@ -412,7 +413,7 @@ namespace Bataille_Navale
                 int ligne = random.Next(0, 10);
                 int colonne = random.Next(0, 10);
 
-                int tir = Tirer(ref bateauxAdverse, ligne, colonne);
+                int tir = Tirer(ref mesBateaux, ligne, colonne);
             }
             bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
@@ -615,6 +616,7 @@ namespace Bataille_Navale
         // Elle comprends un changement de grille et la partie en elle-même
         public static void LancerPartie()
         {
+            ChoisirDifficulte(ref difficulte);
             ChangerGrille();
             LancerMenuPartie();
         }
@@ -657,7 +659,10 @@ namespace Bataille_Navale
                     JouerTourHumain(ref bateauxAdverse, ref toucheJoueur);
                     Console.ReadKey();
 
-                    ParametrerIAFacile(ref mesBateaux, nbLigne, nbColonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA);
+                    if (difficulte == 1)
+                    { ParametrerIATresFacile(ref mesBateaux, ref couleIA); }
+                    else
+                    { ParametrerIAFacile(ref mesBateaux, nbLigne, nbColonne, ref absTouchePrec, ref ordTouchePrec, ref absToucheActuelle, ref ordToucheActuelle, ref nbtir, ref couleIA); }
 
                     //Console.Clear();
                     LancerMenuPartie();
@@ -775,6 +780,16 @@ namespace Bataille_Navale
                 Console.WriteLine("\n==========================================================================================================================================");
             }
             while (choixGrille == "1");
+        }
+
+
+        //Permet de sélectionner la difficulté
+        public static void ChoisirDifficulte (ref int difficulte)
+        {
+            Console.WriteLine("\t Quelle difficulté voulez-vous choisir ? \n \t 1 : TrèsFacile \t 2 : Facile");
+            Console.Write("> ");
+            string saisie = Console.ReadLine();
+            difficulte = Convert.ToInt32(saisie);
         }
 
         // Sauvegarde les emplacements des bateaux dans un fichier texte
