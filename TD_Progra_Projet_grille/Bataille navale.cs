@@ -743,19 +743,18 @@ namespace Bataille_Navale
             string choixGrille;
             do
             {
-
                 bateauxAdverse = GenererBateaux(ref emplacementsBateauxIA, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
                 mesBateaux = GenererBateaux(ref emplacementsBateauxJoueur, ref absDeb, ref ordDeb, ref dir, taillesBateaux, nbLigne, nbColonne);
 
-                /*  //Pour vérifier le contenu des 1ères lignes de emplacementsBateauxIA  et  emplacementsBateauxJoueur
-                 *  
+                /*
+                //Pour vérifier le contenu des 1ères lignes de emplacementsBateauxIA  et  emplacementsBateauxJoueur
+
                 for (int i = 0; i < emplacementsBateauxIA.GetLength(1); i++)
                 { Console.Write(emplacementsBateauxIA[0, i]); }
                 Console.WriteLine("");
                 for (int i = 0; i < emplacementsBateauxJoueur.GetLength(1); i++)
                 { Console.Write(emplacementsBateauxJoueur[0, i]); }
                 */
-
 
                 AfficherGrilleJeu(mesBateaux, bateauxAdverse);
                 Console.WriteLine("\n==========================================================================================================================================");
@@ -803,7 +802,7 @@ namespace Bataille_Navale
                     ++element;
                 }
             }
-            aSauver = string.Join("", saveIA);
+            aSauver = string.Join("", saveJoueur);
             file.WriteLine(aSauver);
 
             // Fin d'écriture dans le fichier
