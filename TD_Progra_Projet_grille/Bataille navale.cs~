@@ -310,7 +310,7 @@ namespace Bataille_Navale
                     ligne = char.ToUpper(lettre) - 65;
 
 
-                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 2) || (saisie.Length < 2))
+                    if ((colonne < 0) || (colonne > 10) || (ligne < -1) || (ligne > 9) || (saisie.Length > 3) || (saisie.Length < 2))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
@@ -584,7 +584,6 @@ namespace Bataille_Navale
                     Console.Clear();
                     emplacementsBateauxIA = RestaurerPartie(0, 3, 17);
                     emplacementsBateauxJoueur = RestaurerPartie(1, 3, 17);
-                    Console.WriteLine("Restauration de la sauvegarde en cours...");
                     break;
                 case "2":
                     Console.Clear();
@@ -595,15 +594,14 @@ namespace Bataille_Navale
                 case "3":
                     Console.Clear();
                     LireRegles();
-                    Console.WriteLine("Voila les règles du jeu...");
                     Console.WriteLine("Pour retourner au menu principal appuyez sur une touche.");
-
                     Console.ReadKey();
                     Console.Clear();
                     LancerMenuPrincipal();
                     break;
                 case "4":
                     Console.WriteLine("Merci d'avoir joué à la Bataille Navale");
+                    Console.ReadKey();
                     Console.Clear();
                     break;
                 default:
@@ -831,7 +829,6 @@ namespace Bataille_Navale
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
             }
-            Console.ReadKey();
         }
 
         //Restaure les emplacements des bateaux à partir d'un fichier texte
