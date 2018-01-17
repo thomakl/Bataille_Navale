@@ -664,7 +664,7 @@ namespace Bataille_Navale
                     break;
                 case "2":
                     Console.WriteLine("Sauvegarde en cours... ");
-                    SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur);
+                    SauvegarderPartie(ref emplacementsBateauxIA, ref emplacementsBateauxJoueur, ref bateauxAdverse, ref mesBateaux);
                     Console.Write("\a");
                     Console.WriteLine("\nVotre partie a été sauvegardé");
                     Console.WriteLine("Pour retourner à la partie, appuyez sur une touche.");
@@ -778,40 +778,15 @@ namespace Bataille_Navale
         }
 
         // Sauvegarde les emplacements des bateaux dans un fichier texte
-        public static void SauvegarderPartie(ref int[,] emplacementsBateauxIA, ref int[,] emplacementsBateauxJoueur)
+        public static void SauvegarderPartie(ref int[,] emplacementsBateauxIA, ref int[,] emplacementsBateauxJoueur, ref int[,] bateauxAdverse, ref int[,] mesBateaux)
         {
             // Creation dun fichier de sauvegarde
             StreamWriter file = new StreamWriter(Path.GetFullPath("sauvegarde.txt"));
 
-            // Ecriture des emplacementsIA dans un fichier save.txt
-            string[] saveIA = new string[emplacementsBateauxIA.Length];
-            int element = 0;
-
-            for (int i = 0; i < emplacementsBateauxIA.GetLength(0); ++i)
-            {
-                for (int j = 0; j < emplacementsBateauxIA.GetLength(1); ++j)
-                {
-                    saveIA[element] = Convert.ToString(emplacementsBateauxIA[i, j]);
-                    ++element;
-                }
-            }
-            String aSauver = string.Join("", saveIA);
-            file.WriteLine(aSauver);
-
-            // Ecriture des emplacementsJoueur dans un fichier save.txt
-            string[] saveJoueur = new string[emplacementsBateauxJoueur.Length];
-            element = 0;
-
-            for (int i = 0; i < emplacementsBateauxJoueur.GetLength(0); ++i)
-            {
-                for (int j = 0; j < emplacementsBateauxJoueur.GetLength(1); ++j)
-                {
-                    saveJoueur[element] = Convert.ToString(emplacementsBateauxJoueur[i, j]);
-                    ++element;
-                }
-            }
-            aSauver = string.Join("", saveJoueur);
-            file.WriteLine(aSauver);
+            file.WriteLine(SauvegarderEmplacement(emplacementsBateauxJoueur, 3, 17));
+            file.WriteLine(SauvegarderEmplacement(emplacementsBateauxIA, 3, 17));
+            file.WriteLine(SauvegarderEmplacement(mesBateaux, 10, 10));
+            file.WriteLine(SauvegarderEmplacement(bateauxAdverse, 10, 10));
 
             // Fin d'écriture dans le fichier
             file.Close();
@@ -829,6 +804,26 @@ namespace Bataille_Navale
                 Console.SetCursorPosition(1, Console.BufferHeight - 1);
                 System.Threading.Thread.Sleep(100);
             }
+        }
+
+        public static string SauvegarderEmplacement(int[,] emplacement, int nbLigneEmplacement, int nbColonneEmplacement)
+        {
+            // Ecriture des emplacementsIA dans un fichier save.txt
+            string[] save = new string[emplacement.Length];
+            int element = 0;
+
+            for (int i = 0; i < emplacement.GetLength(0); ++i)
+            {
+                for (int j = 0; j < emplacement.GetLength(1); ++j)
+                {
+                    save[element] = Convert.ToString(emplacement[i, j]);
+                    ++element;
+                }
+            }
+            String aSauver = string.Join("", save);
+
+            return aSauver;
+
         }
 
         //Restaure les emplacements des bateaux à partir d'un fichier texte
