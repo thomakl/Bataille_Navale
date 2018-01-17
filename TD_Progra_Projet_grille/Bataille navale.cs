@@ -130,7 +130,7 @@ namespace Bataille_Navale
         // Génére des emplacements de bateaux dans un tableau à 2 dimensions
         public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbColonne)
         {
-
+            int[,] generationBateaux = new int[10, 10];
             int débutBateau = 0;
 
             for (int i = 0; i < taillesBateaux.Length; i++)  //une boucle correspond à un bateau
@@ -233,12 +233,13 @@ namespace Bataille_Navale
             }
 
 
-            int[,] generationBateaux = new int[10, 10];
-
+            
+            /*
             for (int i = 0; i < emplacementsBateaux.GetLength(1); ++i)
             {
                 generationBateaux[emplacementsBateaux[0, i], emplacementsBateaux[1, i]] = 1;
             }
+            */
 
             débutBateau = 0;
             return generationBateaux;
