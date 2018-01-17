@@ -131,6 +131,7 @@ namespace Bataille_Navale
         // Génére des emplacements de bateaux dans un tableau à 2 dimensions
         public static int[,] GenererBateaux(ref int[,] emplacementsBateaux, ref int absDeb, ref int ordDeb, ref int dir, int[] taillesBateaux, int nbLigne, int nbColonne)
         {
+            int[,] generationBateaux = new int[10, 10];
 
             int débutBateau = 0;
 
@@ -234,12 +235,13 @@ namespace Bataille_Navale
             }
 
 
-            int[,] generationBateaux = new int[10, 10];
+           
 
             for (int i = 0; i < emplacementsBateaux.GetLength(1); ++i)
             {
                 generationBateaux[emplacementsBateaux[0, i], emplacementsBateaux[1, i]] = 1;
             }
+
 
             débutBateau = 0;
             return generationBateaux;
@@ -323,7 +325,7 @@ namespace Bataille_Navale
                 }
                 while (saisieCorrect == false);
 
-                switch (Tirer(ref bateauxAdverse, ligne, colonne))
+                switch (Tirer(ref bateauxAdverse, ligne, colonne, ref emplacementsBateauxIA))
                 {
                     case 2:
                         Console.WriteLine("Vous avez déjà tiré ici, veuillez appuyer sur Entrée et ensuite indiquer une autre ligne puis une autre colonne");
@@ -354,7 +356,7 @@ namespace Bataille_Navale
             toucheJoueur = 0;
         }
 
-        public static int Tirer(ref int[,] bateaux, int ligne, int colonne)
+        public static int Tirer(ref int[,] bateaux, int ligne, int colonne, ref int[,] emplacementsBateaux)
         {
             switch (bateaux[ligne, colonne])
             {
@@ -363,6 +365,19 @@ namespace Bataille_Navale
                     return 0;
                 case 1:
                     bateaux[ligne, colonne] = 2;
+
+                    for (int i = 0; i < emplacementsBateaux.GetLength(1); i++)
+                    {
+                        if (emplacementsBateaux[0, i] == colonne)       //cherche dans emplacementsBateau  (Joueur ou IA) la case correspondante
+                        {
+                            if (emplacementsBateaux[1, i] == ligne)
+                            {
+                                emplacementsBateaux[2,i] = 1;           //Indique qu'elle est touchée (sera utilisé par la fonction estCoule)
+                                return 1;
+                            }
+                        }
+                    }
+
                     return 1;
                 default:
                     return 2;
@@ -413,7 +428,7 @@ namespace Bataille_Navale
                 int ligne = random.Next(0, 10);
                 int colonne = random.Next(0, 10);
 
-                int tir = Tirer(ref mesBateaux, ligne, colonne);
+                int tir = Tirer(ref mesBateaux, ligne, colonne, ref emplacementsBateauxJoueur);
             }
             bool resultat = etreCoule(ref couleIA, ref emplacementsBateauxJoueur);
             if (resultat)
@@ -440,13 +455,13 @@ namespace Bataille_Navale
                 {
                     int ligne = random.Next(0, nbLigne);
                     int colonne = random.Next(0, nbColonne);
-                    int tir = Tirer(ref mesBateaux, ligne, colonne);
+                    int tir = Tirer(ref mesBateaux, ligne, colonne, ref emplacementsBateauxJoueur);
 
                     while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
                     {
                         ligne = random.Next(0, nbLigne);
                         colonne = random.Next(0, nbColonne);
-                        tir = Tirer(ref mesBateaux, ligne, colonne);
+                        tir = Tirer(ref mesBateaux, ligne, colonne, ref emplacementsBateauxJoueur);
                     }
 
                     if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
@@ -465,7 +480,7 @@ namespace Bataille_Navale
                 int tir;
                 if (ordTouchePrec != 0)    //Commence par tirer vers le haut, mais pour cela il faut vérifier qu'il existe une case au dessus
                 {
-                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec - 1);
+                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec - 1, ref emplacementsBateauxJoueur);
                     if (tir != 2)
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
@@ -479,7 +494,7 @@ namespace Bataille_Navale
 
                 if (ordTouchePrec != nbLigne - 1 && nbtirTour > 0)     //Ensuite tir vers le bas et vérifie l'existence de la case
                 {
-                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec + 1);
+                    tir = Tirer(ref mesBateaux, absTouchePrec, ordTouchePrec + 1, ref emplacementsBateauxJoueur);
                     if (tir != 2)
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
@@ -493,7 +508,7 @@ namespace Bataille_Navale
 
                 if (absTouchePrec != nbColonne - 1 && nbtirTour > 0)     //Ensuite tir vers la droite et vérifie l'existence de la case
                 {
-                    tir = Tirer(ref mesBateaux, absTouchePrec + 1, ordTouchePrec);
+                    tir = Tirer(ref mesBateaux, absTouchePrec + 1, ordTouchePrec, ref emplacementsBateauxJoueur);
                     if (tir != 2)
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
@@ -507,7 +522,7 @@ namespace Bataille_Navale
 
                 if (absTouchePrec != 0 && nbtirTour > 0)     //Enfin tir vers la gauche et vérifie l'existence de la case
                 {
-                    tir = Tirer(ref mesBateaux, absTouchePrec - 1, ordTouchePrec);
+                    tir = Tirer(ref mesBateaux, absTouchePrec - 1, ordTouchePrec, ref emplacementsBateauxJoueur);
                     if (tir != 2)
                     {
                         if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
@@ -523,13 +538,13 @@ namespace Bataille_Navale
                 {
                     int ligne = random.Next(0, nbLigne);
                     int colonne = random.Next(0, nbColonne);
-                    tir = Tirer(ref mesBateaux, ligne, colonne);
+                    tir = Tirer(ref mesBateaux, ligne, colonne, ref emplacementsBateauxJoueur);
 
                     while (tir == 2)               //Si le tir a eu lieu sur une case déjà jouée -> On recommence un tir
                     {
                         ligne = random.Next(0, nbLigne);
                         colonne = random.Next(0, 10);
-                        tir = Tirer(ref mesBateaux, ligne, colonne);
+                        tir = Tirer(ref mesBateaux, ligne, colonne, ref emplacementsBateauxJoueur);
                     }
 
                     if (tir == 1)  //le tir a touché un bateau, il faut donc stocker ses coordonnées
