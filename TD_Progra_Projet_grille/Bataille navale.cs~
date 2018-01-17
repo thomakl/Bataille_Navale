@@ -871,7 +871,6 @@ namespace Bataille_Navale
         {
             string regle = System.IO.File.ReadAllText(Path.GetFullPath("regle.txt"));
             Console.WriteLine(regle);
-            Console.ReadKey();
 
         }
     }
