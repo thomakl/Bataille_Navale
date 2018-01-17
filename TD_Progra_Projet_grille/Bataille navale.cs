@@ -315,6 +315,7 @@ namespace Bataille_Navale
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
                         Console.WriteLine("Vous avez tapé un chiffre différent de 1 à 10 ou une lettre non compris entre A et J");
+                        Console.WriteLine();
                         Console.WriteLine("Appuyez sur une touche pour recommencer la saisie des coordonnées du tour.");
                         saisieCorrect = false;
                         Console.ReadKey();
@@ -594,8 +595,10 @@ namespace Bataille_Navale
                     break;
                 case "3":
                     Console.Clear();
+                    LireRegles();
                     Console.WriteLine("Voila les règles du jeu...");
                     Console.WriteLine("Pour retourner au menu principal appuyez sur une touche.");
+
                     Console.ReadKey();
                     Console.Clear();
                     LancerMenuPrincipal();
@@ -633,9 +636,12 @@ namespace Bataille_Navale
             {
                 Console.Write("=");
             }
-            Console.WriteLine("\n\n\t\t\t1.Tirer");
-            Console.WriteLine("\n\t\t\t2.Sauvegarder");
-            Console.WriteLine("\n\t\t\t3.Quitter la partie");
+            Console.WriteLine("\t\t\t\t\t\t\t\t|");
+            Console.WriteLine("\t\t\t1.Tirer \t\t\t\t|");
+            Console.WriteLine("\t\t\t\t\t\t\t\t|");
+            Console.WriteLine("\t\t\t2.Sauvegarder \t\t\t\t|");
+            Console.WriteLine("\t\t\t\t\t\t\t\t|");
+            Console.WriteLine("\t\t\t3.Quitter la partie \t\t\t|");
             for (int i = 0; i < 65; ++i)
             {
                 Console.Write("=");
@@ -645,6 +651,7 @@ namespace Bataille_Navale
             Console.WriteLine("\n\nQue voulez vous faire ? Entrez un chiffre.\n");
             Console.Write("> ");
             string choix = Console.ReadLine();
+            Console.WriteLine("\n==========================================================================================================================================");
 
             switch (choix)
             {
@@ -759,11 +766,16 @@ namespace Bataille_Navale
                 Console.WriteLine("\n==========================================================================================================================================");
 
                 //Demande à l'utilisateur
-                Console.WriteLine("\n\tVoulez vous changer votre grille de jeu ? Entrez un chiffre.");
-                Console.WriteLine("\n\n\t\t\t1.Oui");
-                Console.WriteLine("\n\t\t\t2.Non");
+                Console.WriteLine("\t\t\t\t\t\t\t\t|");
+                Console.WriteLine("Voulez vous changer votre grille de jeu ? Entrez un chiffre. \t|");
+                Console.WriteLine("\t\t\t\t\t\t\t\t|");
+                Console.WriteLine("\t\t\t1. Oui \t\t\t\t\t|");
+                Console.WriteLine("\t\t\t\t\t\t\t\t|");
+                Console.WriteLine("\t\t\t2. Non \t\t\t\t\t|");
+                Console.WriteLine("\t\t\t\t\t\t\t\t|");
                 Console.Write("> ");
                 choixGrille = Console.ReadLine();
+                Console.WriteLine("\n==========================================================================================================================================");
             }
             while (choixGrille == "1");
         }
@@ -858,5 +870,13 @@ namespace Bataille_Navale
 
         }
 
+        //Lis les règles à partir d'un fichier texte
+        public static void LireRegles()
+        {
+            string regle = System.IO.File.ReadAllText(Path.GetFullPath("regle.txt"));
+            Console.WriteLine(regle);
+            Console.ReadKey();
+
+        }
     }
 }
