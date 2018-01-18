@@ -303,14 +303,11 @@ namespace Bataille_Navale
                     if (saisie.Length > 2)
                     {
                         ligne = Convert.ToInt32(saisie[1] + saisie[2]) - 88;
-
-
                     }
                     if (saisie.Length == 2)
                     {
                         ligne = Convert.ToInt32(saisie[1]) - 49;
                     }
-                    Console.WriteLine(ligne);
                     if ((colonne < 0) || (colonne > 10))
                     {
                         Console.WriteLine("\n==========================================================================================================================================");
